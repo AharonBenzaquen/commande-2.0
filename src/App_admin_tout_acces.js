@@ -7,7 +7,7 @@ const utilisateurs = {
   'rosemere@optiw.com': { role: 'employe', magasin: 'Rosemère', password: '1234' },
   'blainville@optiw.com': { role: 'employe', magasin: 'Blainville', password: '1234' },
   'labo@optiw.com': { role: 'labo', password: '1234' },
-  'admin@optiw.com': { role: 'admin', password: '1234' }
+  'admin@optiw.com': { role: 'admin', password: '1234' },
 };
 
 function differenceEnJours(date1, date2) {
@@ -22,24 +22,28 @@ export default function App() {
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
   const [magasin, setMagasin] = useState('');
-  const [adminVueMagasin, setAdminVueMagasin] = useState('Tous');
   const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
-  const [commandes, setCommandes] = useState([]);
+  const [commandes, setCommandes] = useState([
+    { numero: 'A001', client: 'Dupont', date: '2025-06-01', statut: 'En attente', commentaire: '', magasin: 'Laval' },
+    { numero: 'A002', client: 'Tremblay', date: '2025-06-10', statut: 'Reçue au labo', commentaire: '', magasin: 'Rosemère' },
+    { numero: 'A003', client: 'Gagnon', date: '2025-06-05', statut: 'Prête', commentaire: '', magasin: 'Blainville' },
+  ]);
   const [recherche, setRecherche] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
+  const [filtreMagasin, setFiltreMagasin] = useState('Tous');
 
   const seConnecter = () => {
     const user = utilisateurs[login];
     if (user && user.password === mdp) {
       setRole(user.role);
-      setMagasin(user.magasin || '');
+      if (user.role === 'employe') setMagasin(user.magasin);
     } else {
       alert('Identifiants invalides');
     }
   };
 
   const ajouterCommande = () => {
-    const nouvelleCommande = { ...commande, magasin: magasin || adminVueMagasin || 'Inconnu' };
+    const nouvelleCommande = { ...commande, magasin: magasin || filtreMagasin };
     if (editionIndex !== null) {
       const updated = [...commandes];
       updated[editionIndex] = nouvelleCommande;
@@ -75,11 +79,15 @@ export default function App() {
   };
 
   const aujourdHui = new Date();
-  const filtrerCommandes = commandes.filter((c) => {
+  const visibleCommandes = commandes.filter((c) => {
     const matchRecherche = c.numero.toLowerCase().includes(recherche.toLowerCase());
-    if (role === 'employe') return c.magasin === magasin && matchRecherche;
-    if (role === 'admin') return (adminVueMagasin === 'Tous' || c.magasin === adminVueMagasin) && matchRecherche;
-    return matchRecherche;
+    if (role === 'admin') {
+      return (filtreMagasin === 'Tous' || c.magasin === filtreMagasin) && matchRecherche;
+    } else if (role === 'labo') {
+      return matchRecherche;
+    } else {
+      return c.magasin === magasin && matchRecherche;
+    }
   });
 
   if (!role) {
@@ -95,12 +103,12 @@ export default function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Bienvenue ({role}{magasin ? ` - ${magasin}` : ''})</h2>
-      <button onClick={() => { setRole(''); setLogin(''); setMdp(''); setMagasin(''); }}>Déconnexion</button>
+      <h2>Bienvenue ({login})</h2>
+      <button onClick={() => { setRole(''); setLogin(''); setMdp(''); }}>Déconnexion</button>
       {role === 'admin' && (
-        <div style={{ marginTop: 10 }}>
-          <label>Voir commandes de : </label>
-          <select value={adminVueMagasin} onChange={(e) => setAdminVueMagasin(e.target.value)}>
+        <div>
+          <label style={{ marginRight: 10 }}>Voir commandes de :</label>
+          <select value={filtreMagasin} onChange={(e) => setFiltreMagasin(e.target.value)}>
             <option value="Tous">Tous</option>
             <option value="Laval">Laval</option>
             <option value="Rosemère">Rosemère</option>
@@ -132,15 +140,15 @@ export default function App() {
             <th>Numéro</th>
             <th>Client</th>
             <th>Date</th>
+            <th>Magasin</th>
             <th>Statut</th>
             <th>Délai</th>
-            <th>Magasin</th>
             <th>Commentaire</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filtrerCommandes.map((c, i) => {
+          {visibleCommandes.map((c, i) => {
             const jours = differenceEnJours(c.date, aujourdHui);
             const style = jours >= 14 ? { backgroundColor: '#ffcccc' } : jours >= 10 ? { backgroundColor: '#fff3cd' } : {};
             return (
@@ -148,6 +156,7 @@ export default function App() {
                 <td>{c.numero}</td>
                 <td>{c.client}</td>
                 <td>{c.date}</td>
+                <td>{c.magasin}</td>
                 <td>
                   <select value={c.statut} onChange={(e) => changerStatut(i, e.target.value)}>
                     <option>En attente</option>
@@ -160,9 +169,13 @@ export default function App() {
                   </select>
                 </td>
                 <td>{jours} jours</td>
-                <td>{c.magasin}</td>
                 <td>
-                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} rows="2" style={{ width: '100%' }} />
+                  <textarea
+                    value={c.commentaire}
+                    onChange={(e) => changerCommentaire(i, e.target.value)}
+                    rows="2"
+                    style={{ width: '100%' }}
+                  />
                 </td>
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
@@ -176,3 +189,4 @@ export default function App() {
     </div>
   );
 }
+  
