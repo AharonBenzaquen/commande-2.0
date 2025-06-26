@@ -1,14 +1,12 @@
-
 import React, { useState } from 'react';
-import Suivi from './Suivi';
 import './index.css';
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'employe', magasin: 'Laval', password: '1234' },
   'rosemere@optiw.com': { role: 'employe', magasin: 'Rosemère', password: '1234' },
   'blainville@optiw.com': { role: 'employe', magasin: 'Blainville', password: '1234' },
-  'labo@optiw.com': { role: 'labo', password: '1234' },
-  'admin@optiw.com': { role: 'admin', password: '1234' },
+  'labo@optiw.com': { role: 'labo', magasin: 'LABO', password: '1234' },
+  'admin@optiw.com': { role: 'admin', magasin: 'ADMIN', password: '1234' },
 };
 
 function differenceEnJours(date1, date2) {
@@ -27,28 +25,25 @@ export default function App() {
   const [commandes, setCommandes] = useState([]);
   const [recherche, setRecherche] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
-  const [page, setPage] = useState('main');
 
   const seConnecter = () => {
     const user = utilisateurs[login];
     if (user && user.password === mdp) {
       setRole(user.role);
-      setMagasin(user.magasin || '');
+      setMagasin(user.magasin);
     } else {
       alert('Identifiants invalides');
     }
   };
 
   const ajouterCommande = () => {
-    const nouvelle = { ...commande };
-    if (role === 'employe') nouvelle.magasin = magasin;
     if (editionIndex !== null) {
       const updated = [...commandes];
-      updated[editionIndex] = nouvelle;
+      updated[editionIndex] = { ...commande, magasin };
       setCommandes(updated);
       setEditionIndex(null);
     } else {
-      setCommandes([...commandes, nouvelle]);
+      setCommandes([...commandes, { ...commande, magasin }]);
     }
     setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
   };
@@ -62,6 +57,7 @@ export default function App() {
     const updated = [...commandes];
     updated.splice(index, 1);
     setCommandes(updated);
+    setEditionIndex(null);
   };
 
   const changerStatut = (index, nouveauStatut) => {
@@ -77,19 +73,13 @@ export default function App() {
   };
 
   const aujourdHui = new Date();
-  const filtrerCommandes = commandes.filter((c) =>
-    c.numero.toLowerCase().includes(recherche.toLowerCase()) &&
-    (role === 'admin' || role === 'labo' || c.magasin === magasin)
-  );
-
-  if (page === 'suivi') {
-    return (
-      <div style={{ padding: 20 }}>
-        <button onClick={() => setPage('main')}>← Retour</button>
-        <Suivi commandes={commandes} />
-      </div>
-    );
-  }
+  const filtrerCommandes = commandes.filter((c) => {
+    const visible =
+      role === 'admin' ||
+      role === 'labo' ||
+      c.magasin === magasin;
+    return visible && c.numero.toLowerCase().includes(recherche.toLowerCase());
+  });
 
   if (!role) {
     return (
@@ -98,16 +88,14 @@ export default function App() {
         <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
         <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
         <button onClick={seConnecter}>Se connecter</button>
-        <button onClick={() => setPage('suivi')} style={{ marginLeft: 10 }}>🔍 Suivi client</button>
       </div>
     );
   }
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Bienvenue ({role}{magasin ? ` - ${magasin}` : ''})</h2>
+      <h2>Bienvenue ({role} - {magasin})</h2>
       <button onClick={() => { setRole(''); setMagasin(''); }}>Déconnexion</button>
-      <button onClick={() => setPage('suivi')} style={{ marginLeft: 10 }}>🔍 Suivi client</button>
       <hr />
       <div>
         <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
@@ -125,9 +113,7 @@ export default function App() {
         </select>
         <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
       </div>
-
       <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} style={{ marginTop: 10 }} />
-
       <table border="1" cellPadding="6" style={{ marginTop: 10, width: '100%' }}>
         <thead>
           <tr>
@@ -137,7 +123,7 @@ export default function App() {
             <th>Statut</th>
             <th>Délai</th>
             <th>Commentaire</th>
-            {role === 'labo' && <th>Magasin</th>}
+            {role === 'labo' || role === 'admin' ? <th>Magasin</th> : null}
             <th>Actions</th>
           </tr>
         </thead>
@@ -145,13 +131,18 @@ export default function App() {
           {filtrerCommandes.map((c, i) => {
             const jours = differenceEnJours(c.date, aujourdHui);
             const style = jours >= 14 ? { backgroundColor: '#ffcccc' } : jours >= 10 ? { backgroundColor: '#fff3cd' } : {};
+            const editable = i === editionIndex;
             return (
               <tr key={i} style={style}>
                 <td>{c.numero}</td>
                 <td>{c.client}</td>
                 <td>{c.date}</td>
                 <td>
-                  <select value={c.statut} onChange={(e) => changerStatut(i, e.target.value)}>
+                  <select
+                    value={c.statut}
+                    onChange={(e) => changerStatut(i, e.target.value)}
+                    disabled={!editable}
+                  >
                     <option>En attente</option>
                     <option>Reçue au labo</option>
                     <option>En production</option>
@@ -163,9 +154,15 @@ export default function App() {
                 </td>
                 <td>{jours} jours</td>
                 <td>
-                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} rows="2" style={{ width: '100%' }} />
+                  <textarea
+                    value={c.commentaire}
+                    onChange={(e) => changerCommentaire(i, e.target.value)}
+                    rows="2"
+                    style={{ width: '100%' }}
+                    disabled={!editable}
+                  />
                 </td>
-                {role === 'labo' && <td>{c.magasin || '-'}</td>}
+                {role === 'labo' || role === 'admin' ? <td>{c.magasin}</td> : null}
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
                   <button onClick={() => supprimerCommande(i)}>🗑️</button>
@@ -178,4 +175,3 @@ export default function App() {
     </div>
   );
 }
-
