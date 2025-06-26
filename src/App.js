@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
+import Suivi from './Suivi';
 import './index.css';
 
 const utilisateurs = {
-  'laval@optiw.com': { role: 'laval', password: '1234' },
-  'rosemere@optiw.com': { role: 'rosemere', password: '1234' },
-  'blainville@optiw.com': { role: 'blainville', password: '1234' },
+  'laval@optiw.com': { role: 'employe', magasin: 'Laval', password: '1234' },
+  'rosemere@optiw.com': { role: 'employe', magasin: 'Rosemère', password: '1234' },
+  'blainville@optiw.com': { role: 'employe', magasin: 'Blainville', password: '1234' },
   'labo@optiw.com': { role: 'labo', password: '1234' },
-  'admin@optiw.com': { role: 'admin', password: '1234' }
+  'admin@optiw.com': { role: 'admin', password: '1234' },
 };
 
 function differenceEnJours(date1, date2) {
@@ -21,28 +22,33 @@ export default function App() {
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
+  const [magasin, setMagasin] = useState('');
   const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
   const [commandes, setCommandes] = useState([]);
   const [recherche, setRecherche] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
+  const [page, setPage] = useState('main');
 
   const seConnecter = () => {
-    if (utilisateurs[login] && utilisateurs[login].password === mdp) {
-      setRole(utilisateurs[login].role);
+    const user = utilisateurs[login];
+    if (user && user.password === mdp) {
+      setRole(user.role);
+      setMagasin(user.magasin || '');
     } else {
       alert('Identifiants invalides');
     }
   };
 
   const ajouterCommande = () => {
-    const origine = role;
+    const nouvelle = { ...commande };
+    if (role === 'employe') nouvelle.magasin = magasin;
     if (editionIndex !== null) {
       const updated = [...commandes];
-      updated[editionIndex] = { ...commande, origine };
+      updated[editionIndex] = nouvelle;
       setCommandes(updated);
       setEditionIndex(null);
     } else {
-      setCommandes([...commandes, { ...commande, origine }]);
+      setCommandes([...commandes, nouvelle]);
     }
     setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
   };
@@ -71,11 +77,19 @@ export default function App() {
   };
 
   const aujourdHui = new Date();
-  const filtrerCommandes = commandes.filter((c) => {
-    const visibleParLabo = role === 'labo' || role === 'admin';
-    return (visibleParLabo || c.origine === role) &&
-      c.numero.toLowerCase().includes(recherche.toLowerCase());
-  });
+  const filtrerCommandes = commandes.filter((c) =>
+    c.numero.toLowerCase().includes(recherche.toLowerCase()) &&
+    (role === 'admin' || role === 'labo' || c.magasin === magasin)
+  );
+
+  if (page === 'suivi') {
+    return (
+      <div style={{ padding: 20 }}>
+        <button onClick={() => setPage('main')}>← Retour</button>
+        <Suivi commandes={commandes} />
+      </div>
+    );
+  }
 
   if (!role) {
     return (
@@ -84,14 +98,16 @@ export default function App() {
         <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
         <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
         <button onClick={seConnecter}>Se connecter</button>
+        <button onClick={() => setPage('suivi')} style={{ marginLeft: 10 }}>🔍 Suivi client</button>
       </div>
     );
   }
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Bienvenue ({role})</h2>
-      <button onClick={() => setRole('')}>Déconnexion</button>
+      <h2>Bienvenue ({role}{magasin ? ` - ${magasin}` : ''})</h2>
+      <button onClick={() => { setRole(''); setMagasin(''); }}>Déconnexion</button>
+      <button onClick={() => setPage('suivi')} style={{ marginLeft: 10 }}>🔍 Suivi client</button>
       <hr />
       <div>
         <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
@@ -109,7 +125,9 @@ export default function App() {
         </select>
         <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
       </div>
+
       <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} style={{ marginTop: 10 }} />
+
       <table border="1" cellPadding="6" style={{ marginTop: 10, width: '100%' }}>
         <thead>
           <tr>
@@ -119,7 +137,7 @@ export default function App() {
             <th>Statut</th>
             <th>Délai</th>
             <th>Commentaire</th>
-            <th>Origine</th>
+            {role === 'labo' && <th>Magasin</th>}
             <th>Actions</th>
           </tr>
         </thead>
@@ -145,14 +163,9 @@ export default function App() {
                 </td>
                 <td>{jours} jours</td>
                 <td>
-                  <textarea
-                    value={c.commentaire}
-                    onChange={(e) => changerCommentaire(i, e.target.value)}
-                    rows="2"
-                    style={{ width: '100%' }}
-                  />
+                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} rows="2" style={{ width: '100%' }} />
                 </td>
-                <td>{c.origine}</td>
+                {role === 'labo' && <td>{c.magasin || '-'}</td>}
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
                   <button onClick={() => supprimerCommande(i)}>🗑️</button>
@@ -165,3 +178,4 @@ export default function App() {
     </div>
   );
 }
+
