@@ -1,1 +1,0 @@
-// App.js à remplacer dans src/
