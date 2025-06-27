@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import './index.css';
 
@@ -6,8 +5,8 @@ const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
   'rosemere@optiw.com': { role: 'magasin', magasin: 'Rosemère', password: '1234' },
   'blainville@optiw.com': { role: 'magasin', magasin: 'Blainville', password: '1234' },
-  'labo@optiw.com': { role: 'labo', magasin: 'LABO', password: '1234' },
-  'admin@optiw.com': { role: 'admin', magasin: 'ADMIN', password: '1234' },
+  'labo@optiw.com': { role: 'labo', password: '1234' },
+  'admin@optiw.com': { role: 'admin', password: '1234' },
 };
 
 function differenceEnJours(date1, date2) {
@@ -20,24 +19,38 @@ function differenceEnJours(date1, date2) {
 export default function App() {
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
-  const [role, setRole] = useState('');
-  const [magasin, setMagasin] = useState('');
-  const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', tracking: '' });
+  const [utilisateur, setUtilisateur] = useState(null);
+  const [commande, setCommande] = useState({
+    numero: '',
+    client: '',
+    date: '',
+    statut: 'En attente',
+    commentaire: '',
+    tracking: '',
+  });
   const [commandes, setCommandes] = useState([]);
   const [recherche, setRecherche] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
+  const [trackingRecherche, setTrackingRecherche] = useState('');
+  const [resultatTracking, setResultatTracking] = useState(null);
+
+  const aujourdHui = new Date();
 
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
-      setRole(utilisateurs[login].role);
-      setMagasin(utilisateurs[login].magasin);
+      const infos = utilisateurs[login];
+      setUtilisateur({ ...infos, email: login });
     } else {
       alert('Identifiants invalides');
     }
   };
 
   const ajouterCommande = () => {
-    const nouvelleCommande = { ...commande, origine: magasin };
+    const nouvelleCommande = {
+      ...commande,
+      origine: utilisateur.magasin || null,
+    };
+
     if (editionIndex !== null) {
       const updated = [...commandes];
       updated[editionIndex] = nouvelleCommande;
@@ -46,7 +59,15 @@ export default function App() {
     } else {
       setCommandes([...commandes, nouvelleCommande]);
     }
-    setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', tracking: '' });
+
+    setCommande({
+      numero: '',
+      client: '',
+      date: '',
+      statut: 'En attente',
+      commentaire: '',
+      tracking: '',
+    });
   };
 
   const modifierCommande = (index) => {
@@ -60,34 +81,24 @@ export default function App() {
     setCommandes(updated);
   };
 
-  const changerStatut = (index, nouveauStatut) => {
+  const changerChamp = (index, champ, valeur) => {
     const updated = [...commandes];
-    updated[index].statut = nouveauStatut;
+    updated[index][champ] = valeur;
     setCommandes(updated);
   };
 
-  const changerCommentaire = (index, texte) => {
-    const updated = [...commandes];
-    updated[index].commentaire = texte;
-    setCommandes(updated);
+  const filtrerCommandes = commandes.filter((c) => {
+    if (utilisateur.role === 'labo') return true;
+    if (utilisateur.role === 'admin') return true;
+    return c.origine === utilisateur.magasin;
+  }).filter(c => c.numero.toLowerCase().includes(recherche.toLowerCase()));
+
+  const rechercherTracking = () => {
+    const found = commandes.find((c) => c.tracking === trackingRecherche);
+    setResultatTracking(found || null);
   };
 
-  const aujourdHui = new Date();
-  const commandesFiltrees = commandes.filter((c) =>
-    (role === 'labo' || role === 'admin' || c.origine === magasin) &&
-    c.numero.toLowerCase().includes(recherche.toLowerCase())
-  );
-
-  const chercherCommandeTracking = (code) => {
-    const trouvee = commandes.find((c) => c.tracking === code);
-    if (trouvee) {
-      alert(`Commande trouvée : ${trouvee.numero}, Statut : ${trouvee.statut}`);
-    } else {
-      alert("Aucune commande trouvée avec ce code.");
-    }
-  };
-
-  if (!role) {
+  if (!utilisateur) {
     return (
       <div style={{ padding: 20 }}>
         <h2>Connexion</h2>
@@ -100,14 +111,16 @@ export default function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Bienvenue ({role} - {magasin})</h2>
-      <button onClick={() => { setRole(''); setMagasin(''); }}>Déconnexion</button>
+      <h2>Bienvenue {utilisateur.email} ({utilisateur.role})</h2>
+      <button onClick={() => setUtilisateur(null)}>Déconnexion</button>
+
       <hr />
+
       <div>
         <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
         <input placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
         <input type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} />
-        <input placeholder="Code tracking" value={commande.tracking} onChange={(e) => setCommande({ ...commande, tracking: e.target.value })} />
+        <input placeholder="Tracking client" value={commande.tracking} onChange={(e) => setCommande({ ...commande, tracking: e.target.value })} />
         <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} />
         <select value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })}>
           <option>En attente</option>
@@ -121,10 +134,7 @@ export default function App() {
         <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
       </div>
 
-      <div style={{ marginTop: 10 }}>
-        <input placeholder="🔍 Recherche par numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} />
-        <input placeholder="🎯 Suivi client (code tracking)" onKeyDown={(e) => e.key === 'Enter' && chercherCommandeTracking(e.target.value)} />
-      </div>
+      <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} style={{ marginTop: 10 }} />
 
       <table border="1" cellPadding="6" style={{ marginTop: 10, width: '100%' }}>
         <thead>
@@ -136,12 +146,12 @@ export default function App() {
             <th>Délai</th>
             <th>Commentaire</th>
             <th>Tracking</th>
-            {role === 'labo' || role === 'admin' ? <th>Origine</th> : null}
+            {utilisateur.role === 'labo' && <th>Origine</th>}
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {commandesFiltrees.map((c, i) => {
+          {filtrerCommandes.map((c, i) => {
             const jours = differenceEnJours(c.date, aujourdHui);
             const style = jours >= 14 ? { backgroundColor: '#ffcccc' } : jours >= 10 ? { backgroundColor: '#fff3cd' } : {};
             return (
@@ -150,7 +160,7 @@ export default function App() {
                 <td>{c.client}</td>
                 <td>{c.date}</td>
                 <td>
-                  <select value={c.statut} onChange={(e) => changerStatut(i, e.target.value)}>
+                  <select value={c.statut} onChange={(e) => changerChamp(i, 'statut', e.target.value)}>
                     <option>En attente</option>
                     <option>Reçue au labo</option>
                     <option>En production</option>
@@ -162,10 +172,10 @@ export default function App() {
                 </td>
                 <td>{jours} jours</td>
                 <td>
-                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} />
+                  <textarea value={c.commentaire} onChange={(e) => changerChamp(i, 'commentaire', e.target.value)} />
                 </td>
                 <td>{c.tracking}</td>
-                {role === 'labo' || role === 'admin' ? <td>{c.origine}</td> : null}
+                {utilisateur.role === 'labo' && <td>{c.origine}</td>}
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
                   <button onClick={() => supprimerCommande(i)}>🗑️</button>
@@ -175,6 +185,24 @@ export default function App() {
           })}
         </tbody>
       </table>
+
+      <hr />
+      <h3>📦 Suivi de commande client</h3>
+      <input placeholder="Code de suivi" value={trackingRecherche} onChange={(e) => setTrackingRecherche(e.target.value)} />
+      <button onClick={rechercherTracking}>Rechercher</button>
+      {resultatTracking && (
+        <div style={{ marginTop: 10 }}>
+          <strong>Commande trouvée :</strong><br />
+          Numéro : {resultatTracking.numero}<br />
+          Client : {resultatTracking.client}<br />
+          Statut : {resultatTracking.statut}<br />
+          Commentaire : {resultatTracking.commentaire}
+        </div>
+      )}
+      {resultatTracking === null && trackingRecherche && (
+        <p style={{ color: 'red' }}>Aucune commande trouvée avec ce code.</p>
+      )}
     </div>
   );
 }
+
