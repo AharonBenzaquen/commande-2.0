@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import './index.css';
 
 const utilisateurs = {
@@ -20,44 +20,43 @@ export default function App() {
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
-  const [magasin, setMagasin] = useState('');
-  const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origine: '' });
+  const [commande, setCommande] = useState({
+    numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origine: ''
+  });
   const [commandes, setCommandes] = useState([]);
   const [recherche, setRecherche] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
-  const inputInvisible = useRef();
-
-  useEffect(() => {
-    if (role) {
-      inputInvisible.current?.focus();
-    }
-  }, [role]);
+  const [isEditing, setIsEditing] = useState(false);
 
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
       setRole(utilisateurs[login].role);
-      setMagasin(utilisateurs[login].role);
     } else {
       alert('Identifiants invalides');
     }
   };
 
   const ajouterCommande = () => {
-    const nouvelle = { ...commande, origine: magasin };
+    const nouvelleCommande = {
+      ...commande,
+      origine: role,
+    };
     if (editionIndex !== null) {
       const updated = [...commandes];
-      updated[editionIndex] = nouvelle;
+      updated[editionIndex] = nouvelleCommande;
       setCommandes(updated);
       setEditionIndex(null);
     } else {
-      setCommandes([...commandes, nouvelle]);
+      setCommandes([...commandes, nouvelleCommande]);
     }
     setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origine: '' });
+    setIsEditing(false);
   };
 
   const modifierCommande = (index) => {
     setCommande(commandes[index]);
     setEditionIndex(index);
+    setIsEditing(true);
   };
 
   const supprimerCommande = (index) => {
@@ -78,26 +77,16 @@ export default function App() {
     setCommandes(updated);
   };
 
-  const lireCodeBarre = (e) => {
-    const texte = e.target.value;
-    if (texte.includes('|')) {
-      const [numero, client, date, origine] = texte.split('|');
-      setCommande({ numero, client, date, statut: 'En attente', commentaire: '', origine });
-    } else {
-      setCommande({ ...commande, numero: texte });
-    }
-    e.target.value = '';
-  };
-
   const aujourdHui = new Date();
   const filtrerCommandes = commandes.filter((c) => {
-    return c.numero.toLowerCase().includes(recherche.toLowerCase()) &&
-      (role === 'admin' || role === 'labo' || c.origine === magasin);
+    const visible = role === 'labo' || role === 'admin' || c.origine === role;
+    const correspondRecherche = c.numero.toLowerCase().includes(recherche.toLowerCase());
+    return visible && correspondRecherche;
   });
 
   if (!role) {
     return (
-      <div style={{ padding: 20 }}>
+      <div className="login-container">
         <h2>Connexion</h2>
         <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
         <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
@@ -107,17 +96,36 @@ export default function App() {
   }
 
   return (
-    <div style={{ padding: 20 }}>
-      <input ref={inputInvisible} onChange={lireCodeBarre} style={{ position: 'absolute', opacity: 0 }} />
-      <h2>Bienvenue ({role})</h2>
-      <button onClick={() => setRole('')}>Déconnexion</button>
-      <hr />
-      <div>
-        <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
-        <input placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
-        <input type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} />
-        <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} rows="2" style={{ width: '100%' }} />
-        <select value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })}>
+    <div className="app-container">
+      <header>
+        <h2>Bienvenue ({role})</h2>
+        <button onClick={() => setRole('')}>Déconnexion</button>
+      </header>
+      <div className="form">
+        <input
+          placeholder="Numéro de commande"
+          value={commande.numero}
+          onChange={(e) => setCommande({ ...commande, numero: e.target.value })}
+        />
+        <input
+          placeholder="Nom du client"
+          value={commande.client}
+          onChange={(e) => setCommande({ ...commande, client: e.target.value })}
+        />
+        <input
+          type="date"
+          value={commande.date}
+          onChange={(e) => setCommande({ ...commande, date: e.target.value })}
+        />
+        <textarea
+          placeholder="Commentaire"
+          value={commande.commentaire}
+          onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })}
+        />
+        <select
+          value={commande.statut}
+          onChange={(e) => setCommande({ ...commande, statut: e.target.value })}
+        >
           <option>En attente</option>
           <option>Reçue au labo</option>
           <option>En production</option>
@@ -128,8 +136,15 @@ export default function App() {
         </select>
         <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
       </div>
-      <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} style={{ marginTop: 10 }} />
-      <table border="1" cellPadding="6" style={{ marginTop: 10, width: '100%' }}>
+
+      <input
+        placeholder="🔍 Rechercher un numéro"
+        value={recherche}
+        onChange={(e) => setRecherche(e.target.value)}
+        className="search-bar"
+      />
+
+      <table className="commande-table">
         <thead>
           <tr>
             <th>Numéro</th>
@@ -138,14 +153,19 @@ export default function App() {
             <th>Statut</th>
             <th>Délai</th>
             <th>Commentaire</th>
-            <th>Magasin</th>
+            {role === 'labo' || role === 'admin' ? <th>Magasin</th> : null}
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {filtrerCommandes.map((c, i) => {
             const jours = differenceEnJours(c.date, aujourdHui);
-            const style = jours >= 14 ? { backgroundColor: '#ffcccc' } : jours >= 10 ? { backgroundColor: '#fff3cd' } : {};
+            const style =
+              jours >= 14
+                ? { backgroundColor: '#f8d7da' }
+                : jours >= 10
+                ? { backgroundColor: '#fff3cd' }
+                : {};
             return (
               <tr key={i} style={style}>
                 <td>{c.numero}</td>
@@ -164,9 +184,12 @@ export default function App() {
                 </td>
                 <td>{jours} jours</td>
                 <td>
-                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} rows="2" style={{ width: '100%' }} />
+                  <textarea
+                    value={c.commentaire}
+                    onChange={(e) => changerCommentaire(i, e.target.value)}
+                  />
                 </td>
-                <td>{c.origine}</td>
+                {role === 'labo' || role === 'admin' ? <td>{c.origine}</td> : null}
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
                   <button onClick={() => supprimerCommande(i)}>🗑️</button>
@@ -179,4 +202,3 @@ export default function App() {
     </div>
   );
 }
-
