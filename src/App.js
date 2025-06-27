@@ -1,12 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './index.css';
 
 const utilisateurs = {
-  'laval@optiw.com': { role: 'employe', magasin: 'Laval', password: '1234' },
-  'rosemere@optiw.com': { role: 'employe', magasin: 'Rosemère', password: '1234' },
-  'blainville@optiw.com': { role: 'employe', magasin: 'Blainville', password: '1234' },
-  'labo@optiw.com': { role: 'labo', magasin: 'TOUS', password: '1234' },
-  'admin@optiw.com': { role: 'admin', magasin: 'TOUS', password: '1234' },
+  'laval@optiw.com': { role: 'laval', password: '1234' },
+  'rosemere@optiw.com': { role: 'rosemere', password: '1234' },
+  'blainville@optiw.com': { role: 'blainville', password: '1234' },
+  'labo@optiw.com': { role: 'labo', password: '1234' },
+  'admin@optiw.com': { role: 'admin', password: '1234' },
 };
 
 function differenceEnJours(date1, date2) {
@@ -21,38 +21,38 @@ export default function App() {
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
   const [magasin, setMagasin] = useState('');
-  const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origineMagasin: '' });
+  const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origine: '' });
   const [commandes, setCommandes] = useState([]);
   const [recherche, setRecherche] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
+  const inputInvisible = useRef();
 
-  const champScanRef = useRef(null);
+  useEffect(() => {
+    if (role) {
+      inputInvisible.current?.focus();
+    }
+  }, [role]);
 
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
       setRole(utilisateurs[login].role);
-      setMagasin(utilisateurs[login].magasin);
+      setMagasin(utilisateurs[login].role);
     } else {
       alert('Identifiants invalides');
     }
   };
 
   const ajouterCommande = () => {
-    const nouvelleCommande = {
-      ...commande,
-      origineMagasin: magasin !== 'TOUS' ? magasin : commande.origineMagasin || '',
-    };
-
+    const nouvelle = { ...commande, origine: magasin };
     if (editionIndex !== null) {
       const updated = [...commandes];
-      updated[editionIndex] = nouvelleCommande;
+      updated[editionIndex] = nouvelle;
       setCommandes(updated);
       setEditionIndex(null);
     } else {
-      setCommandes([...commandes, nouvelleCommande]);
+      setCommandes([...commandes, nouvelle]);
     }
-
-    setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origineMagasin: '' });
+    setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origine: '' });
   };
 
   const modifierCommande = (index) => {
@@ -78,18 +78,22 @@ export default function App() {
     setCommandes(updated);
   };
 
-  // ⬇️ Fonction pour scanner
-  const lireCodeBarre = (valeur) => {
-    const [numero, client, date, origine] = valeur.trim().split('|');
-    setCommande({ numero, client, date, statut: 'En attente', commentaire: '', origineMagasin: origine || magasin });
-    champScanRef.current.value = ''; // vide le champ après lecture
+  const lireCodeBarre = (e) => {
+    const texte = e.target.value;
+    if (texte.includes('|')) {
+      const [numero, client, date, origine] = texte.split('|');
+      setCommande({ numero, client, date, statut: 'En attente', commentaire: '', origine });
+    } else {
+      setCommande({ ...commande, numero: texte });
+    }
+    e.target.value = '';
   };
 
   const aujourdHui = new Date();
-  const filtrerCommandes = commandes.filter((c) =>
-    c.numero.toLowerCase().includes(recherche.toLowerCase()) &&
-    (magasin === 'TOUS' || c.origineMagasin === magasin)
-  );
+  const filtrerCommandes = commandes.filter((c) => {
+    return c.numero.toLowerCase().includes(recherche.toLowerCase()) &&
+      (role === 'admin' || role === 'labo' || c.origine === magasin);
+  });
 
   if (!role) {
     return (
@@ -104,27 +108,15 @@ export default function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Bienvenue ({role}) – {magasin}</h2>
+      <input ref={inputInvisible} onChange={lireCodeBarre} style={{ position: 'absolute', opacity: 0 }} />
+      <h2>Bienvenue ({role})</h2>
       <button onClick={() => setRole('')}>Déconnexion</button>
       <hr />
-
-      {/* Champ invisible pour scan code-barres */}
-      <input
-        ref={champScanRef}
-        autoFocus
-        onChange={(e) => lireCodeBarre(e.target.value)}
-        onBlur={(e) => e.target.focus()}
-        style={{ position: 'absolute', opacity: 0 }}
-      />
-
       <div>
         <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
         <input placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
         <input type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} />
         <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} rows="2" style={{ width: '100%' }} />
-        {role === 'admin' && (
-          <input placeholder="Origine magasin" value={commande.origineMagasin} onChange={(e) => setCommande({ ...commande, origineMagasin: e.target.value })} />
-        )}
         <select value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })}>
           <option>En attente</option>
           <option>Reçue au labo</option>
@@ -136,7 +128,6 @@ export default function App() {
         </select>
         <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
       </div>
-
       <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} style={{ marginTop: 10 }} />
       <table border="1" cellPadding="6" style={{ marginTop: 10, width: '100%' }}>
         <thead>
@@ -147,7 +138,7 @@ export default function App() {
             <th>Statut</th>
             <th>Délai</th>
             <th>Commentaire</th>
-            {role !== 'employe' && <th>Origine</th>}
+            <th>Magasin</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -173,14 +164,9 @@ export default function App() {
                 </td>
                 <td>{jours} jours</td>
                 <td>
-                  <textarea
-                    value={c.commentaire}
-                    onChange={(e) => changerCommentaire(i, e.target.value)}
-                    rows="2"
-                    style={{ width: '100%' }}
-                  />
+                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} rows="2" style={{ width: '100%' }} />
                 </td>
-                {role !== 'employe' && <td>{c.origineMagasin}</td>}
+                <td>{c.origine}</td>
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
                   <button onClick={() => supprimerCommande(i)}>🗑️</button>
