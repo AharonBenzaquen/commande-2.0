@@ -172,4 +172,4 @@ export default function App() {
       </table>
     </div>
   );
-}plet d'App.js sera inséré ici...
+}
