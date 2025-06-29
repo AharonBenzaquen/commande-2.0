@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
-import Suivi from './Suivi';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Tracking from './Tracking';
+import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Router>
+  <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="/suivi" element={<Suivi />} />
+      <Route path="/tracking" element={<Tracking />} />
     </Routes>
-  </Router>
+  </BrowserRouter>
 );
