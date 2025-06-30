@@ -20,13 +20,12 @@ export default function App() {
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
-  const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origine: '' });
+  const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
   const [commandes, setCommandes] = useState([]);
   const [recherche, setRecherche] = useState('');
+  const [tracking, setTracking] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
-  const [modeEdition, setModeEdition] = useState(false);
-
-  const aujourdHui = new Date();
+  const [saisieActive, setSaisieActive] = useState(false);
 
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
@@ -37,6 +36,11 @@ export default function App() {
   };
 
   const ajouterCommande = () => {
+    if (!commande.numero || !commande.client || !commande.date) {
+      alert('Veuillez remplir tous les champs obligatoires');
+      return;
+    }
+
     const nouvelleCommande = {
       ...commande,
       origine: role,
@@ -51,14 +55,14 @@ export default function App() {
       setCommandes([...commandes, nouvelleCommande]);
     }
 
-    setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '', origine: '' });
-    setModeEdition(false);
+    setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
+    setSaisieActive(false);
   };
 
   const modifierCommande = (index) => {
     setCommande(commandes[index]);
     setEditionIndex(index);
-    setModeEdition(true);
+    setSaisieActive(true);
   };
 
   const supprimerCommande = (index) => {
@@ -79,18 +83,33 @@ export default function App() {
     setCommandes(updated);
   };
 
-  const filtrerCommandes = commandes.filter(c =>
-    (role === 'admin' || role === 'labo' || c.origine === role) &&
+  const aujourdHui = new Date();
+  const filtrerCommandes = commandes.filter((c) =>
+    (role === 'labo' || role === 'admin' || c.origine === role) &&
     c.numero.toLowerCase().includes(recherche.toLowerCase())
   );
+
+  const commandeTrackee = commandes.find(c => c.numero === tracking);
 
   if (!role) {
     return (
       <div className="login-container">
-        <h2>Connexion OPTI-W</h2>
+        <h2>Connexion</h2>
         <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
-        <input type="password" placeholder="Mot de passe" value={mdp} onChange={(e) => setMdp(e.target.value)} />
+        <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
         <button onClick={seConnecter}>Se connecter</button>
+
+        <hr />
+        <h3>🔍 Suivi client</h3>
+        <input placeholder="Entrez votre numéro de suivi" value={tracking} onChange={(e) => setTracking(e.target.value)} />
+        {commandeTrackee && (
+          <div className="tracking-info">
+            <p><strong>Commande :</strong> {commandeTrackee.numero}</p>
+            <p><strong>Client :</strong> {commandeTrackee.client}</p>
+            <p><strong>Statut :</strong> {commandeTrackee.statut}</p>
+            <p><strong>Commentaire :</strong> {commandeTrackee.commentaire}</p>
+          </div>
+        )}
       </div>
     );
   }
@@ -98,28 +117,32 @@ export default function App() {
   return (
     <div className="app-container">
       <h2>Bienvenue ({role})</h2>
-      <button className="logout-btn" onClick={() => setRole('')}>Déconnexion</button>
+      <button onClick={() => setRole('')}>Déconnexion</button>
+      <hr />
+      <button onClick={() => setSaisieActive(true)}>➕ Nouvelle commande</button>
 
-      <div className="commande-form">
-        <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} disabled={!modeEdition} />
-        <input placeholder="Client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} disabled={!modeEdition} />
-        <input type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} disabled={!modeEdition} />
-        <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} disabled={!modeEdition} />
-        <select value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })} disabled={!modeEdition}>
-          <option>En attente</option>
-          <option>Reçue au labo</option>
-          <option>En production</option>
-          <option>Prête</option>
-          <option>Expédiée</option>
-          <option>Reçue au magasin</option>
-          <option>Livrée au client</option>
-        </select>
-        <button onClick={ajouterCommande} disabled={!modeEdition}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
-      </div>
+      {saisieActive && (
+        <div className="form-block">
+          <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
+          <input placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
+          <input type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} />
+          <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} />
+          <select value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })}>
+            <option>En attente</option>
+            <option>Reçue au labo</option>
+            <option>En production</option>
+            <option>Prête</option>
+            <option>Expédiée</option>
+            <option>Reçue au magasin</option>
+            <option>Livrée au client</option>
+          </select>
+          <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
+        </div>
+      )}
 
-      <input className="search-bar" placeholder="🔍 Rechercher une commande" value={recherche} onChange={(e) => setRecherche(e.target.value)} />
+      <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} />
 
-      <table className="commande-table">
+      <table>
         <thead>
           <tr>
             <th>Numéro</th>
@@ -128,19 +151,16 @@ export default function App() {
             <th>Statut</th>
             <th>Délai</th>
             <th>Commentaire</th>
-            {role === 'labo' || role === 'admin' ? <th>Magasin</th> : null}
+            {role === 'labo' && <th>Magasin</th>}
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {filtrerCommandes.map((c, i) => {
             const jours = differenceEnJours(c.date, aujourdHui);
-            const couleur =
-              jours >= 14 ? '#ffcccc' :
-              jours >= 10 ? '#fff3cd' : 'white';
-
+            const style = jours >= 14 ? { backgroundColor: '#ffcccc' } : jours >= 10 ? { backgroundColor: '#fff3cd' } : {};
             return (
-              <tr key={i} style={{ backgroundColor: couleur }}>
+              <tr key={i} style={style}>
                 <td>{c.numero}</td>
                 <td>{c.client}</td>
                 <td>{c.date}</td>
@@ -159,7 +179,7 @@ export default function App() {
                 <td>
                   <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} />
                 </td>
-                {role === 'labo' || role === 'admin' ? <td>{c.origine}</td> : null}
+                {role === 'labo' && <td>{c.origine}</td>}
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
                   <button onClick={() => supprimerCommande(i)}>🗑️</button>
@@ -172,4 +192,3 @@ export default function App() {
     </div>
   );
 }
-
