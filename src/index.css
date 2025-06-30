@@ -3,93 +3,79 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-image: url('./background.png');
   background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
   color: #fff;
-}
-
-h2 {
-  text-align: center;
-  color: #fff;
-  margin-top: 30px;
 }
 
 .container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
 }
 
-input, select, textarea {
-  width: 100%;
-  max-width: 400px;
-  display: block;
-  margin: 10px auto;
+input, textarea, select {
   padding: 10px;
-  font-size: 16px;
+  margin: 10px 0;
   border-radius: 5px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+  border: none;
+  font-size: 1rem;
+  width: 300px;
+  max-width: 90%;
 }
 
 button {
-  padding: 10px 20px;
-  margin: 10px auto;
-  display: block;
-  font-size: 16px;
+  background-color: #FFD700; /* Jaune Walmart */
+  color: black;
   border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
   border-radius: 5px;
-  background-color: #fcd34d; /* Jaune Walmart */
-  color: #000;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 button:hover {
-  background-color: #fbbf24;
+  opacity: 0.9;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-th, td {
-  border: 1px solid #fff;
-  padding: 8px;
+/* Spécifique à la section tracking client */
+.tracking-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  color: #fff;
+  margin-top: 60px;
 }
 
-th {
-  background-color: #1e40af;
+.tracking-section h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: white;
 }
 
-textarea {
-  resize: vertical;
-}
-
-select, textarea {
-  color: #000;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #888;
-}
-
-a {
-  color: #fff;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 10px;
+.tracking-section input {
+  width: 300px;
+  max-width: 90%;
   text-align: center;
 }
 
-a:hover {
-  text-decoration: underline;
+.tracking-section button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.tracking-section button svg {
+  margin-right: 5px;
+}
+
+/* Centrage sur toutes tailles d'écran */
+@media (max-width: 600px) {
+  input, button {
+    width: 80%;
+  }
+}
