@@ -1,65 +1,71 @@
-/* Fond global */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #215baa;
-  background-image: url('./Opti-W background.png');
+  background-image: url('/background.png');
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   background-attachment: fixed;
-  color: white;
-}
-
-/* Zones principales */
-h2 {
-  color: #ffffff;
-}
-
-input, select, textarea {
-  padding: 8px;
-  margin: 5px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 100%;
-}
-
-input[type="date"] {
   color: #000;
+}
+
+h2 {
+  color: #004080;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  max-width: 100%;
+}
+
+input,
+textarea,
+select {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 textarea {
   resize: vertical;
 }
 
-/* Boutons */
 button {
-  background-color: #ffc107; /* Jaune Walmart */
-  border: none;
   padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
+  background-color: #ffc107; /* Jaune Walmart */
   color: black;
-  cursor: pointer;
   font-weight: bold;
-  transition: background-color 0.3s;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  max-width: 400px;
+  width: 100%;
 }
 
 button:hover {
   background-color: #e0a800;
 }
 
-/* Table */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 th, td {
   padding: 12px;
   text-align: left;
-  border: 1px solid #ffffff33;
+  border: 1px solid #ddd;
+  color: black;
 }
 
 th {
@@ -67,28 +73,33 @@ th {
   color: white;
 }
 
-td {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+select:disabled,
+textarea:disabled,
+input:disabled {
+  background-color: #f0f0f0;
+  color: #999;
 }
 
-td textarea,
-td select {
-  background-color: white;
+.actions button {
+  margin-right: 5px;
+  background-color: #ffc107;
   color: black;
-  width: 100%;
-  border-radius: 4px;
 }
 
-/* Recherche */
-input[type="text"], input[type="email"], input[type="password"] {
-  background-color: #ffffff;
-  color: #000;
+.actions button:hover {
+  background-color: #e0a800;
 }
 
-/* Lien Suivi client */
+.alert {
+  background-color: #ffcccc;
+}
+
+.warning {
+  background-color: #fff3cd;
+}
+
 a {
-  color: #ffeb3b;
+  color: #004080;
   font-weight: bold;
   text-decoration: none;
 }
@@ -97,13 +108,3 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Responsive */
-@media screen and (max-width: 768px) {
-  table, thead, tbody, th, td, tr {
-    display: block;
-  }
-
-  th, td {
-    padding: 10px;
-  }
-}
