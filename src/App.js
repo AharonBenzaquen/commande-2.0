@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './index.css';
 
 const utilisateurs = {
-  'laval@optiw.com': { role: 'laval', password: '1234' },
-  'rosemere@optiw.com': { role: 'rosemere', password: '1234' },
-  'blainville@optiw.com': { role: 'blainville', password: '1234' },
-  'labo@optiw.com': { role: 'labo', password: '1234' },
-  'admin@optiw.com': { role: 'admin', password: '1234' },
+  'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
+  'rosemere@optiw.com': { role: 'magasin', magasin: 'Rosemère', password: '1234' },
+  'blainville@optiw.com': { role: 'magasin', magasin: 'Blainville', password: '1234' },
+  'labo@optiw.com': { role: 'labo', magasin: 'Tous', password: '1234' },
+  'admin@optiw.com': { role: 'admin', magasin: 'Tous', password: '1234' },
 };
 
 function differenceEnJours(date1, date2) {
@@ -20,49 +20,40 @@ export default function App() {
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
+  const [magasin, setMagasin] = useState('');
   const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
   const [commandes, setCommandes] = useState([]);
-  const [recherche, setRecherche] = useState('');
-  const [tracking, setTracking] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
-  const [saisieActive, setSaisieActive] = useState(false);
+  const [tracking, setTracking] = useState('');
+  const [commandeTrouvee, setCommandeTrouvee] = useState(null);
+  const [formActif, setFormActif] = useState(false);
 
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
       setRole(utilisateurs[login].role);
+      setMagasin(utilisateurs[login].magasin);
     } else {
       alert('Identifiants invalides');
     }
   };
 
   const ajouterCommande = () => {
-    if (!commande.numero || !commande.client || !commande.date) {
-      alert('Veuillez remplir tous les champs obligatoires');
-      return;
-    }
-
-    const nouvelleCommande = {
-      ...commande,
-      origine: role,
-    };
-
     if (editionIndex !== null) {
       const updated = [...commandes];
-      updated[editionIndex] = nouvelleCommande;
+      updated[editionIndex] = { ...commande, origine: magasin };
       setCommandes(updated);
       setEditionIndex(null);
     } else {
-      setCommandes([...commandes, nouvelleCommande]);
+      setCommandes([...commandes, { ...commande, origine: magasin }]);
     }
-
     setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
-    setSaisieActive(false);
+    setFormActif(false);
   };
 
   const modifierCommande = (index) => {
     setCommande(commandes[index]);
     setEditionIndex(index);
-    setSaisieActive(true);
+    setFormActif(true);
   };
 
   const supprimerCommande = (index) => {
@@ -83,64 +74,63 @@ export default function App() {
     setCommandes(updated);
   };
 
+  const rechercherTracking = () => {
+    const trouvée = commandes.find((c) => c.numero === tracking);
+    setCommandeTrouvee(trouvée || null);
+  };
+
   const aujourdHui = new Date();
   const filtrerCommandes = commandes.filter((c) =>
-    (role === 'labo' || role === 'admin' || c.origine === role) &&
-    c.numero.toLowerCase().includes(recherche.toLowerCase())
+    role === 'admin' || role === 'labo' || c.origine === magasin
   );
-
-  const commandeTrackee = commandes.find(c => c.numero === tracking);
 
   if (!role) {
     return (
-      <div className="login-container">
+      <div className="login">
         <h2>Connexion</h2>
         <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
         <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
         <button onClick={seConnecter}>Se connecter</button>
-
-        <hr />
-        <h3>🔍 Suivi client</h3>
-        <input placeholder="Entrez votre numéro de suivi" value={tracking} onChange={(e) => setTracking(e.target.value)} />
-        {commandeTrackee && (
-          <div className="tracking-info">
-            <p><strong>Commande :</strong> {commandeTrackee.numero}</p>
-            <p><strong>Client :</strong> {commandeTrackee.client}</p>
-            <p><strong>Statut :</strong> {commandeTrackee.statut}</p>
-            <p><strong>Commentaire :</strong> {commandeTrackee.commentaire}</p>
-          </div>
-        )}
+        <div className="tracking-box">
+          <h3>Suivi de commande</h3>
+          <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
+          <button onClick={rechercherTracking}>🔍 Rechercher</button>
+          {commandeTrouvee ? (
+            <div className="result">
+              <p>Commande : {commandeTrouvee.numero}</p>
+              <p>Statut : {commandeTrouvee.statut}</p>
+              <p>Commentaire : {commandeTrouvee.commentaire}</p>
+            </div>
+          ) : tracking && <p>Aucune commande trouvée.</p>}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="app-container">
-      <h2>Bienvenue ({role})</h2>
-      <button onClick={() => setRole('')}>Déconnexion</button>
+    <div className="app">
+      <h2>Bienvenue {role === 'magasin' ? magasin : role}</h2>
+      <button onClick={() => { setRole(''); setLogin(''); setMdp(''); }}>Déconnexion</button>
       <hr />
-      <button onClick={() => setSaisieActive(true)}>➕ Nouvelle commande</button>
-
-      {saisieActive && (
-        <div className="form-block">
-          <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
-          <input placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
-          <input type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} />
-          <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} />
-          <select value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })}>
-            <option>En attente</option>
-            <option>Reçue au labo</option>
-            <option>En production</option>
-            <option>Prête</option>
-            <option>Expédiée</option>
-            <option>Reçue au magasin</option>
-            <option>Livrée au client</option>
-          </select>
-          <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
-        </div>
-      )}
-
-      <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} />
+      <button onClick={() => { setFormActif(true); setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' }); setEditionIndex(null); }}>
+        ➕ Nouvelle commande
+      </button>
+      <div className="formulaire">
+        <input disabled={!formActif} placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
+        <input disabled={!formActif} placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
+        <input disabled={!formActif} type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} />
+        <textarea disabled={!formActif} placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} />
+        <select disabled={!formActif} value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })}>
+          <option>En attente</option>
+          <option>Reçue au labo</option>
+          <option>En production</option>
+          <option>Prête</option>
+          <option>Expédiée</option>
+          <option>Reçue au magasin</option>
+          <option>Livrée au client</option>
+        </select>
+        {formActif && <button onClick={ajouterCommande}>{editionIndex !== null ? '✅ Modifier' : '📦 Ajouter'}</button>}
+      </div>
 
       <table>
         <thead>
@@ -151,7 +141,7 @@ export default function App() {
             <th>Statut</th>
             <th>Délai</th>
             <th>Commentaire</th>
-            {role === 'labo' && <th>Magasin</th>}
+            <th>Origine</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -179,7 +169,7 @@ export default function App() {
                 <td>
                   <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} />
                 </td>
-                {role === 'labo' && <td>{c.origine}</td>}
+                <td>{c.origine}</td>
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
                   <button onClick={() => supprimerCommande(i)}>🗑️</button>
