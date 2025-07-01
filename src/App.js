@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import './index.css';
+import emailjs from '@emailjs/browser';
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'laval', password: '1234' },
@@ -8,17 +8,6 @@ const utilisateurs = {
   'blainville@optiw.com': { role: 'blainville', password: '1234' },
   'labo@optiw.com': { role: 'labo', password: '1234' },
   'admin@optiw.com': { role: 'admin', password: '1234' },
-};
-
-const sendStatusUpdateEmail = (clientEmail, clientName, orderNumber, newStatus) => {
-  emailjs.send('service1234', 'template_5tay4qh', {
-    to_email: clientEmail,
-    to_name: clientName,
-    order_number: orderNumber,
-    new_status: newStatus,
-  }, 'KpP9SWLy5OcgKnYqn')
-  .then(() => console.log("Email envoyé"))
-  .catch((err) => console.error("Erreur d'envoi email", err));
 };
 
 const differenceEnJours = (date1, date2) => {
@@ -33,35 +22,63 @@ export default function App() {
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
   const [commande, setCommande] = useState({
-    numero: '', client: '', date: '', statut: 'En attente', commentaire: '', email: '', origine: ''
+    numero: '',
+    client: '',
+    date: '',
+    statut: 'En attente',
+    commentaire: '',
+    email: '',
   });
   const [commandes, setCommandes] = useState([]);
   const [recherche, setRecherche] = useState('');
   const [editionIndex, setEditionIndex] = useState(null);
 
-  const aujourdHui = new Date();
-
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
       setRole(utilisateurs[login].role);
     } else {
-      alert("Identifiants incorrects");
+      alert('Identifiants invalides');
     }
   };
 
+  const sendStatusUpdateEmail = (clientEmail, clientName, orderNumber, newStatus) => {
+    if (!clientEmail) return;
+    emailjs.send('service1234', 'template_5tay4qh', {
+      to_email: clientEmail,
+      to_name: clientName,
+      order_number: orderNumber,
+      new_status: newStatus,
+    }, 'KpP9SWLy5OcgKnYqn')
+    .then(() => {
+      console.log('✅ Email envoyé');
+    })
+    .catch((error) => {
+      console.error('❌ Erreur email :', error);
+    });
+  };
+
   const ajouterCommande = () => {
-    const nouvelleCommande = { ...commande, origine: role };
+    if (!commande.numero || !commande.client || !commande.date) {
+      alert("Remplir tous les champs obligatoires.");
+      return;
+    }
+
     if (editionIndex !== null) {
       const updated = [...commandes];
-      updated[editionIndex] = nouvelleCommande;
+      updated[editionIndex] = { ...commande, origine: role };
       setCommandes(updated);
       setEditionIndex(null);
     } else {
-      setCommandes([...commandes, nouvelleCommande]);
+      setCommandes([...commandes, { ...commande, origine: role }]);
     }
+
     setCommande({
-      numero: '', client: '', date: '', statut: 'En attente',
-      commentaire: '', email: '', origine: role
+      numero: '',
+      client: '',
+      date: '',
+      statut: 'En attente',
+      commentaire: '',
+      email: '',
     });
   };
 
@@ -80,10 +97,9 @@ export default function App() {
     const updated = [...commandes];
     updated[index].statut = nouveauStatut;
     setCommandes(updated);
-    const cmd = updated[index];
-    if (cmd.email) {
-      sendStatusUpdateEmail(cmd.email, cmd.client, cmd.numero, nouveauStatut);
-    }
+
+    const c = updated[index];
+    sendStatusUpdateEmail(c.email, c.client, c.numero, nouveauStatut);
   };
 
   const changerCommentaire = (index, texte) => {
@@ -92,14 +108,17 @@ export default function App() {
     setCommandes(updated);
   };
 
+  const aujourdHui = new Date();
   const filtrerCommandes = commandes.filter((c) => {
-    if (role === 'admin' || role === 'labo') return c.numero.toLowerCase().includes(recherche.toLowerCase());
-    return c.origine === role && c.numero.toLowerCase().includes(recherche.toLowerCase());
-  });
+    if (role === 'admin' || role === 'labo') return true;
+    return c.origine === role;
+  }).filter((c) =>
+    c.numero.toLowerCase().includes(recherche.toLowerCase())
+  );
 
   if (!role) {
     return (
-      <div className="login">
+      <div className="login-container">
         <h2>Connexion</h2>
         <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
         <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
@@ -109,16 +128,16 @@ export default function App() {
   }
 
   return (
-    <div className="app">
+    <div className="app-container">
       <h2>Bienvenue ({role})</h2>
       <button onClick={() => setRole('')}>Déconnexion</button>
       <hr />
       <div className="formulaire">
-        <input placeholder="Numéro commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
+        <input placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
         <input placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
         <input type="date" value={commande.date} onChange={(e) => setCommande({ ...commande, date: e.target.value })} />
         <input placeholder="Email du client" value={commande.email} onChange={(e) => setCommande({ ...commande, email: e.target.value })} />
-        <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })}></textarea>
+        <textarea placeholder="Commentaire" value={commande.commentaire} onChange={(e) => setCommande({ ...commande, commentaire: e.target.value })} rows="2" />
         <select value={commande.statut} onChange={(e) => setCommande({ ...commande, statut: e.target.value })}>
           <option>En attente</option>
           <option>Reçue au labo</option>
@@ -131,9 +150,9 @@ export default function App() {
         <button onClick={ajouterCommande}>{editionIndex !== null ? 'Modifier' : 'Ajouter'}</button>
       </div>
 
-      <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} style={{ marginTop: 10 }} />
+      <input placeholder="🔍 Rechercher un numéro" value={recherche} onChange={(e) => setRecherche(e.target.value)} className="search-bar" />
 
-      <table>
+      <table className="commande-table">
         <thead>
           <tr>
             <th>Numéro</th>
@@ -142,7 +161,8 @@ export default function App() {
             <th>Statut</th>
             <th>Délai</th>
             <th>Commentaire</th>
-            {role === 'labo' && <th>Origine</th>}
+            <th>Email</th>
+            {role === 'labo' && <th>Magasin</th>}
             <th>Actions</th>
           </tr>
         </thead>
@@ -168,8 +188,9 @@ export default function App() {
                 </td>
                 <td>{jours} jours</td>
                 <td>
-                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} />
+                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} rows="2" />
                 </td>
+                <td>{c.email}</td>
                 {role === 'labo' && <td>{c.origine}</td>}
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
@@ -183,3 +204,4 @@ export default function App() {
     </div>
   );
 }
+
