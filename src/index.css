@@ -1,12 +1,10 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, sans-serif;
   background-image: url('./background.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   min-height: 100vh;
-  color: #fff;
 }
 
 .container {
@@ -14,68 +12,91 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 50px;
+  padding-top: 40px;
 }
 
-input, textarea, select {
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.login-container h2 {
+  color: white;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
   padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: none;
-  font-size: 1rem;
+  margin-bottom: 10px;
   width: 300px;
-  max-width: 90%;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 button {
-  background-color: #FFD700; /* Jaune Walmart */
-  color: black;
+  background-color: #fcd12a;
+  color: #333;
   border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
   border-radius: 5px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
   margin-top: 10px;
 }
 
 button:hover {
-  opacity: 0.9;
+  background-color: #ffde59;
 }
 
-/* Spécifique à la section tracking client */
 .tracking-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  margin-top: 60px;
 }
 
 .tracking-section h2 {
-  margin-bottom: 10px;
-  font-size: 1.5rem;
   color: white;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
-.tracking-section input {
+.tracking-input {
+  padding: 10px;
+  margin-bottom: 10px;
   width: 300px;
-  max-width: 90%;
-  text-align: center;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
 }
 
-.tracking-section button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.tracking-button {
+  background-color: #fcd12a;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.tracking-section button svg {
-  margin-right: 5px;
+.tracking-button:hover {
+  background-color: #ffde59;
 }
 
-/* Centrage sur toutes tailles d'écran */
 @media (max-width: 600px) {
-  input, button {
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  .tracking-input {
     width: 80%;
   }
 }
+
