@@ -1,102 +1,85 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
   background-image: url('./background.png');
   background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
-  min-height: 100vh;
-}
-
-.container {
+  height: 100vh;
+  color: #fff;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding-top: 40px;
+  align-items: center;
+  flex-direction: column;
 }
 
 .login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 40px;
+  background: transparent;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .login-container h2 {
-  color: white;
-  margin-bottom: 10px;
-  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"] {
+.login-container input {
   padding: 10px;
-  margin-bottom: 10px;
+  margin: 5px 0;
   width: 300px;
-  border: none;
   border-radius: 5px;
-  font-size: 16px;
+  border: none;
 }
 
-button {
-  background-color: #fcd12a;
-  color: #333;
-  border: none;
-  border-radius: 5px;
+.login-container button {
   padding: 10px 20px;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
   margin-top: 10px;
-}
-
-button:hover {
-  background-color: #ffde59;
+  background-color: #FFD700;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .tracking-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  text-align: center;
+  margin-top: 30px;
 }
 
-.tracking-section h2 {
-  color: white;
-  font-size: 20px;
+.tracking-section h3 {
   margin-bottom: 10px;
+  color: #fff;
 }
 
-.tracking-input {
+.tracking-section input {
   padding: 10px;
-  margin-bottom: 10px;
   width: 300px;
   border-radius: 5px;
   border: none;
-  font-size: 16px;
+  margin-bottom: 10px;
 }
 
-.tracking-button {
-  background-color: #fcd12a;
-  color: #333;
+.tracking-section button {
+  padding: 10px 20px;
+  background-color: #FFD700;
+  color: #000;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  font-weight: bold;
-  font-size: 16px;
   cursor: pointer;
+  font-weight: bold;
 }
 
-.tracking-button:hover {
-  background-color: #ffde59;
+.tracking-result {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 8px;
+  color: #000;
+  margin-top: 15px;
+  text-align: left;
 }
 
-@media (max-width: 600px) {
-  input[type="email"],
-  input[type="password"],
-  input[type="text"],
-  .tracking-input {
-    width: 80%;
-  }
-}
 
