@@ -1,5 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
+import { initializeApp } from 'firebase/app';
+import {
+  getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc
+} from 'firebase/firestore';
+
+// 🔥 Config Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyALUrQuu-YPwphPsSfeeIR6nUWeM_0MLOU",
+  authDomain: "optiw-commande.firebaseapp.com",
+  projectId: "optiw-commande",
+  storageBucket: "optiw-commande.firebaseapp.com",
+  messagingSenderId: "158440922354",
+  appId: "1:158440922354:web:476059771ab0626f7dc46b",
+  measurementId: "G-CMN4KVDVES"
+};
+
+// 🔌 Initialisation
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const commandesRef = collection(db, 'commandes');
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
