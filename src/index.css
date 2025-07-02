@@ -15,42 +15,65 @@ h2 {
 }
 
 .container {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
   padding: 30px;
   margin: auto;
   width: 90%;
-  max-width: 700px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 850px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-input, select, textarea, button {
-  display: block;
-  width: 100%;
+.form-row {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
   margin-bottom: 15px;
+}
+
+input, select, textarea {
+  flex: 1;
   padding: 10px 12px;
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  min-width: 180px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
 }
 
 button {
-  background-color: #0074cc;
+  background-color: #003366;
   color: white;
+  padding: 10px 16px;
   border: none;
-  cursor: pointer;
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 button:hover {
-  background-color: #005fa3;
+  background-color: #002244;
+}
+
+.logout-button {
+  background-color: #cc0000;
+}
+
+.logout-button:hover {
+  background-color: #990000;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 15px;
 }
 
@@ -61,13 +84,9 @@ th, td {
 }
 
 th {
-  background-color: #f8f9fa;
-  color: #004080;
+  background-color: #003366;
+  color: #ffd700;
   font-weight: bold;
-}
-
-textarea {
-  resize: vertical;
 }
 
 .status-en-retard {
@@ -78,21 +97,12 @@ textarea {
   background-color: #fff3cd !important;
 }
 
-.logout-button {
-  background-color: #e60000;
-  margin-top: 10px;
-}
-
-.logout-button:hover {
-  background-color: #cc0000;
-}
-
-/* 🔍 Tracking box stylée */
+/* 🔍 Boîte de suivi tracking */
 .tracking-box {
   position: absolute;
   bottom: 30px;
   left: 30px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
   padding: 20px;
   border-radius: 12px;
   width: 300px;
@@ -108,7 +118,7 @@ textarea {
 }
 
 .tracking-box h3 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
   color: #004080;
@@ -117,5 +127,7 @@ textarea {
 .tracking-box input {
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  width: 100%;
 }
-
