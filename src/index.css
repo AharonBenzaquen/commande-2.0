@@ -1,130 +1,121 @@
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-image: url('./background.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  color: #1e1e1e;
+  color: #333;
 }
 
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  justify-content: center;
-  position: relative;
-}
-
-.login-box {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  border-radius: 12px;
+h2 {
+  color: #003366;
   text-align: center;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-  min-width: 300px;
-}
-
-.login-title {
+  margin-top: 30px;
   font-size: 28px;
-  font-weight: bold;
-  color: #222;
-  margin-bottom: 20px;
 }
 
-input, select, textarea {
-  margin: 8px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
+.container {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  padding: 30px;
+  margin: auto;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+input, select, textarea, button {
+  display: block;
   width: 100%;
+  margin-bottom: 15px;
+  padding: 10px 12px;
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 button {
-  background-color: #fdda44; /* Jaune Walmart */
-  color: #222;
+  background-color: #0074cc;
+  color: white;
   border: none;
-  padding: 10px 16px;
-  margin-top: 10px;
-  font-weight: bold;
-  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: bold;
 }
 
 button:hover {
-  background-color: #ffeb66;
+  background-color: #005fa3;
 }
 
-.tracking-box {
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  text-align: left;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 15px;
 }
 
-.tracking-box h3 {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #222;
-}
-
-.result {
-  background: #f1f1f1;
+th, td {
+  border: 1px solid #ccc;
   padding: 10px;
-  border-radius: 8px;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.welcome-title {
   text-align: center;
-  font-size: 28px;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #004080;
   font-weight: bold;
-  margin: 20px 0;
-  color: #222;
-}
-
-.app {
-  padding: 20px;
-}
-
-.formulaire input,
-.formulaire select,
-.formulaire textarea {
-  margin-right: 10px;
-  margin-bottom: 10px;
-  display: inline-block;
-  width: 180px;
 }
 
 textarea {
   resize: vertical;
 }
 
-.table-commande {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
+.status-en-retard {
+  background-color: #ffcccc !important;
 }
 
-.table-commande th,
-.table-commande td {
-  padding: 10px;
+.status-urgent {
+  background-color: #fff3cd !important;
+}
+
+.logout-button {
+  background-color: #e60000;
+  margin-top: 10px;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
+}
+
+/* 🔍 Tracking box stylée */
+.tracking-box {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: left;
+  border: 2px solid #0074cc;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tracking-box:hover {
+  transform: scale(1.01);
+  transition: all 0.3s ease-in-out;
+}
+
+.tracking-box h3 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #004080;
+}
+
+.tracking-box input {
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ccc;
 }
 
-.table-commande th {
-  background-color: #fdda44;
-  color: #222;
-  text-align: left;
-}
