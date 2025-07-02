@@ -28,6 +28,11 @@ export default function App() {
   const [commandeTrouvee, setCommandeTrouvee] = useState(null);
   const [formActif, setFormActif] = useState(false);
 
+  const aujourdHui = new Date();
+  const filtrerCommandes = commandes.filter((c) =>
+    role === 'admin' || role === 'labo' || c.origine === magasin
+  );
+
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
       setRole(utilisateurs[login].role);
@@ -38,13 +43,12 @@ export default function App() {
   };
 
   const ajouterCommande = () => {
-    const nouvelleCommande = { ...commande, origine: magasin };
     const updated = [...commandes];
     if (editionIndex !== null) {
-      updated[editionIndex] = nouvelleCommande;
+      updated[editionIndex] = { ...commande, origine: magasin };
       setEditionIndex(null);
     } else {
-      updated.push(nouvelleCommande);
+      updated.push({ ...commande, origine: magasin });
     }
     setCommandes(updated);
     setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
@@ -80,32 +84,25 @@ export default function App() {
     setCommandeTrouvee(trouvée || null);
   };
 
-  const aujourdHui = new Date();
-  const filtrerCommandes = commandes.filter((c) =>
-    role === 'admin' || role === 'labo' || c.origine === magasin
-  );
-
   if (!role) {
     return (
-      <div className="login-container">
-        <div className="login-box">
-          <h2 className="login-title">Connexion</h2>
-          <input placeholder="Identifiant" value={login} onChange={(e) => setLogin(e.target.value)} />
-          <input type="password" placeholder="Mot de passe" value={mdp} onChange={(e) => setMdp(e.target.value)} />
-          <button onClick={seConnecter}>Se connecter</button>
+      <div className="login">
+        <h2 className="title">Connexion</h2>
+        <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
+        <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
+        <button onClick={seConnecter}>Se connecter</button>
 
-          <div className="tracking-box">
-            <h3>Suivi de commande</h3>
-            <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
-            <button onClick={rechercherTracking}>🔍 Rechercher</button>
-            {commandeTrouvee ? (
-              <div className="result">
-                <p><strong>Commande :</strong> {commandeTrouvee.numero}</p>
-                <p><strong>Statut :</strong> {commandeTrouvee.statut}</p>
-                <p><strong>Commentaire :</strong> {commandeTrouvee.commentaire}</p>
-              </div>
-            ) : tracking && <p>Aucune commande trouvée.</p>}
-          </div>
+        <div className="tracking-box">
+          <h3 className="title">Suivi de commande</h3>
+          <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
+          <button onClick={rechercherTracking}>🔍 Rechercher</button>
+          {commandeTrouvee ? (
+            <div className="result">
+              <p><strong>Commande :</strong> {commandeTrouvee.numero}</p>
+              <p><strong>Statut :</strong> {commandeTrouvee.statut}</p>
+              <p><strong>Commentaire :</strong> {commandeTrouvee.commentaire}</p>
+            </div>
+          ) : tracking && <p>Aucune commande trouvée.</p>}
         </div>
       </div>
     );
@@ -113,7 +110,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <h2 className="welcome-title">Bienvenue {role === 'magasin' ? magasin : role}</h2>
+      <h2 className="title">Bienvenue {role === 'magasin' ? magasin : role}</h2>
       <button onClick={() => { setRole(''); setLogin(''); setMdp(''); }}>Déconnexion</button>
       <hr />
       <button onClick={() => { setFormActif(true); setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' }); setEditionIndex(null); }}>
@@ -134,10 +131,14 @@ export default function App() {
           <option>Reçue au magasin</option>
           <option>Livrée au client</option>
         </select>
-        {formActif && <button onClick={ajouterCommande}>{editionIndex !== null ? '✅ Modifier' : '📦 Ajouter'}</button>}
+        {formActif && (
+          <button onClick={ajouterCommande}>
+            {editionIndex !== null ? '✅ Modifier' : '📦 Ajouter'}
+          </button>
+        )}
       </div>
 
-      <table className="table-commande">
+      <table className="styled-table">
         <thead>
           <tr>
             <th>Numéro</th>
