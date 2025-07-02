@@ -17,19 +17,19 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 40px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.92);
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 1000px;
 }
 
 h2 {
-  color: #004085;
-  font-size: 24px;
-  margin-bottom: 20px;
+  color: #003366;
+  font-size: 26px;
   font-weight: 700;
   text-align: center;
-  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.4);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 }
 
 input,
@@ -66,5 +66,42 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+th {
+  background-color: #004085;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+td {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #fff3cd;
+}
+
+textarea {
+  resize: vertical;
+}
