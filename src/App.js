@@ -38,14 +38,15 @@ export default function App() {
   };
 
   const ajouterCommande = () => {
+    const nouvelleCommande = { ...commande, origine: magasin };
+    const updated = [...commandes];
     if (editionIndex !== null) {
-      const updated = [...commandes];
-      updated[editionIndex] = { ...commande, origine: magasin };
-      setCommandes(updated);
+      updated[editionIndex] = nouvelleCommande;
       setEditionIndex(null);
     } else {
-      setCommandes([...commandes, { ...commande, origine: magasin }]);
+      updated.push(nouvelleCommande);
     }
+    setCommandes(updated);
     setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
     setFormActif(false);
   };
@@ -86,22 +87,25 @@ export default function App() {
 
   if (!role) {
     return (
-      <div className="login">
-        <h2>Connexion</h2>
-        <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
-        <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
-        <button onClick={seConnecter}>Se connecter</button>
-        <div className="tracking-box">
-          <h3>Suivi de commande</h3>
-          <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
-          <button onClick={rechercherTracking}>🔍 Rechercher</button>
-          {commandeTrouvee ? (
-            <div className="result">
-              <p>Commande : {commandeTrouvee.numero}</p>
-              <p>Statut : {commandeTrouvee.statut}</p>
-              <p>Commentaire : {commandeTrouvee.commentaire}</p>
-            </div>
-          ) : tracking && <p>Aucune commande trouvée.</p>}
+      <div className="login-container">
+        <div className="login-box">
+          <h2 className="login-title">Connexion</h2>
+          <input placeholder="Identifiant" value={login} onChange={(e) => setLogin(e.target.value)} />
+          <input type="password" placeholder="Mot de passe" value={mdp} onChange={(e) => setMdp(e.target.value)} />
+          <button onClick={seConnecter}>Se connecter</button>
+
+          <div className="tracking-box">
+            <h3>Suivi de commande</h3>
+            <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
+            <button onClick={rechercherTracking}>🔍 Rechercher</button>
+            {commandeTrouvee ? (
+              <div className="result">
+                <p><strong>Commande :</strong> {commandeTrouvee.numero}</p>
+                <p><strong>Statut :</strong> {commandeTrouvee.statut}</p>
+                <p><strong>Commentaire :</strong> {commandeTrouvee.commentaire}</p>
+              </div>
+            ) : tracking && <p>Aucune commande trouvée.</p>}
+          </div>
         </div>
       </div>
     );
@@ -109,12 +113,13 @@ export default function App() {
 
   return (
     <div className="app">
-      <h2>Bienvenue {role === 'magasin' ? magasin : role}</h2>
+      <h2 className="welcome-title">Bienvenue {role === 'magasin' ? magasin : role}</h2>
       <button onClick={() => { setRole(''); setLogin(''); setMdp(''); }}>Déconnexion</button>
       <hr />
       <button onClick={() => { setFormActif(true); setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' }); setEditionIndex(null); }}>
         ➕ Nouvelle commande
       </button>
+
       <div className="formulaire">
         <input disabled={!formActif} placeholder="Numéro de commande" value={commande.numero} onChange={(e) => setCommande({ ...commande, numero: e.target.value })} />
         <input disabled={!formActif} placeholder="Nom du client" value={commande.client} onChange={(e) => setCommande({ ...commande, client: e.target.value })} />
@@ -132,7 +137,7 @@ export default function App() {
         {formActif && <button onClick={ajouterCommande}>{editionIndex !== null ? '✅ Modifier' : '📦 Ajouter'}</button>}
       </div>
 
-      <table>
+      <table className="table-commande">
         <thead>
           <tr>
             <th>Numéro</th>
@@ -182,3 +187,4 @@ export default function App() {
     </div>
   );
 }
+
