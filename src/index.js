@@ -5,3 +5,6 @@ import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
+import { register } from './serviceWorkerRegistration';
+register();
+            
