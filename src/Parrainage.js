@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './index.css';
 
 export default function Parrainage() {
@@ -10,6 +10,7 @@ export default function Parrainage() {
   });
 
   const [envoye, setEnvoye] = useState(false);
+  const codeRef = useRef(null);
 
   const handleChange = (e) => {
     setFormulaire({ ...formulaire, [e.target.name]: e.target.value });
@@ -17,10 +18,23 @@ export default function Parrainage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Simule un envoi (à remplacer par back-end si nécessaire)
     console.log("Parrainage soumis :", formulaire);
     setEnvoye(true);
+  };
+
+  const imprimerCodePromo = () => {
+    const contenu = codeRef.current.innerHTML;
+    const fenetre = window.open('', '_blank');
+    fenetre.document.write(`
+      <html>
+        <head><title>Code Promo</title></head>
+        <body style="font-family: sans-serif; text-align: center;">
+          ${contenu}
+        </body>
+      </html>
+    `);
+    fenetre.document.close();
+    fenetre.print();
   };
 
   return (
@@ -29,19 +43,14 @@ export default function Parrainage() {
         <div>
           <h2>Merci pour votre parrainage 🎉</h2>
           <p>Votre ami(e) a bien été ajouté(e) !</p>
-          <p>Utilisez le code promo suivant pour bénéficier de <strong>10$ de réduction</strong> :</p>
-          <div style={{
-            backgroundColor: '#f4c51c',
-            color: '#002f5f',
-            fontWeight: 'bold',
-            padding: '12px',
-            textAlign: 'center',
-            fontSize: '18px',
-            borderRadius: '6px',
-            marginTop: '15px'
-          }}>
-            Parrain10
+          <p>Voici votre code promo de <strong>10$</strong> :</p>
+
+          <div ref={codeRef} className="code-promo-box">
+            <h3>Code : <span className="code-value">Parrain10</span></h3>
+            {/* Tu pourras ajouter ici ton image promo plus tard */}
           </div>
+
+          <button onClick={imprimerCodePromo} className="imprimer-button">🖨️ Imprimer le code promo</button>
         </div>
       ) : (
         <>
