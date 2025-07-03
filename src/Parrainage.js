@@ -23,17 +23,32 @@ export default function Parrainage() {
   };
 
   const imprimerCodePromo = () => {
-    const contenu = codeRef.current.innerHTML;
     const fenetre = window.open('', '_blank');
     fenetre.document.write(`
       <html>
-        <head><title>Code Promo</title></head>
-        <body style="font-family: sans-serif; text-align: center;">
-          ${contenu}
+        <head>
+          <title>Code Promo Parrainage</title>
+          <style>
+            body {
+              margin: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+            }
+            img {
+              width: 500px;
+              max-width: 90%;
+            }
+          </style>
+        </head>
+        <body>
+          <img src="coupon_parrainage.png" alt="Coupon Parrain10" />
         </body>
       </html>
     `);
     fenetre.document.close();
+    fenetre.focus();
     fenetre.print();
   };
 
@@ -47,7 +62,7 @@ export default function Parrainage() {
 
           <div ref={codeRef} className="code-promo-box">
             <h3>Code : <span className="code-value">Parrain10</span></h3>
-            {/* Tu pourras ajouter ici ton image promo plus tard */}
+            <img src="coupon_parrainage.png" alt="Coupon Parrain10" style={{ marginTop: '15px', maxWidth: '100%', borderRadius: '8px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }} />
           </div>
 
           <button onClick={imprimerCodePromo} className="imprimer-button">🖨️ Imprimer le code promo</button>
@@ -75,3 +90,4 @@ export default function Parrainage() {
     </div>
   );
 }
+
