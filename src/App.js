@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './index.css';
+import Parrainage from './Parrainage'; // Assure-toi que le fichier existe dans src/
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
@@ -16,7 +18,7 @@ function differenceEnJours(date1, date2) {
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
-export default function App() {
+function MainApp() {
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState('');
@@ -28,6 +30,7 @@ export default function App() {
   const [commandeTrouvee, setCommandeTrouvee] = useState(null);
   const [formActif, setFormActif] = useState(false);
 
+  const navigate = useNavigate();
   const aujourdHui = new Date();
   const filtrerCommandes = commandes.filter((c) =>
     role === 'admin' || role === 'labo' || c.origine === magasin
@@ -107,11 +110,11 @@ export default function App() {
         </div>
 
         <div className="promotions">
-          <div className="promo-images">
+          <div className="promotion-images">
             <img src="promo1.jpg" alt="Promotion 1" />
             <img src="promo2.jpg" alt="Promotion 2" />
           </div>
-          <button className="referral-button">👥 Parrainer un ami</button>
+          <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
         </div>
       </div>
     );
@@ -197,3 +200,16 @@ export default function App() {
     </div>
   );
 }
+
+// ⬅️ Root wrapper for Router
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainApp />} />
+        <Route path="/parrainage" element={<Parrainage />} />
+      </Routes>
+    </Router>
+  );
+}
+
