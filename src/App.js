@@ -1,5 +1,5 @@
-import React, { useState }   
-  from 'react'; import './index.css';
+import React, { useState } from 'react';
+import './index.css';
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
@@ -86,14 +86,15 @@ export default function App() {
 
   if (!role) {
     return (
-      <div className="login">
-        <h2 className="title">Connexion</h2>
-        <input placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
-        <input placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
-        <button onClick={seConnecter}>Se connecter</button>
+      <div className="app">
+        <div className="login-container">
+          <input className="input-field" placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
+          <input className="input-field" placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
+          <button className="login-button" onClick={seConnecter}>Connexion</button>
+        </div>
 
         <div className="tracking-box">
-          <h3 className="title">Suivi de commande</h3>
+          <h3>Suivi de commande</h3>
           <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
           <button onClick={rechercherTracking}>🔍 Rechercher</button>
           {commandeTrouvee ? (
@@ -104,13 +105,19 @@ export default function App() {
             </div>
           ) : tracking && <p>Aucune commande trouvée.</p>}
         </div>
+
+        <div className="promotions">
+          <img src="promo1.jpg" alt="Promotion 1" />
+          <img src="promo2.jpg" alt="Promotion 2" />
+          <button className="referral-button">👥 Parrainer un ami</button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="app">
-      <h2 className="title">Bienvenue {role === 'magasin' ? magasin : role}</h2>
+      <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
       <button onClick={() => { setRole(''); setLogin(''); setMdp(''); }}>Déconnexion</button>
       <hr />
       <button onClick={() => { setFormActif(true); setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' }); setEditionIndex(null); }}>
@@ -188,4 +195,3 @@ export default function App() {
     </div>
   );
 }
-
