@@ -1,135 +1,134 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
   background-image: url('./background.png');
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   background-attachment: fixed;
-  color: #333;
+  background-repeat: no-repeat;
+  color: #002f5f;
 }
 
-h2 {
-  color: #003366;
-  text-align: center;
-  margin-top: 30px;
-  font-size: 28px;
-}
-
-.container {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  padding: 30px;
-  margin: auto;
-  width: 90%;
-  max-width: 850px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.form-row {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  margin-bottom: 15px;
-}
-
-input, select, textarea {
-  flex: 1;
-  padding: 10px 12px;
-  font-size: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  min-width: 180px;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
-button {
-  background-color: #003366;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #002244;
-}
-
-.logout-button {
-  background-color: #cc0000;
-}
-
-.logout-button:hover {
-  background-color: #990000;
-}
-
-table {
+.app {
+  position: relative;
+  min-height: 100vh;
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 25px;
-  font-size: 15px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-th, td {
-  border: 1px solid #ccc;
-  padding: 10px;
+.header {
   text-align: center;
-}
-
-th {
-  background-color: #003366;
-  color: #ffd700;
+  font-size: 28px;
   font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.status-en-retard {
-  background-color: #ffcccc !important;
+.login-container {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
 }
 
-.status-urgent {
-  background-color: #fff3cd !important;
+.input-field {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
 }
 
-/* 🔍 Boîte de suivi tracking */
+.login-button {
+  background-color: #002f5f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #001b3d;
+}
+
+.logo-container {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+}
+
+.logo {
+  height: 100px;
+}
+
 .tracking-box {
   position: absolute;
   bottom: 30px;
   left: 30px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.88);
   padding: 20px;
-  border-radius: 12px;
-  width: 300px;
-  text-align: left;
-  border: 2px solid #0074cc;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.tracking-box:hover {
-  transform: scale(1.01);
-  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+  max-width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .tracking-box h3 {
+  margin-top: 0;
   font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #004080;
+  color: #002f5f;
 }
 
 .tracking-box input {
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 6px;
   width: 100%;
+  padding: 10px;
+  margin: 8px 0 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
+
+.tracking-box button {
+  background-color: #002f5f;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.promotions {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.promotions img {
+  width: 180px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.promotions img:hover {
+  transform: scale(1.05);
+}
+
+.referral-button {
+  background-color: #f4c51c;
+  color: #002f5f;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background 0.3s ease;
+}
+
+.referral-button:hover {
+  background-color: #e4b700;
+}
+
