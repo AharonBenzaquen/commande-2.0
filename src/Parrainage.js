@@ -60,10 +60,10 @@ export default function Parrainage() {
           <p>Votre ami(e) a bien été ajouté(e) !</p>
           <p>Voici votre code promo de <strong>10$</strong> :</p>
 
-          <div ref={codeRef} className="code-promo-box">
-            <h3>Code : <span className="code-value">Parrain10</span></h3>
-            <img src="coupon_parrainage.png" alt="Coupon Parrain10" style={{ marginTop: '15px', maxWidth: '100%', borderRadius: '8px', boxShadow: '0 4px 10px rgba(0,0,0,0.2)' }} />
-          </div>
+         <div ref={codeRef} className="code-promo-box">
+  <img src="/coupon_parrainage.png" alt="Code Promo Opti-W" style={{ maxWidth: '100%', borderRadius: '8px' }} />
+</div>
+
 
           <button onClick={imprimerCodePromo} className="imprimer-button">🖨️ Imprimer le code promo</button>
         </div>
