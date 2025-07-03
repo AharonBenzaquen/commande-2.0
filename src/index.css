@@ -94,6 +94,8 @@ body {
   cursor: pointer;
 }
 
+/* Promotions */
+
 .promotions {
   position: absolute;
   bottom: 30px;
@@ -105,22 +107,16 @@ body {
 
 .promo-images {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   margin-bottom: 10px;
 }
 
-.promo-images {
-  display: flex;
-  gap: 20px;
-}
-
 .promotions img {
-  width: 280px; /* tu peux augmenter encore si tu veux */
+  width: 280px;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-
 
 .referral-button {
   background-color: #f4c51c;
@@ -130,4 +126,60 @@ body {
   padding: 10px 20px;
   font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.referral-button:hover {
+  background-color: #ffe05a;
+}
+
+/* Formulaire de parrainage */
+
+.parrainage-container {
+  max-width: 420px;
+  margin: 80px auto;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.parrainage-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #002f5f;
+}
+
+.parrainage-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #002f5f;
+}
+
+.parrainage-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.parrainage-container button {
+  width: 100%;
+  background-color: #002f5f;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.parrainage-container button:hover {
+  background-color: #004080;
 }
