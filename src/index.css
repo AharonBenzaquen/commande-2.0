@@ -186,30 +186,18 @@ body {
 
 /* Bloc d'affichage du code promo */
 
-.code-promo-box {
-  background-color: #f4c51c;
-  padding: 25px;
-  border-radius: 12px;
-  color: #002f5f;
-  font-weight: bold;
-  font-size: 22px;
+.code-promo-container {
+  margin-top: 30px;
   text-align: center;
-  margin-top: 25px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  transition: transform 0.2s ease;
 }
 
-.code-promo-box:hover {
-  transform: scale(1.02);
+.code-promo-image {
+  max-width: 360px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
-
-.code-value {
-  font-size: 28px;
-  color: #002f5f;
-  letter-spacing: 1px;
-}
-
-/* Bouton d'impression du code promo */
 
 .imprimer-button {
   margin-top: 15px;
