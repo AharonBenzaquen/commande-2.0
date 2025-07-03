@@ -115,7 +115,7 @@ body {
 }
 
 .promotions img {
-  width: 240px; /* tu peux augmenter encore si tu veux */
+  width: 280px; /* tu peux augmenter encore si tu veux */
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
