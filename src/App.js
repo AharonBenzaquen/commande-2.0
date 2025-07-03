@@ -107,8 +107,10 @@ export default function App() {
         </div>
 
         <div className="promotions">
-          <img src="promo1.jpg" alt="Promotion 1" />
-          <img src="promo2.jpg" alt="Promotion 2" />
+          <div className="promo-images">
+            <img src="promo1.jpg" alt="Promotion 1" />
+            <img src="promo2.jpg" alt="Promotion 2" />
+          </div>
           <button className="referral-button">👥 Parrainer un ami</button>
         </div>
       </div>
