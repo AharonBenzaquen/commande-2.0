@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './index.css';
 
 export default function Parrainage() {
@@ -10,45 +10,39 @@ export default function Parrainage() {
   });
 
   const [envoye, setEnvoye] = useState(false);
+  const [codePromo, setCodePromo] = useState('');
   const codeRef = useRef(null);
 
   const handleChange = (e) => {
     setFormulaire({ ...formulaire, [e.target.name]: e.target.value });
   };
 
+  const genererCodePromo = () => {
+    const random = Math.random().toString(36).substring(2, 8).toUpperCase(); // ex : AB12CD
+    return `OPTI-${random}`;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Parrainage soumis :", formulaire);
+
+    const code = genererCodePromo();
+    setCodePromo(code);
     setEnvoye(true);
   };
 
   const imprimerCodePromo = () => {
+    const contenu = codeRef.current.innerHTML;
     const fenetre = window.open('', '_blank');
     fenetre.document.write(`
       <html>
-        <head>
-          <title>Code Promo Parrainage</title>
-          <style>
-            body {
-              margin: 0;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-            }
-            img {
-              width: 500px;
-              max-width: 90%;
-            }
-          </style>
-        </head>
-        <body>
-          <img src="coupon_parrainage.png" alt="Coupon Parrain10" />
+        <head><title>Code Promo</title></head>
+        <body style="font-family: sans-serif; text-align: center;">
+          ${contenu}
         </body>
       </html>
     `);
     fenetre.document.close();
-    fenetre.focus();
     fenetre.print();
   };
 
@@ -60,10 +54,10 @@ export default function Parrainage() {
           <p>Votre ami(e) a bien été ajouté(e) !</p>
           <p>Voici votre code promo de <strong>10$</strong> :</p>
 
-         <div ref={codeRef} className="code-promo-box">
-  <img src="/coupon_parrainage.png" alt="Code Promo Opti-W" style={{ maxWidth: '100%', borderRadius: '8px' }} />
-</div>
-
+          <div ref={codeRef} className="code-promo-box">
+            <h3>Code : <span className="code-value">{codePromo}</span></h3>
+            <img src="/coupon-promo.png" alt="Code Promo Opti-W" style={{ maxWidth: '100%', marginTop: '10px' }} />
+          </div>
 
           <button onClick={imprimerCodePromo} className="imprimer-button">🖨️ Imprimer le code promo</button>
         </div>
@@ -90,4 +84,3 @@ export default function Parrainage() {
     </div>
   );
 }
-
