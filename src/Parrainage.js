@@ -7,7 +7,6 @@ export default function Parrainage() {
   const [formulaire, setFormulaire] = useState({ nom: '', prenom: '', telephone: '', email: '' });
   const [envoye, setEnvoye] = useState(false);
   const [codePromo, setCodePromo] = useState('');
-  const [popupVisible, setPopupVisible] = useState(false);
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
@@ -63,27 +62,6 @@ export default function Parrainage() {
     fenetre.print();
   };
 
-  // ✅ Validation d’un code promo
-  const [codeClient, setCodeClient] = useState('');
-
-  const validerCodePromo = () => {
-    const data = JSON.parse(localStorage.getItem('parrainages')) || [];
-    const index = data.findIndex(p => p.code === codeClient.trim());
-
-    if (index !== -1) {
-      // Affiche le pop-up
-      setPopupVisible(true);
-      setTimeout(() => setPopupVisible(false), 1000);
-
-      // Supprimer le code utilisé
-      data.splice(index, 1);
-      localStorage.setItem('parrainages', JSON.stringify(data));
-      setCodeClient('');
-    } else {
-      alert('Code promo invalide ou déjà utilisé.');
-    }
-  };
-
   return (
     <div className="parrainage-container">
       {envoye ? (
@@ -121,34 +99,6 @@ export default function Parrainage() {
 
             <button type="submit">Envoyer le parrainage</button>
           </form>
-
-          <hr style={{ margin: '30px 0' }} />
-
-          <h3>🎁 Utiliser un code promo</h3>
-          <input
-            type="text"
-            placeholder="Entrez le code promo"
-            value={codeClient}
-            onChange={(e) => setCodeClient(e.target.value)}
-            style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
-          />
-          <button onClick={validerCodePromo}>✅ Valider</button>
-
-          {popupVisible && (
-            <div style={{
-              marginTop: '20px',
-              backgroundColor: '#d4edda',
-              color: '#155724',
-              padding: '15px',
-              borderRadius: '8px',
-              textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: '18px',
-              transition: 'opacity 0.5s ease'
-            }}>
-              ✅ Code promo validé avec succès !
-            </div>
-          )}
         </>
       )}
     </div>
