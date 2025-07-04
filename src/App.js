@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './index.css';
-import Parrainage from './Parrainage'; // Assure-toi que le fichier existe dans src/
+import Parrainage from './Parrainage';
+import ReferenceView from './ReferenceView';
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
@@ -9,6 +10,7 @@ const utilisateurs = {
   'blainville@optiw.com': { role: 'magasin', magasin: 'Blainville', password: '1234' },
   'labo@optiw.com': { role: 'labo', magasin: 'Tous', password: '1234' },
   'admin@optiw.com': { role: 'admin', magasin: 'Tous', password: '1234' },
+  'reference@optiw.com': { role: 'reference', magasin: 'Tous', password: '1234' },
 };
 
 function differenceEnJours(date1, date2) {
@@ -18,32 +20,19 @@ function differenceEnJours(date1, date2) {
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
-function MainApp() {
-  const [login, setLogin] = useState('');
-  const [mdp, setMdp] = useState('');
-  const [role, setRole] = useState('');
-  const [magasin, setMagasin] = useState('');
+function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
   const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
   const [commandes, setCommandes] = useState([]);
   const [editionIndex, setEditionIndex] = useState(null);
   const [tracking, setTracking] = useState('');
   const [commandeTrouvee, setCommandeTrouvee] = useState(null);
   const [formActif, setFormActif] = useState(false);
-
   const navigate = useNavigate();
+
   const aujourdHui = new Date();
   const filtrerCommandes = commandes.filter((c) =>
     role === 'admin' || role === 'labo' || c.origine === magasin
   );
-
-  const seConnecter = () => {
-    if (utilisateurs[login] && utilisateurs[login].password === mdp) {
-      setRole(utilisateurs[login].role);
-      setMagasin(utilisateurs[login].magasin);
-    } else {
-      alert('Identifiants invalides');
-    }
-  };
 
   const ajouterCommande = () => {
     const updated = [...commandes];
@@ -87,37 +76,9 @@ function MainApp() {
     setCommandeTrouvee(trouvée || null);
   };
 
-  if (!role) {
-    return (
-      <div className="app">
-        <div className="login-container">
-          <input className="input-field" placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
-          <input className="input-field" placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
-          <button className="login-button" onClick={seConnecter}>Connexion</button>
-        </div>
-
-        <div className="tracking-box">
-          <h3>Suivi de commande</h3>
-          <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
-          <button onClick={rechercherTracking}>🔍 Rechercher</button>
-          {commandeTrouvee ? (
-            <div className="result">
-              <p><strong>Commande :</strong> {commandeTrouvee.numero}</p>
-              <p><strong>Statut :</strong> {commandeTrouvee.statut}</p>
-              <p><strong>Commentaire :</strong> {commandeTrouvee.commentaire}</p>
-            </div>
-          ) : tracking && <p>Aucune commande trouvée.</p>}
-        </div>
-
-        <div className="promotions">
-          <div className="promotion-images">
-            <img src="promo1.jpg" alt="Promotion 1" />
-            <img src="promo2.jpg" alt="Promotion 2" />
-          </div>
-          <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
-        </div>
-      </div>
-    );
+  if (role === 'reference') {
+    navigate('/reference');
+    return null;
   }
 
   return (
@@ -201,15 +162,94 @@ function MainApp() {
   );
 }
 
-// ⬅️ Root wrapper for Router
+function Login({ login, setLogin, mdp, setMdp, seConnecter, tracking, setTracking, commandeTrouvee, rechercherTracking }) {
+  const navigate = useNavigate();
+  return (
+    <div className="app">
+      <div className="login-container">
+        <input className="input-field" placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
+        <input className="input-field" placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
+        <button className="login-button" onClick={seConnecter}>Connexion</button>
+      </div>
+
+      <div className="tracking-box">
+        <h3>Suivi de commande</h3>
+        <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
+        <button onClick={rechercherTracking}>🔍 Rechercher</button>
+        {commandeTrouvee ? (
+          <div className="result">
+            <p><strong>Commande :</strong> {commandeTrouvee.numero}</p>
+            <p><strong>Statut :</strong> {commandeTrouvee.statut}</p>
+            <p><strong>Commentaire :</strong> {commandeTrouvee.commentaire}</p>
+          </div>
+        ) : tracking && <p>Aucune commande trouvée.</p>}
+      </div>
+
+      <div className="promotions">
+        <div className="promotion-images">
+          <img src="promo1.jpg" alt="Promotion 1" />
+          <img src="promo2.jpg" alt="Promotion 2" />
+        </div>
+        <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
+  const [login, setLogin] = useState('');
+  const [mdp, setMdp] = useState('');
+  const [role, setRole] = useState('');
+  const [magasin, setMagasin] = useState('');
+  const [tracking, setTracking] = useState('');
+  const [commandeTrouvee, setCommandeTrouvee] = useState(null);
+
+  const seConnecter = () => {
+    if (utilisateurs[login] && utilisateurs[login].password === mdp) {
+      setRole(utilisateurs[login].role);
+      setMagasin(utilisateurs[login].magasin);
+    } else {
+      alert('Identifiants invalides');
+    }
+  };
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainApp />} />
+        <Route
+          path="/"
+          element={
+            role ? (
+              <MainApp
+                role={role}
+                setRole={setRole}
+                magasin={magasin}
+                setMagasin={setMagasin}
+                setLogin={setLogin}
+                setMdp={setMdp}
+              />
+            ) : (
+              <Login
+                login={login}
+                setLogin={setLogin}
+                mdp={mdp}
+                setMdp={setMdp}
+                seConnecter={seConnecter}
+                tracking={tracking}
+                setTracking={setTracking}
+                commandeTrouvee={commandeTrouvee}
+                setCommandeTrouvee={setCommandeTrouvee}
+                rechercherTracking={() => {
+                  const trouvée = null; // ajouter logique ici si besoin
+                  setCommandeTrouvee(trouvée || null);
+                }}
+              />
+            )
+          }
+        />
         <Route path="/parrainage" element={<Parrainage />} />
+        <Route path="/reference" element={<ReferenceView />} />
       </Routes>
     </Router>
   );
 }
-
