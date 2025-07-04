@@ -1,39 +1,46 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ReferenceView() {
-  const [search, setSearch] = useState('');
-  const [parrainages, setParrainages] = useState([
-    { code: 'Parrain10-ABC123', nom: 'Jean Dupont', email: 'jean@email.com' },
-    { code: 'Parrain10-XYZ456', nom: 'Sarah Leblanc', email: 'sarah@email.com' },
-  ]);
+  const [parrainages, setParrainages] = useState([]);
+  const [filtre, setFiltre] = useState('');
 
-  const resultats = parrainages.filter((p) => p.code.toLowerCase().includes(search.toLowerCase()));
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('parrainages')) || [];
+    setParrainages(data);
+  }, []);
+
+  const resultatFiltre = parrainages.filter(p =>
+    p.code.toLowerCase().includes(filtre.toLowerCase())
+  );
 
   return (
-    <div style={{ padding: '30px' }}>
-      <h2>📋 Liste des parrainages</h2>
+    <div className="parrainage-container">
+      <h2>Liste des Parrainages</h2>
       <input
         type="text"
-        placeholder="Rechercher par code promo"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ padding: '10px', marginBottom: '20px', width: '100%', maxWidth: '400px' }}
+        placeholder="🔍 Rechercher un code"
+        value={filtre}
+        onChange={(e) => setFiltre(e.target.value)}
+        style={{ marginBottom: '20px', width: '100%', padding: '10px', borderRadius: '5px' }}
       />
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="styled-table">
         <thead>
-          <tr style={{ backgroundColor: '#f4f4f4' }}>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Code</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Nom</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Email</th>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Code promo</th>
           </tr>
         </thead>
         <tbody>
-          {resultats.map((p, i) => (
+          {resultatFiltre.map((p, i) => (
             <tr key={i}>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{p.code}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{p.nom}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{p.email}</td>
+              <td>{p.nom}</td>
+              <td>{p.prenom}</td>
+              <td>{p.telephone}</td>
+              <td>{p.email}</td>
+              <td>{p.code}</td>
             </tr>
           ))}
         </tbody>
