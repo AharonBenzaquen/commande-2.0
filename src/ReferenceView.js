@@ -48,7 +48,6 @@ export default function ReferenceView() {
     <div className="parrainage-container" style={{ maxWidth: '800px', margin: '60px auto' }}>
       <h2 style={{ textAlign: 'center', color: '#002f5f' }}>👁️ Vue Référence – Parrainages</h2>
 
-      {/* Barre de recherche */}
       <input
         type="text"
         placeholder="🔍 Rechercher un code promo"
@@ -60,7 +59,6 @@ export default function ReferenceView() {
         }}
       />
 
-      {/* Saisie et validation de code promo */}
       <div style={{ display: 'flex', marginBottom: '20px', gap: '10px' }}>
         <input
           type="text"
@@ -83,7 +81,6 @@ export default function ReferenceView() {
         </button>
       </div>
 
-      {/* Pop-up de confirmation */}
       {popupVisible && (
         <div style={{
           background: '#4CAF50', color: 'white', padding: '10px 20px',
@@ -94,7 +91,6 @@ export default function ReferenceView() {
         </div>
       )}
 
-      {/* Tableau */}
       <table className="styled-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ backgroundColor: '#002f5f', color: 'white' }}>
@@ -124,23 +120,25 @@ export default function ReferenceView() {
         </tbody>
       </table>
 
-      <button
-        onClick={() => navigate('/')}
-        style={{
-          marginTop: '30px',
-          backgroundColor: '#002f5f',
-          color: 'white',
-          padding: '12px 20px',
-          border: 'none',
-          borderRadius: '8px',
-          fontSize: '16px',
-          fontWeight: 'bold',
-          width: '100%',
-          cursor: 'pointer'
-        }}
-      >
-        🏠 Retour à l'accueil
-      </button>
+      {/* Bouton de retour */}
+      <div style={{ textAlign: 'center', marginTop: '30px' }}>
+        <button
+          onClick={() => navigate('/')}
+          style={{
+            backgroundColor: '#002f5f',
+            color: 'white',
+            padding: '12px 20px',
+            border: 'none',
+            borderRadius: '8px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          🏠 Retour à l'accueil
+        </button>
+      </div>
     </div>
   );
 }
+
