@@ -219,36 +219,39 @@ export default function App() {
     <Router>
       <Routes>
         <Route
-          path="/"
-          element={
-            role ? (
-              <MainApp
-                role={role}
-                setRole={setRole}
-                magasin={magasin}
-                setMagasin={setMagasin}
-                setLogin={setLogin}
-                setMdp={setMdp}
-              />
-            ) : (
-              <Login
-                login={login}
-                setLogin={setLogin}
-                mdp={mdp}
-                setMdp={setMdp}
-                seConnecter={seConnecter}
-                tracking={tracking}
-                setTracking={setTracking}
-                commandeTrouvee={commandeTrouvee}
-                setCommandeTrouvee={setCommandeTrouvee}
-                rechercherTracking={() => {
-                  const trouvée = null; // ajouter logique ici si besoin
-                  setCommandeTrouvee(trouvée || null);
-                }}
-              />
-            )
-          }
-        />
+  path="/"
+  element={
+    role === 'reference' ? (
+      <Navigate to="/reference" replace />
+    ) : role ? (
+      <MainApp
+        role={role}
+        setRole={setRole}
+        magasin={magasin}
+        setMagasin={setMagasin}
+        setLogin={setLogin}
+        setMdp={setMdp}
+      />
+    ) : (
+      <Login
+        login={login}
+        setLogin={setLogin}
+        mdp={mdp}
+        setMdp={setMdp}
+        seConnecter={seConnecter}
+        tracking={tracking}
+        setTracking={setTracking}
+        commandeTrouvee={commandeTrouvee}
+        setCommandeTrouvee={setCommandeTrouvee}
+        rechercherTracking={() => {
+          const trouvée = null;
+          setCommandeTrouvee(trouvée || null);
+        }}
+      />
+    )
+  }
+/>
+
         <Route path="/parrainage" element={<Parrainage />} />
         <Route path="/reference" element={<ReferenceView />} />
       </Routes>
