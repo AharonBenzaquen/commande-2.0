@@ -12,13 +12,23 @@ export default function ReferenceView() {
     setParrainages(data);
   }, []);
 
+  const supprimerParrainage = (index) => {
+    const confirmDelete = window.confirm("Voulez-vous vraiment supprimer ce parrainage ?");
+    if (!confirmDelete) return;
+
+    const nouveaux = [...parrainages];
+    nouveaux.splice(index, 1);
+    setParrainages(nouveaux);
+    localStorage.setItem('parrainages', JSON.stringify(nouveaux));
+  };
+
   const resultatFiltre = parrainages.filter(p =>
     p.code.toLowerCase().includes(filtre.toLowerCase())
   );
 
   return (
-    <div className="parrainage-container">
-      <h2 style={{ textAlign: 'center', color: '#002f5f' }}>👁️ Vue Référence – Parrainages</h2>
+    <div className="parrainage-container" style={{ maxWidth: '800px', margin: '60px auto', backgroundColor: 'rgba(255,255,255,0.95)', padding: '30px', borderRadius: '12px' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#002f5f' }}>👁️ Vue Référence – Parrainages</h2>
 
       <input
         type="text"
@@ -26,50 +36,60 @@ export default function ReferenceView() {
         value={filtre}
         onChange={(e) => setFiltre(e.target.value)}
         style={{
-          marginBottom: '20px',
           width: '100%',
           padding: '12px',
+          marginBottom: '20px',
           borderRadius: '8px',
           border: '1px solid #ccc',
           fontSize: '16px'
         }}
       />
 
-      {resultatFiltre.length > 0 ? (
-        <table className="styled-table">
-          <thead>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Téléphone</th>
-              <th>Email</th>
-              <th>Code promo</th>
+      <table className="styled-table" style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '30px' }}>
+        <thead>
+          <tr style={{ backgroundColor: '#002f5f', color: 'white' }}>
+            <th style={{ padding: '12px' }}>Nom</th>
+            <th style={{ padding: '12px' }}>Prénom</th>
+            <th style={{ padding: '12px' }}>Téléphone</th>
+            <th style={{ padding: '12px' }}>Email</th>
+            <th style={{ padding: '12px' }}>Code promo</th>
+            <th style={{ padding: '12px' }}>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {resultatFiltre.map((p, i) => (
+            <tr key={i} style={{ backgroundColor: i % 2 === 0 ? '#f9f9f9' : 'white' }}>
+              <td style={{ padding: '10px', textAlign: 'center' }}>{p.nom}</td>
+              <td style={{ padding: '10px', textAlign: 'center' }}>{p.prenom}</td>
+              <td style={{ padding: '10px', textAlign: 'center' }}>{p.telephone}</td>
+              <td style={{ padding: '10px', textAlign: 'center' }}>{p.email}</td>
+              <td style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', color: '#002f5f' }}>{p.code}</td>
+              <td style={{ padding: '10px', textAlign: 'center' }}>
+                <button onClick={() => supprimerParrainage(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px' }}>
+                  🗑️
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {resultatFiltre.map((p, i) => (
-              <tr key={i}>
-                <td>{p.nom}</td>
-                <td>{p.prenom}</td>
-                <td>{p.telephone}</td>
-                <td>{p.email}</td>
-                <td><strong>{p.code}</strong></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p style={{ textAlign: 'center', color: '#666' }}>Aucun parrainage trouvé.</p>
-      )}
+          ))}
+        </tbody>
+      </table>
 
       <button
-        className="referral-button"
-        style={{ marginTop: '30px', width: '100%' }}
         onClick={() => navigate('/')}
+        style={{
+          backgroundColor: '#002f5f',
+          color: 'white',
+          padding: '12px 20px',
+          border: 'none',
+          borderRadius: '8px',
+          fontSize: '16px',
+          fontWeight: 'bold',
+          width: '100%',
+          cursor: 'pointer'
+        }}
       >
         🏠 Retour à l'accueil
       </button>
     </div>
   );
 }
-
