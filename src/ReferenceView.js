@@ -9,10 +9,31 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
   const [popupVisible, setPopupVisible] = useState(false);
   const navigate = useNavigate();
 
+  // Charger les parrainages depuis localStorage
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('parrainages')) || [];
     setParrainages(data);
   }, []);
+
+  // Validation automatique du code dès qu'il atteint 10 caractères
+  useEffect(() => {
+    if (codeEntree.trim().length === 10) {
+      const code = codeEntree.trim();
+      const index = parrainages.findIndex(p => p.code === code);
+
+      if (index !== -1) {
+        const updated = [...parrainages];
+        updated.splice(index, 1);
+        setParrainages(updated);
+        localStorage.setItem('parrainages', JSON.stringify(updated));
+        setPopupVisible(true);
+        setTimeout(() => {
+          setPopupVisible(false);
+          setCodeEntree('');
+        }, 1000);
+      }
+    }
+  }, [codeEntree, parrainages]);
 
   const supprimerParrainage = (index) => {
     if (window.confirm("Voulez-vous vraiment supprimer ce parrainage ?")) {
@@ -23,27 +44,10 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
     }
   };
 
-  const validerCode = () => {
-    const code = codeEntree.trim();
-    const index = parrainages.findIndex(p => p.code === code);
-    if (index !== -1) {
-      const updated = [...parrainages];
-      updated.splice(index, 1);
-      setParrainages(updated);
-      localStorage.setItem('parrainages', JSON.stringify(updated));
-      setPopupVisible(true);
-      setCodeEntree('');
-      setTimeout(() => setPopupVisible(false), 1000);
-    } else {
-      alert("Code promo invalide.");
-    }
-  };
-
   const resultatFiltre = parrainages.filter(p =>
     p.code.toLowerCase().includes(filtre.toLowerCase())
   );
 
-  // 🔴 Fonction de déconnexion
   const deconnexion = () => {
     setRole('');
     setLogin('');
@@ -73,7 +77,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
       <div style={{ display: 'flex', marginBottom: '20px', gap: '10px' }}>
         <input
           type="text"
-          placeholder="Entrer un code promo à valider"
+          placeholder="Scannez un code promo"
           value={codeEntree}
           onChange={(e) => setCodeEntree(e.target.value)}
           style={{
@@ -84,20 +88,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
             fontSize: '16px'
           }}
         />
-        <button
-          onClick={validerCode}
-          style={{
-            backgroundColor: '#002f5f',
-            color: 'white',
-            padding: '12px 20px',
-            border: 'none',
-            borderRadius: '8px',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
-        >
-          ✅ Valider
-        </button>
+        <p style={{ margin: 0, paddingTop: '12px', color: '#555' }}>↩️ Entrée = validation</p>
       </div>
 
       {popupVisible && (
