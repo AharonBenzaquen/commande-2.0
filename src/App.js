@@ -72,15 +72,21 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
     setCommandes(updated);
   };
 
+  const handleLogout = () => {
+    setRole('');
+    setLogin('');
+    setMdp('');
+    setMagasin('');
+    // ❗ Ne supprime que les infos de session (et pas commandes, parrainages)
+    localStorage.removeItem('login');
+    localStorage.removeItem('role');
+    localStorage.removeItem('magasin');
+  };
+
   return (
     <div className="app">
       <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
-      <button onClick={() => {
-        setRole('');
-        setLogin('');
-        setMdp('');
-        localStorage.clear();
-      }}>Déconnexion</button>
+      <button onClick={handleLogout}>Déconnexion</button>
       <hr />
       <button onClick={() => {
         setFormActif(true);
