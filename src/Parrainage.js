@@ -32,19 +32,41 @@ export default function Parrainage() {
   };
 
   const imprimerCodePromo = () => {
-    const contenu = codeRef.current.innerHTML;
-    const fenetre = window.open('', '_blank');
-    fenetre.document.write(`
-      <html>
-        <head><title>Code Promo</title></head>
-        <body style="font-family: sans-serif; text-align: center;">
-          ${contenu}
-        </body>
-      </html>
-    `);
-    fenetre.document.close();
-    fenetre.print();
-  };
+  const fenetre = window.open('', '_blank');
+  fenetre.document.write(`
+    <html>
+      <head>
+        <title>Code Promo</title>
+        <style>
+          body {
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            padding: 40px;
+            color: #002f5f;
+          }
+          img {
+            max-width: 90%;
+            border-radius: 10px;
+          }
+          .code {
+            margin-top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #002f5f;
+            letter-spacing: 1px;
+          }
+        </style>
+      </head>
+      <body>
+        <img src="${window.location.origin}/coupon-promo.png" alt="Coupon Opti-W" />
+        <div class="code">Code promo : ${codePromo}</div>
+      </body>
+    </html>
+  `);
+  fenetre.document.close();
+  fenetre.focus();
+  fenetre.print();
+};
 
   return (
     <div className="parrainage-container">
