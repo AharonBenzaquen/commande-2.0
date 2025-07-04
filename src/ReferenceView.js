@@ -15,22 +15,27 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
     setParrainages(data);
   }, []);
 
-  // Validation automatique du code dès qu'il atteint 10 caractères
+  // Validation automatique du code promo
   useEffect(() => {
     if (codeEntree.trim().length === 10) {
       const code = codeEntree.trim();
-      const index = parrainages.findIndex(p => p.code === code);
+      const data = [...parrainages];
+      const index = data.findIndex(p => p.code === code);
 
       if (index !== -1) {
-        const updated = [...parrainages];
-        updated.splice(index, 1);
-        setParrainages(updated);
-        localStorage.setItem('parrainages', JSON.stringify(updated));
-        setPopupVisible(true);
-        setTimeout(() => {
-          setPopupVisible(false);
-          setCodeEntree('');
-        }, 1000);
+        if (data[index].utilise) {
+          alert("⚠️ Ce code promo a déjà été utilisé.");
+        } else {
+          data[index].utilise = true;
+          setParrainages(data);
+          localStorage.setItem('parrainages', JSON.stringify(data));
+          setPopupVisible(true);
+          setTimeout(() => setPopupVisible(false), 1000);
+        }
+        setCodeEntree('');
+      } else {
+        alert("Code promo invalide.");
+        setCodeEntree('');
       }
     }
   }, [codeEntree, parrainages]);
@@ -114,6 +119,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
             <th style={{ padding: '12px' }}>Téléphone</th>
             <th style={{ padding: '12px' }}>Email</th>
             <th style={{ padding: '12px' }}>Code promo</th>
+            <th style={{ padding: '12px' }}>Utilisé</th>
             <th style={{ padding: '12px' }}>Action</th>
           </tr>
         </thead>
@@ -125,6 +131,9 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.telephone}</td>
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.email}</td>
               <td style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', color: '#002f5f' }}>{p.code}</td>
+              <td style={{ padding: '10px', textAlign: 'center' }}>
+                {p.utilise ? '✅' : '❌'}
+              </td>
               <td style={{ padding: '10px', textAlign: 'center' }}>
                 <button onClick={() => supprimerParrainage(i)} style={{
                   fontSize: '18px',
@@ -160,3 +169,4 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
     </div>
   );
 }
+
