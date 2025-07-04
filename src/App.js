@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './index.css';
 import Parrainage from './Parrainage';
@@ -75,8 +75,6 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
     const trouvée = commandes.find((c) => c.numero === tracking);
     setCommandeTrouvee(trouvée || null);
   };
-
-import { useEffect } from 'react'; // ajoutez en haut du fichier
 
 useEffect(() => {
   if (role === 'reference') {
