@@ -5,13 +5,14 @@ import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
 
 const utilisateurs = {
-  'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
-  'rosemere@optiw.com': { role: 'magasin', magasin: 'Rosemère', password: '1234' },
-  'blainville@optiw.com': { role: 'magasin', magasin: 'Blainville', password: '1234' },
-  'labo@optiw.com': { role: 'labo', magasin: 'Tous', password: '1234' },
-  'admin@optiw.com': { role: 'admin', magasin: 'Tous', password: '1234' },
-  'reference@optiw.com': { role: 'reference', magasin: 'Tous', password: '1234' },
+  'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: 'LavalOpti2025!' },
+  'rosemere@optiw.com': { role: 'magasin', magasin: 'Rosemère', password: 'RoseOpti2025!' },
+  'blainville@optiw.com': { role: 'magasin', magasin: 'Blainville', password: 'BlainOpti2025!' },
+  'labo@optiw.com': { role: 'labo', magasin: 'Tous', password: 'LaboSecure2025!' },
+  'admin@optiw.com': { role: 'admin', magasin: 'Tous', password: 'Admin#2025Opti' },
+  'reference@optiw.com': { role: 'reference', magasin: 'Tous', password: 'RefOpti2025!' },
 };
+
 
 function differenceEnJours(date1, date2) {
   const d1 = new Date(date1);
