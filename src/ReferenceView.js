@@ -7,36 +7,35 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
   const [filtre, setFiltre] = useState('');
   const [codeEntree, setCodeEntree] = useState('');
   const [popupVisible, setPopupVisible] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
   const navigate = useNavigate();
 
-  // Charger les parrainages depuis localStorage
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('parrainages')) || [];
     setParrainages(data);
   }, []);
 
-  // Validation automatique du code promo
+  // Détection automatique du code promo dès qu'on tape
   useEffect(() => {
-    if (codeEntree.trim().length === 10) {
-      const code = codeEntree.trim();
-      const data = [...parrainages];
-      const index = data.findIndex(p => p.code === code);
-
-      if (index !== -1) {
-        if (data[index].utilise) {
-          alert("⚠️ Ce code promo a déjà été utilisé.");
-        } else {
-          data[index].utilise = true;
-          setParrainages(data);
-          localStorage.setItem('parrainages', JSON.stringify(data));
-          setPopupVisible(true);
-          setTimeout(() => setPopupVisible(false), 1000);
-        }
-        setCodeEntree('');
-      } else {
-        alert("Code promo invalide.");
-        setCodeEntree('');
+    const code = codeEntree.trim();
+    if (code.length > 5) {
+      const index = parrainages.findIndex(p => p.code === code);
+      if (index !== -1 && !parrainages[index].utilise) {
+        const updated = [...parrainages];
+        updated[index].utilise = true;
+        setParrainages(updated);
+        localStorage.setItem('parrainages', JSON.stringify(updated));
+        setPopupMessage('✅ Code promo validé !');
+        setPopupVisible(true);
+      } else if (index !== -1 && parrainages[index].utilise) {
+        setPopupMessage('⚠️ Code déjà utilisé.');
+        setPopupVisible(true);
+      } else if (code !== '') {
+        setPopupMessage('❌ Code promo invalide.');
+        setPopupVisible(true);
       }
+      setCodeEntree('');
+      setTimeout(() => setPopupVisible(false), 1000);
     }
   }, [codeEntree, parrainages]);
 
@@ -93,12 +92,11 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
             fontSize: '16px'
           }}
         />
-        <p style={{ margin: 0, paddingTop: '12px', color: '#555' }}>↩️ Entrée = validation</p>
       </div>
 
       {popupVisible && (
         <div style={{
-          background: '#4CAF50',
+          background: popupMessage.includes('validé') ? '#4CAF50' : '#ffc107',
           color: 'white',
           padding: '10px 20px',
           borderRadius: '8px',
@@ -107,7 +105,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
           fontWeight: 'bold',
           fontSize: '18px'
         }}>
-          ✅ Code promo validé !
+          {popupMessage}
         </div>
       )}
 
@@ -132,7 +130,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.email}</td>
               <td style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', color: '#002f5f' }}>{p.code}</td>
               <td style={{ padding: '10px', textAlign: 'center' }}>
-                {p.utilise ? '✅' : '❌'}
+                {p.utilise ? '✔️' : '❌'}
               </td>
               <td style={{ padding: '10px', textAlign: 'center' }}>
                 <button onClick={() => supprimerParrainage(i)} style={{
@@ -169,4 +167,3 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
     </div>
   );
 }
-
