@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './index.css';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
@@ -21,26 +21,19 @@ function differenceEnJours(date1, date2) {
 }
 
 function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
-  const navigate = useNavigate();
   const [commande, setCommande] = useState({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
-  const [commandes, setCommandes] = useState([]);
+  const [commandes, setCommandes] = useState(() => JSON.parse(localStorage.getItem('commandes')) || []);
   const [editionIndex, setEditionIndex] = useState(null);
   const [formActif, setFormActif] = useState(false);
-
   const aujourdHui = new Date();
 
-  // Chargement des commandes depuis le localStorage
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('commandes')) || [];
-    setCommandes(data);
-  }, []);
-
-  // Sauvegarde automatique dans le localStorage
   useEffect(() => {
     localStorage.setItem('commandes', JSON.stringify(commandes));
   }, [commandes]);
 
-  const filtrerCommandes = commandes.filter((c) => role === 'admin' || role === 'labo' || c.origine === magasin);
+  const filtrerCommandes = commandes.filter((c) =>
+    role === 'admin' || role === 'labo' || c.origine === magasin
+  );
 
   const ajouterCommande = () => {
     const updated = [...commandes];
@@ -79,23 +72,21 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
     setCommandes(updated);
   };
 
-  const deconnexion = () => {
-    setRole('');
-    setLogin('');
-    setMdp('');
-    setMagasin('');
-    localStorage.removeItem('login');
-    localStorage.removeItem('mdp');
-    localStorage.removeItem('role');
-    localStorage.removeItem('magasin');
-  };
-
   return (
     <div className="app">
       <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
-      <button onClick={deconnexion}>Déconnexion</button>
+      <button onClick={() => {
+        setRole('');
+        setLogin('');
+        setMdp('');
+        localStorage.clear();
+      }}>Déconnexion</button>
       <hr />
-      <button onClick={() => { setFormActif(true); setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' }); setEditionIndex(null); }}>
+      <button onClick={() => {
+        setFormActif(true);
+        setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
+        setEditionIndex(null);
+      }}>
         ➕ Nouvelle commande
       </button>
 
@@ -154,9 +145,7 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
                   </select>
                 </td>
                 <td>{jours} jours</td>
-                <td>
-                  <textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} />
-                </td>
+                <td><textarea value={c.commentaire} onChange={(e) => changerCommentaire(i, e.target.value)} /></td>
                 <td>{c.origine}</td>
                 <td>
                   <button onClick={() => modifierCommande(i)}>✏️</button>
@@ -171,13 +160,36 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
   );
 }
 
-function Login({ login, setLogin, mdp, setMdp, seConnecter, navigate }) {
+function Login({ login, setLogin, mdp, setMdp, seConnecter }) {
+  const navigate = useNavigate();
+  const [tracking, setTracking] = useState('');
+  const [commandeTrouvee, setCommandeTrouvee] = useState(null);
+
+  const rechercherTracking = () => {
+    const toutes = JSON.parse(localStorage.getItem('commandes')) || [];
+    const trouvée = toutes.find(c => c.numero === tracking);
+    setCommandeTrouvee(trouvée || null);
+  };
+
   return (
     <div className="app">
       <div className="login-container">
         <input className="input-field" placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
         <input className="input-field" placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
         <button className="login-button" onClick={seConnecter}>Connexion</button>
+      </div>
+
+      <div className="tracking-box">
+        <h3>Suivi de commande</h3>
+        <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
+        <button onClick={rechercherTracking}>🔍 Rechercher</button>
+        {commandeTrouvee ? (
+          <div className="result">
+            <p><strong>Commande :</strong> {commandeTrouvee.numero}</p>
+            <p><strong>Statut :</strong> {commandeTrouvee.statut}</p>
+            <p><strong>Commentaire :</strong> {commandeTrouvee.commentaire}</p>
+          </div>
+        ) : tracking && <p>Aucune commande trouvée.</p>}
       </div>
 
       <div className="promotions">
@@ -193,7 +205,7 @@ function Login({ login, setLogin, mdp, setMdp, seConnecter, navigate }) {
 
 export default function App() {
   const [login, setLogin] = useState(localStorage.getItem('login') || '');
-  const [mdp, setMdp] = useState(localStorage.getItem('mdp') || '');
+  const [mdp, setMdp] = useState('');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
   const [magasin, setMagasin] = useState(localStorage.getItem('magasin') || '');
 
@@ -203,7 +215,6 @@ export default function App() {
       setRole(user.role);
       setMagasin(user.magasin);
       localStorage.setItem('login', login);
-      localStorage.setItem('mdp', mdp);
       localStorage.setItem('role', user.role);
       localStorage.setItem('magasin', user.magasin);
     } else {
@@ -214,32 +225,28 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            role === 'reference' ? (
-              <Navigate to="/reference" replace />
-            ) : role ? (
-              <MainApp
-                role={role}
-                setRole={setRole}
-                magasin={magasin}
-                setMagasin={setMagasin}
-                setLogin={setLogin}
-                setMdp={setMdp}
-              />
-            ) : (
-              <Login
-                login={login}
-                setLogin={setLogin}
-                mdp={mdp}
-                setMdp={setMdp}
-                seConnecter={seConnecter}
-                navigate={useNavigate()}
-              />
-            )
-          }
-        />
+        <Route path="/" element={
+          role === 'reference' ? (
+            <Navigate to="/reference" replace />
+          ) : role ? (
+            <MainApp
+              role={role}
+              setRole={setRole}
+              magasin={magasin}
+              setMagasin={setMagasin}
+              setLogin={setLogin}
+              setMdp={setMdp}
+            />
+          ) : (
+            <Login
+              login={login}
+              setLogin={setLogin}
+              mdp={mdp}
+              setMdp={setMdp}
+              seConnecter={seConnecter}
+            />
+          )
+        } />
         <Route path="/parrainage" element={<Parrainage />} />
         <Route path="/reference" element={
           <ReferenceView
@@ -252,4 +259,3 @@ export default function App() {
     </Router>
   );
 }
-
