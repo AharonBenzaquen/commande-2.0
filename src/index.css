@@ -14,6 +14,11 @@ body {
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 10px;
+  margin: 40px auto;
+  max-width: 1400px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .header {
@@ -21,6 +26,7 @@ body {
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #002f5f;
 }
 
 .login-container {
@@ -133,7 +139,7 @@ body {
   background-color: #ffe05a;
 }
 
-/* Formulaire de parrainage */
+/* Parrainage */
 
 .parrainage-container {
   max-width: 420px;
@@ -142,7 +148,6 @@ body {
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  font-family: 'Segoe UI', sans-serif;
 }
 
 .parrainage-container h2 {
@@ -184,19 +189,21 @@ body {
   background-color: #004080;
 }
 
-/* Bloc d'affichage du code promo */
+/* Code promo */
 
-.code-promo-container {
+.code-promo-box {
   margin-top: 30px;
   text-align: center;
+  color: #002f5f;
 }
 
-.code-promo-image {
-  max-width: 360px;
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+.code-value {
+  background-color: #002f5f;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 8px;
+  font-size: 18px;
+  margin-left: 10px;
 }
 
 .imprimer-button {
@@ -216,7 +223,7 @@ body {
   background-color: #001b3d;
 }
 
-/* Tableaux généraux */
+/* Table */
 
 .styled-table {
   width: 100%;
@@ -247,4 +254,3 @@ body {
 .styled-table tbody tr:hover {
   background-color: #f1f1f1;
 }
-
