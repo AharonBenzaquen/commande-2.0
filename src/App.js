@@ -255,7 +255,17 @@ export default function App() {
 />
 
         <Route path="/parrainage" element={<Parrainage />} />
-        <Route path="/reference" element={<ReferenceView onLogout={resetLogin} />} />
+        <Route
+  path="/reference"
+  element={
+    <ReferenceView
+      setRole={setRole}
+      setLogin={setLogin}
+      setMdp={setMdp}
+    />
+  }
+/>
+
       </Routes>
     </Router>
   );
