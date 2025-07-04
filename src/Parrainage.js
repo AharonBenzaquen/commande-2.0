@@ -10,13 +10,14 @@ export default function Parrainage() {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
-  // Génère un code promo unique
-  const genererCodePromo = () => {
-    const timestamp = Date.now();
-    return `PAR-${timestamp.toString().slice(-6)}`;
+  // 🔄 Génère un code promo basé sur les infos saisies
+  const genererCodePromo = (nom, prenom, telephone, email) => {
+    const base = `${nom.trim().toLowerCase()}-${prenom.trim().toLowerCase()}-${telephone.trim()}-${email.trim().toLowerCase()}`;
+    const hash = btoa(base).replace(/[^a-zA-Z0-9]/g, '');
+    return `PAR-${hash.slice(0, 8).toUpperCase()}`;
   };
 
-  // Génère le code-barres
+  // 📦 Génère le code-barres une fois le code défini
   useEffect(() => {
     if (envoye && codePromo && canvasRef.current) {
       JsBarcode(canvasRef.current, codePromo, {
@@ -36,13 +37,19 @@ export default function Parrainage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const nouveauCode = genererCodePromo();
+    const { nom, prenom, telephone, email } = formulaire;
+    const nouveauCode = genererCodePromo(nom, prenom, telephone, email);
     setCodePromo(nouveauCode);
     setEnvoye(true);
 
     const anciens = JSON.parse(localStorage.getItem('parrainages')) || [];
-    anciens.push({ ...formulaire, code: nouveauCode });
-    localStorage.setItem('parrainages', JSON.stringify(anciens));
+
+    // Vérifie si ce code promo existe déjà
+    const existeDeja = anciens.some(p => p.code === nouveauCode);
+    if (!existeDeja) {
+      anciens.push({ ...formulaire, code: nouveauCode, utilise: false });
+      localStorage.setItem('parrainages', JSON.stringify(anciens));
+    }
   };
 
   const imprimerCodePromo = () => {
