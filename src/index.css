@@ -14,11 +14,6 @@ body {
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.94);
-  border-radius: 10px;
-  margin: 40px auto;
-  max-width: 1400px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .header {
@@ -26,7 +21,6 @@ body {
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #002f5f;
 }
 
 .login-container {
@@ -139,7 +133,7 @@ body {
   background-color: #ffe05a;
 }
 
-/* Parrainage */
+/* Formulaire de parrainage */
 
 .parrainage-container {
   max-width: 420px;
@@ -148,6 +142,7 @@ body {
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .parrainage-container h2 {
@@ -189,21 +184,19 @@ body {
   background-color: #004080;
 }
 
-/* Code promo */
+/* Bloc d'affichage du code promo */
 
-.code-promo-box {
+.code-promo-container {
   margin-top: 30px;
   text-align: center;
-  color: #002f5f;
 }
 
-.code-value {
-  background-color: #002f5f;
-  color: #fff;
-  padding: 5px 15px;
-  border-radius: 8px;
-  font-size: 18px;
-  margin-left: 10px;
+.code-promo-image {
+  max-width: 360px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .imprimer-button {
@@ -223,7 +216,7 @@ body {
   background-color: #001b3d;
 }
 
-/* Table */
+/* Tableaux généraux */
 
 .styled-table {
   width: 100%;
@@ -253,4 +246,63 @@ body {
 
 .styled-table tbody tr:hover {
   background-color: #f1f1f1;
+}
+
+/* Mise à jour - Formulaire de commande */
+.formulaire {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.formulaire input,
+.formulaire textarea,
+.formulaire select {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #002f5f;
+}
+
+.formulaire button {
+  background-color: #002f5f;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.formulaire button:hover {
+  background-color: #001b3d;
+}
+
+/* Mise à jour - Boutons dans le tableau */
+
+.styled-table button {
+  background-color: #f4c51c;
+  color: #002f5f;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.styled-table button:hover {
+  background-color: #ffe05a;
 }
