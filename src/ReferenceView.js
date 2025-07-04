@@ -9,11 +9,13 @@ export default function ReferenceView() {
   const [popupVisible, setPopupVisible] = useState(false);
   const navigate = useNavigate();
 
+  // Chargement initial des parrainages
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('parrainages')) || [];
     setParrainages(data);
   }, []);
 
+  // Supprimer un parrainage
   const supprimerParrainage = (index) => {
     if (window.confirm("Voulez-vous vraiment supprimer ce parrainage ?")) {
       const updated = [...parrainages];
@@ -23,23 +25,24 @@ export default function ReferenceView() {
     }
   };
 
+  // Valider un code promo
   const validerCode = () => {
-    const index = parrainages.findIndex(p => p.code === codeEntree.trim());
+    const code = codeEntree.trim();
+    const index = parrainages.findIndex(p => p.code === code);
     if (index !== -1) {
       const updated = [...parrainages];
       updated.splice(index, 1);
       setParrainages(updated);
       localStorage.setItem('parrainages', JSON.stringify(updated));
       setPopupVisible(true);
-      setTimeout(() => {
-        setPopupVisible(false);
-        setCodeEntree('');
-      }, 1000);
+      setCodeEntree('');
+      setTimeout(() => setPopupVisible(false), 1000);
     } else {
       alert("Code promo invalide.");
     }
   };
 
+  // Filtrage
   const resultatFiltre = parrainages.filter(p =>
     p.code.toLowerCase().includes(filtre.toLowerCase())
   );
@@ -48,17 +51,23 @@ export default function ReferenceView() {
     <div className="parrainage-container" style={{ maxWidth: '800px', margin: '60px auto' }}>
       <h2 style={{ textAlign: 'center', color: '#002f5f' }}>👁️ Vue Référence – Parrainages</h2>
 
+      {/* Champ de recherche */}
       <input
         type="text"
         placeholder="🔍 Rechercher un code promo"
         value={filtre}
         onChange={(e) => setFiltre(e.target.value)}
         style={{
-          width: '100%', padding: '12px', marginBottom: '20px',
-          borderRadius: '8px', border: '1px solid #ccc', fontSize: '16px'
+          width: '100%',
+          padding: '12px',
+          marginBottom: '20px',
+          borderRadius: '8px',
+          border: '1px solid #ccc',
+          fontSize: '16px'
         }}
       />
 
+      {/* Entrée de code à valider */}
       <div style={{ display: 'flex', marginBottom: '20px', gap: '10px' }}>
         <input
           type="text"
@@ -66,31 +75,46 @@ export default function ReferenceView() {
           value={codeEntree}
           onChange={(e) => setCodeEntree(e.target.value)}
           style={{
-            flex: 1, padding: '12px', borderRadius: '8px',
-            border: '1px solid #ccc', fontSize: '16px'
+            flex: 1,
+            padding: '12px',
+            borderRadius: '8px',
+            border: '1px solid #ccc',
+            fontSize: '16px'
           }}
         />
         <button
           onClick={validerCode}
           style={{
-            backgroundColor: '#002f5f', color: 'white', padding: '12px 20px',
-            border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer'
+            backgroundColor: '#002f5f',
+            color: 'white',
+            padding: '12px 20px',
+            border: 'none',
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
           }}
         >
           ✅ Valider
         </button>
       </div>
 
+      {/* Popup de confirmation */}
       {popupVisible && (
         <div style={{
-          background: '#4CAF50', color: 'white', padding: '10px 20px',
-          borderRadius: '8px', textAlign: 'center', marginBottom: '20px',
-          fontWeight: 'bold', fontSize: '18px'
+          background: '#4CAF50',
+          color: 'white',
+          padding: '10px 20px',
+          borderRadius: '8px',
+          textAlign: 'center',
+          marginBottom: '20px',
+          fontWeight: 'bold',
+          fontSize: '18px'
         }}>
           ✅ Code promo validé !
         </div>
       )}
 
+      {/* Tableau */}
       <table className="styled-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ backgroundColor: '#002f5f', color: 'white' }}>
@@ -111,7 +135,12 @@ export default function ReferenceView() {
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.email}</td>
               <td style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', color: '#002f5f' }}>{p.code}</td>
               <td style={{ padding: '10px', textAlign: 'center' }}>
-                <button onClick={() => supprimerParrainage(i)} style={{ fontSize: '18px', background: 'none', border: 'none', cursor: 'pointer' }}>
+                <button onClick={() => supprimerParrainage(i)} style={{
+                  fontSize: '18px',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}>
                   🗑️
                 </button>
               </td>
@@ -120,7 +149,7 @@ export default function ReferenceView() {
         </tbody>
       </table>
 
-      {/* Bouton de retour */}
+      {/* Bouton retour */}
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
         <button
           onClick={() => navigate('/')}
@@ -141,4 +170,5 @@ export default function ReferenceView() {
     </div>
   );
 }
+
 
