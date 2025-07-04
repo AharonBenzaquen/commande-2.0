@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import './index.css';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
+import { Navigate } from 'react-router-dom';
+
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: '1234' },
