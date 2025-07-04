@@ -2,20 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
 
-export default function ReferenceView() {
+export default function ReferenceView({ setRole, setLogin, setMdp }) {
   const [parrainages, setParrainages] = useState([]);
   const [filtre, setFiltre] = useState('');
   const [codeEntree, setCodeEntree] = useState('');
   const [popupVisible, setPopupVisible] = useState(false);
   const navigate = useNavigate();
 
-  // Chargement initial des parrainages
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('parrainages')) || [];
     setParrainages(data);
   }, []);
 
-  // Supprimer un parrainage
   const supprimerParrainage = (index) => {
     if (window.confirm("Voulez-vous vraiment supprimer ce parrainage ?")) {
       const updated = [...parrainages];
@@ -25,7 +23,6 @@ export default function ReferenceView() {
     }
   };
 
-  // Valider un code promo
   const validerCode = () => {
     const code = codeEntree.trim();
     const index = parrainages.findIndex(p => p.code === code);
@@ -42,16 +39,22 @@ export default function ReferenceView() {
     }
   };
 
-  // Filtrage
   const resultatFiltre = parrainages.filter(p =>
     p.code.toLowerCase().includes(filtre.toLowerCase())
   );
+
+  // 🔴 Fonction de déconnexion
+  const deconnexion = () => {
+    setRole('');
+    setLogin('');
+    setMdp('');
+    navigate('/');
+  };
 
   return (
     <div className="parrainage-container" style={{ maxWidth: '800px', margin: '60px auto' }}>
       <h2 style={{ textAlign: 'center', color: '#002f5f' }}>👁️ Vue Référence – Parrainages</h2>
 
-      {/* Champ de recherche */}
       <input
         type="text"
         placeholder="🔍 Rechercher un code promo"
@@ -67,7 +70,6 @@ export default function ReferenceView() {
         }}
       />
 
-      {/* Entrée de code à valider */}
       <div style={{ display: 'flex', marginBottom: '20px', gap: '10px' }}>
         <input
           type="text"
@@ -98,7 +100,6 @@ export default function ReferenceView() {
         </button>
       </div>
 
-      {/* Popup de confirmation */}
       {popupVisible && (
         <div style={{
           background: '#4CAF50',
@@ -114,7 +115,6 @@ export default function ReferenceView() {
         </div>
       )}
 
-      {/* Tableau */}
       <table className="styled-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ backgroundColor: '#002f5f', color: 'white' }}>
@@ -149,10 +149,9 @@ export default function ReferenceView() {
         </tbody>
       </table>
 
-      {/* Bouton retour */}
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
         <button
-          onClick={() => navigate('/')}
+          onClick={deconnexion}
           style={{
             backgroundColor: '#002f5f',
             color: 'white',
@@ -164,11 +163,9 @@ export default function ReferenceView() {
             cursor: 'pointer'
           }}
         >
-          🏠 Retour à l'accueil
+          🏠 Déconnexion / Retour à l'accueil
         </button>
       </div>
     </div>
   );
 }
-
-
