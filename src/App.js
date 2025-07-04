@@ -13,7 +13,6 @@ const utilisateurs = {
   'reference@optiw.com': { role: 'reference', magasin: 'Tous', password: 'RefOpti2025!' },
 };
 
-
 function differenceEnJours(date1, date2) {
   const d1 = new Date(date1);
   const d2 = new Date(date2);
@@ -26,6 +25,7 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
   const [commandes, setCommandes] = useState(() => JSON.parse(localStorage.getItem('commandes')) || []);
   const [editionIndex, setEditionIndex] = useState(null);
   const [formActif, setFormActif] = useState(false);
+  const navigate = useNavigate();
   const aujourdHui = new Date();
 
   useEffect(() => {
@@ -81,7 +81,7 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
     localStorage.removeItem('login');
     localStorage.removeItem('role');
     localStorage.removeItem('magasin');
-    window.location.href = '/'; // Redirection manuelle
+    navigate('/');
   };
 
   return (
@@ -183,7 +183,7 @@ function Login({ login, setLogin, mdp, setMdp, seConnecter }) {
       <div className="login-container">
         <input className="input-field" placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
         <input className="input-field" placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
-        <button className="login-button" onClick={seConnecter}>Connexion</button>
+        <button className="login-button" onClick={() => seConnecter(navigate)}>Connexion</button>
       </div>
 
       <div className="tracking-box">
@@ -216,7 +216,7 @@ export default function App() {
   const [role, setRole] = useState('');
   const [magasin, setMagasin] = useState('');
 
-  const seConnecter = () => {
+  const seConnecter = (navigate) => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
       const user = utilisateurs[login];
       setRole(user.role);
@@ -224,7 +224,7 @@ export default function App() {
       localStorage.setItem('login', login);
       localStorage.setItem('role', user.role);
       localStorage.setItem('magasin', user.magasin);
-      window.location.href = user.role === 'reference' ? '/reference' : '/';
+      navigate(user.role === 'reference' ? '/reference' : '/main');
     } else {
       alert('Identifiants invalides');
     }
