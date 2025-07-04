@@ -15,15 +15,13 @@ export default function Parrainage() {
   const [codePromo, setCodePromo] = useState('');
   const codeRef = useRef(null);
   const canvasRef = useRef(null);
-  const navigate = useNavigate(); // ✅ Pour la redirection
+  const navigate = useNavigate();
 
-  // Génère un code promo unique
   const genererCodePromo = () => {
     const timestamp = Date.now();
-    return `PAR-${timestamp.toString().slice(-6)}`; // Exemple : PAR-594321
+    return `PAR-${timestamp.toString().slice(-6)}`;
   };
 
-  // Crée le code-barres dès que le code est généré
   useEffect(() => {
     if (envoye && codePromo && canvasRef.current) {
       JsBarcode(canvasRef.current, codePromo, {
@@ -46,6 +44,11 @@ export default function Parrainage() {
     const nouveauCode = genererCodePromo();
     setCodePromo(nouveauCode);
     setEnvoye(true);
+
+    // Enregistrement dans localStorage pour la vue "référence"
+    const anciens = JSON.parse(localStorage.getItem('parrainages')) || [];
+    anciens.push({ ...formulaire, code: nouveauCode });
+    localStorage.setItem('parrainages', JSON.stringify(anciens));
   };
 
   const imprimerCodePromo = () => {
