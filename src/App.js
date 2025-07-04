@@ -76,10 +76,14 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
     setCommandeTrouvee(trouvée || null);
   };
 
+import { useEffect } from 'react'; // ajoutez en haut du fichier
+
+useEffect(() => {
   if (role === 'reference') {
     navigate('/reference');
-    return null;
   }
+}, [role, navigate]);
+
 
   return (
     <div className="app">
