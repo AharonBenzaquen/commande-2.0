@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './index.css';
 
 export default function ReferenceView() {
   const [parrainages, setParrainages] = useState([]);
   const [filtre, setFiltre] = useState('');
-  const navigate = useNavigate();
 
+  // Charger les parrainages au démarrage
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('parrainages')) || [];
     setParrainages(data);
   }, []);
 
+  // Supprimer un parrainage
   const supprimerParrainage = (index) => {
     const confirmDelete = window.confirm("Voulez-vous vraiment supprimer ce parrainage ?");
     if (!confirmDelete) return;
@@ -22,12 +22,13 @@ export default function ReferenceView() {
     localStorage.setItem('parrainages', JSON.stringify(nouveaux));
   };
 
+  // Filtrer les parrainages par code promo
   const resultatFiltre = parrainages.filter(p =>
     p.code.toLowerCase().includes(filtre.toLowerCase())
   );
 
   return (
-    <div className="parrainage-container" style={{ maxWidth: '800px', margin: '60px auto', backgroundColor: 'rgba(255,255,255,0.95)', padding: '30px', borderRadius: '12px' }}>
+    <div className="parrainage-container" style={{ maxWidth: '850px', margin: '60px auto', backgroundColor: 'rgba(255,255,255,0.95)', padding: '30px', borderRadius: '12px' }}>
       <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#002f5f' }}>👁️ Vue Référence – Parrainages</h2>
 
       <input
@@ -65,7 +66,15 @@ export default function ReferenceView() {
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.email}</td>
               <td style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', color: '#002f5f' }}>{p.code}</td>
               <td style={{ padding: '10px', textAlign: 'center' }}>
-                <button onClick={() => supprimerParrainage(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px' }}>
+                <button
+                  onClick={() => supprimerParrainage(i)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '18px'
+                  }}
+                >
                   🗑️
                 </button>
               </td>
@@ -75,7 +84,10 @@ export default function ReferenceView() {
       </table>
 
       <button
-        onClick={() => navigate('/')}
+        onClick={() => {
+          localStorage.clear(); // déconnexion forcée
+          window.location.href = '/';
+        }}
         style={{
           backgroundColor: '#002f5f',
           color: 'white',
