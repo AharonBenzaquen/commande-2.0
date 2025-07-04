@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import './index.css';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
@@ -77,10 +77,10 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
     setLogin('');
     setMdp('');
     setMagasin('');
-    // ❗ Ne supprime que les infos de session (et pas commandes, parrainages)
     localStorage.removeItem('login');
     localStorage.removeItem('role');
     localStorage.removeItem('magasin');
+    window.location.href = '/'; // Redirection manuelle
   };
 
   return (
@@ -210,10 +210,10 @@ function Login({ login, setLogin, mdp, setMdp, seConnecter }) {
 }
 
 export default function App() {
-  const [login, setLogin] = useState(localStorage.getItem('login') || '');
+  const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
-  const [role, setRole] = useState(localStorage.getItem('role') || '');
-  const [magasin, setMagasin] = useState(localStorage.getItem('magasin') || '');
+  const [role, setRole] = useState('');
+  const [magasin, setMagasin] = useState('');
 
   const seConnecter = () => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
@@ -223,6 +223,7 @@ export default function App() {
       localStorage.setItem('login', login);
       localStorage.setItem('role', user.role);
       localStorage.setItem('magasin', user.magasin);
+      window.location.href = user.role === 'reference' ? '/reference' : '/';
     } else {
       alert('Identifiants invalides');
     }
@@ -232,31 +233,28 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={
-          role === 'reference' ? (
-            <Navigate to="/reference" replace />
-          ) : role ? (
-            <MainApp
-              role={role}
-              setRole={setRole}
-              magasin={magasin}
-              setMagasin={setMagasin}
-              setLogin={setLogin}
-              setMdp={setMdp}
-            />
-          ) : (
-            <Login
-              login={login}
-              setLogin={setLogin}
-              mdp={mdp}
-              setMdp={setMdp}
-              seConnecter={seConnecter}
-            />
-          )
+          <Login
+            login={login}
+            setLogin={setLogin}
+            mdp={mdp}
+            setMdp={setMdp}
+            seConnecter={seConnecter}
+          />
         } />
         <Route path="/parrainage" element={<Parrainage />} />
         <Route path="/reference" element={
           <ReferenceView
             setRole={setRole}
+            setLogin={setLogin}
+            setMdp={setMdp}
+          />
+        } />
+        <Route path="/main" element={
+          <MainApp
+            role={role}
+            setRole={setRole}
+            magasin={magasin}
+            setMagasin={setMagasin}
             setLogin={setLogin}
             setMdp={setMdp}
           />
