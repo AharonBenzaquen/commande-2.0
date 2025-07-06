@@ -306,3 +306,47 @@ body {
 .styled-table button:hover {
   background-color: #ffe05a;
 }
+
+/* Section Où nous trouver */
+
+.maps-section {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.92);
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.maps-section h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #002f5f;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.maps-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.maps-buttons button {
+  background-color: #002f5f;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.maps-buttons button:hover {
+  background-color: #001b3d;
+}
+
