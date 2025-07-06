@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import './index.css';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
@@ -206,15 +206,24 @@ function Login({ login, setLogin, mdp, setMdp, seConnecter }) {
         </div>
         <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
       </div>
+
+      <div className="maps-section">
+        <h3>📍 Où nous trouver</h3>
+        <div className="maps-buttons">
+          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+laval', '_blank')}>Laval</button>
+          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+rosemère', '_blank')}>Rosemère</button>
+          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+blainville', '_blank')}>Blainville</button>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default function App() {
-  const [login, setLogin] = useState('');
+  const [login, setLogin] = useState(localStorage.getItem('login') || '');
   const [mdp, setMdp] = useState('');
-  const [role, setRole] = useState('');
-  const [magasin, setMagasin] = useState('');
+  const [role, setRole] = useState(localStorage.getItem('role') || '');
+  const [magasin, setMagasin] = useState(localStorage.getItem('magasin') || '');
 
   const seConnecter = (navigate) => {
     if (utilisateurs[login] && utilisateurs[login].password === mdp) {
@@ -251,14 +260,16 @@ export default function App() {
           />
         } />
         <Route path="/main" element={
-          <MainApp
-            role={role}
-            setRole={setRole}
-            magasin={magasin}
-            setMagasin={setMagasin}
-            setLogin={setLogin}
-            setMdp={setMdp}
-          />
+          (role && role !== 'reference') ? (
+            <MainApp
+              role={role}
+              setRole={setRole}
+              magasin={magasin}
+              setMagasin={setMagasin}
+              setLogin={setLogin}
+              setMdp={setMdp}
+            />
+          ) : <Navigate to="/" />
         } />
       </Routes>
     </Router>
