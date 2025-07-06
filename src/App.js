@@ -220,7 +220,7 @@ function Login({ login, setLogin, mdp, setMdp, seConnecter }) {
 }
 
 export default function App() {
-  const [login, setLogin] = useState(localStorage.getItem('login') || '');
+  const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
   const [magasin, setMagasin] = useState(localStorage.getItem('magasin') || '');
