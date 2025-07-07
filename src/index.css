@@ -496,6 +496,11 @@ body {
     padding: 12px 20px;
   }
 
+  .ou-nous-trouver-wrapper {
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+
   .maps-section {
     position: static;
     transform: none;
