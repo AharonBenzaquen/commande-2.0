@@ -589,18 +589,5 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-@media screen and (max-width: 768px) {
-  .modal-flex {
-    flex-direction: column;
-  }
 
-  .fullscreen-modal {
-    padding: 10px;
-  }
-
-  .promo-modal-img,
-  .promo-modal-video {
-    width: 100%;
-  }
-}
 
