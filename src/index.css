@@ -388,6 +388,29 @@ body {
   cursor: pointer;
 }
 
+.promo-modal-content {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.promo-modal-img {
+  width: 240px;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.promo-modal-video {
+  width: 300px;
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+
 /* Effet au survol des images promotionnelles */
 .promotions img {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
