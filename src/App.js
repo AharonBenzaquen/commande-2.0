@@ -5,6 +5,7 @@ import LoginView from './LoginView';
 import MainApp from './MainApp';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
+import OuNousTrouver from './OuNousTrouver'; // ✅ Nouvelle page
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: 'LavalOpti2025!' },
@@ -66,6 +67,7 @@ export default function App() {
             />
           ) : <Navigate to="/" />
         } />
+        <Route path="/nous-trouver" element={<OuNousTrouver />} /> {/* ✅ Ajout route */}
       </Routes>
     </Router>
   );
