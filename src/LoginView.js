@@ -91,9 +91,9 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
 
 
       {/* Modal Promo 2 */}
-     {showModal2 && (
-  <div className="modal-overlay" onClick={() => setShowModal2(false)}>
-    <div className="modal-content" onClick={e => e.stopPropagation()}>
+      {showModal1 && (
+  <div className="modal-overlay" onClick={() => setShowModal1(false)}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
       <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
       <div className="promo-modal-content">
         <img src="promo2-image.jpg" alt="Illustration Promo 2" className="promo-modal-img" />
@@ -102,10 +102,11 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
-      <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
+      <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
     </div>
   </div>
 )}
+
     </div>
   );
 }
