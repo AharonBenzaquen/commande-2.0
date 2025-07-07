@@ -8,8 +8,8 @@ export default function OuNousTrouver() {
 
       <div className="magasin-bloc">
         <h3>Opti-W Laval</h3>
-        <p>Adresse : 2075 Bd Chomedey, Laval, Quebec H7T 0G5,</p>
-        <p>Téléphone : (514) 123-4567</p>
+        <p>Adresse : 2075 Bd Chomedey, Laval, Quebec H7T 0G5</p>
+        <p>Téléphone : (450)687-8787</p>
         <button className="maps-link-button" onClick={() => window.open('https://www.google.com/maps?q=opti-w+laval', '_blank')}>
           Voir sur Google Maps
         </button>
