@@ -449,14 +449,17 @@ body {
   background-color: #001b3d;
 }
 
+/* === Version Mobile uniquement (max-width: 768px) === */
 @media screen and (max-width: 768px) {
   .login-container {
     flex-direction: column;
     align-items: center;
+    padding: 10px;
   }
 
-  .input-field, .login-button {
+  .input-field {
     width: 90%;
+    max-width: 300px;
   }
 
   .tracking-box {
@@ -467,40 +470,35 @@ body {
 
   .promotions {
     position: static;
-    margin: 20px auto;
-    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
     align-items: center;
   }
 
   .promo-images {
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
 
-.promo-images img {
-  width: 45%;
-  height: auto;
-}
-
+  .promotions img {
+    width: 140px;
+    height: auto;
+  }
 
   .referral-button {
     width: 90%;
-    margin-top: 10px;
+    max-width: 320px;
+    margin-top: 15px;
   }
 
- /* Affichage mobile du bouton Où nous trouver */
-.ou-nous-trouver-wrapper-mobile {
-  display: none;
-}
-
-@media screen and (max-width: 768px) {
   .ou-nous-trouver-wrapper-mobile {
     display: flex;
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 30px;
+    width: 100%;
   }
 
   .ou-nous-trouver-button-mobile {
@@ -521,80 +519,10 @@ body {
   .ou-nous-trouver-button-mobile:hover {
     background-color: #001b3d;
   }
-}
-
-  .ou-nous-trouver-wrapper {
-    margin-top: 10px;
-    margin-bottom: 30px;
-  }
-
-  .maps-section {
-    position: static;
-    transform: none;
-    margin: 20px auto;
-    width: 90%;
-  }
-
-  .maps-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
 
   .modal-content {
-    width: 90%;
+    width: 95%;
     padding: 20px;
   }
-
-  .parrainage-container {
-    width: 90%;
-    margin: 40px auto;
-  }
-
-  .code-promo-container {
-    width: 90%;
-    margin: 20px auto;
-  }
-
-  .styled-table {
-    font-size: 12px;
-  }
-
-  .formulaire {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .formulaire input,
-  .formulaire textarea,
-  .formulaire select {
-    width: 100%;
-  }
-
-  .magasin-bloc {
-    margin: 15px auto;
-    width: 90%;
-  }
-
-  .maps-link-button {
-    width: 100%;
-  }
-
-  .modal-content video {
-    max-height: 200px;
-  }
-
-  .logo-container {
-    position: static;
-    text-align: center;
-    margin-top: 10px;
-  }
-
-  .logo {
-    height: 80px;
-  }
-
-  .styled-table th,
-  .styled-table td {
-    padding: 8px;
-  }
 }
+
