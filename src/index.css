@@ -490,11 +490,38 @@ body {
     margin-top: 10px;
   }
 
-  .ou-nous-trouver-button button {
-    width: 90%;
-    font-size: 16px;
-    padding: 12px 20px;
+ /* Affichage mobile du bouton Où nous trouver */
+.ou-nous-trouver-wrapper-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .ou-nous-trouver-wrapper-mobile {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
   }
+
+  .ou-nous-trouver-button-mobile {
+    background-color: #002f5f;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+    width: 90%;
+    max-width: 320px;
+  }
+
+  .ou-nous-trouver-button-mobile:hover {
+    background-color: #001b3d;
+  }
+}
 
   .ou-nous-trouver-wrapper {
     margin-top: 10px;
