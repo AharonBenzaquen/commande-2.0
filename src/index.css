@@ -328,7 +328,7 @@ body {
 }
 
 /* ------------------------------
-   MODALES PROMOTIONS
+   MODALE PROMO
 --------------------------------*/
 .modal-overlay {
   align-items: center;
@@ -368,26 +368,22 @@ body {
   padding: 10px 20px;
 }
 
+/* PROMO MODAL IMAGE + VIDÉO */
 .promo-modal-content {
-  align-items: center;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center;
-  margin-top: 15px;
 }
 
-.promo-modal-img {
-  border-radius: 10px;
-  box-shadow: 0 4px 12px #0003;
-  max-width: 100%;
-  width: 240px;
-}
-
+.promo-modal-img,
 .promo-modal-video {
   border-radius: 10px;
-  max-width: 100%;
+  box-shadow: 0 4px 12px #0003;
   width: 300px;
+  max-width: 100%;
 }
 
 /* ------------------------------
@@ -502,9 +498,10 @@ body {
   }
 
   .tracking-box {
-    margin: 20px auto;
+    margin-top: 20px;
     position: static;
     width: 90%;
+    align-self: center;
   }
 
   .promotions {
@@ -532,30 +529,27 @@ body {
     width: 90%;
   }
 
-  .ou-nous-trouver-wrapper-mobile {
+  .ou-nous-trouver-button {
+    position: static;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
-    margin: 10px 0 30px;
     width: 100%;
   }
 
-  .ou-nous-trouver-button-mobile {
-    background-color: #002f5f;
-    border: none;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px #0000004d;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
+  .ou-nous-trouver-button button {
     max-width: 320px;
-    padding: 12px 24px;
-    transition: background-color .3s ease;
     width: 90%;
   }
 
-  .ou-nous-trouver-button-mobile:hover {
-    background-color: #001b3d;
+  .promo-modal-content {
+    flex-direction: column;
+  }
+
+  .promo-modal-img,
+  .promo-modal-video {
+    width: 90%;
+    max-width: 360px;
   }
 
   .modal-content {
@@ -563,6 +557,4 @@ body {
     width: 95%;
   }
 }
-
-
 
