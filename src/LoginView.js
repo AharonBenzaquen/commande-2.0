@@ -74,18 +74,17 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
       {/* Modal Promo 1 */}
     {showModal1 && (
   <div className="modal-overlay" onClick={() => setShowModal1(false)}>
-    <div className="modal-fullscreen" onClick={e => e.stopPropagation()}>
-      <div className="modal-media-container">
-        <img src="promo1-image.jpg" alt="Promo 1" className="modal-image" />
+    <div className="modal-content" onClick={e => e.stopPropagation()}>
+    <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
+    <div className="modal-media-container">
+     <img src="promo1-image.jpg" alt="Promo 1" className="modal-image" />
         <video controls className="modal-video">
           <source src="promo1-video.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
       <div className="modal-description">
-        <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
-        <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
-        <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
+      <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
       </div>
     </div>
   </div>
