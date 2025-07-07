@@ -44,15 +44,10 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
       </div>
 
-      <div className="maps-section">
-        <h3>📍 Où nous trouver</h3>
-        <div className="maps-buttons">
-          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+laval', '_blank')}>Laval</button>
-          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+rosemère', '_blank')}>Rosemère</button>
-          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+blainville', '_blank')}>Blainville</button>
-        </div>
-      </div>
-
+       <button onClick={() => navigate('/nous-trouver')} style={{ marginTop: '20px' }}>
+  📍 Où nous trouver
+</button>
+   
       {showModal1 && (
         <div className="modal-overlay" onClick={() => setShowModal1(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
