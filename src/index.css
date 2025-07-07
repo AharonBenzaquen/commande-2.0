@@ -490,10 +490,10 @@ body {
     margin-top: 10px;
   }
 
-  .ou-nous-trouver-button {
-    position: static;
-    margin: 20px auto;
-    text-align: center;
+  .ou-nous-trouver-button button {
+    width: 90%;
+    font-size: 16px;
+    padding: 12px 20px;
   }
 
   .maps-section {
