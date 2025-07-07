@@ -449,69 +449,55 @@ body {
   background-color: #001b3d;
 }
 
-/* Version Mobile */
-@media (max-width: 768px) {
-  .login-container,
-  .promo-images,
-  .maps-buttons,
-  .formulaire {
+@media screen and (max-width: 768px) {
+  .login-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .login-container input,
-  .login-container button,
-  .input-field,
-  .tracking-box input,
-  .tracking-box button,
-  .referral-button,
-  .maps-link-button,
-  .styled-table,
-  .formulaire input,
-  .formulaire textarea,
-  .formulaire select,
-  .formulaire button {
-    width: 90% !important;
-    max-width: 400px;
-  }
-
-  .tracking-box,
-  .maps-section,
-  .modal-content,
-  .parrainage-container,
-  .code-promo-container,
-  .magasin-bloc {
+  .input-field, .login-button {
     width: 90%;
-    max-width: 95%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: auto;
   }
 
-  .promo-images {
-    gap: 10px;
-    flex-direction: column;
+  .tracking-box {
+    position: static;
+    width: 90%;
+    margin: 20px auto;
   }
 
   .promotions {
-    bottom: 140px;
-    right: 50%;
-    transform: translateX(50%);
+    position: static;
+    margin: 20px auto;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .promo-images {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .promo-images img {
+    width: 90%;
+    height: auto;
+  }
+
+  .referral-button {
+    width: 90%;
+    margin-top: 10px;
   }
 
   .ou-nous-trouver-button {
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    margin: 20px auto;
+    text-align: center;
   }
 
-  .styled-table th, .styled-table td {
-    font-size: 12px;
-    padding: 10px;
-  }
-
-  .modal-content video {
-    width: 100%;
+  .maps-section {
+    position: static;
+    transform: none;
+    margin: 20px auto;
+    width: 90%;
   }
 
   .maps-buttons {
@@ -519,16 +505,61 @@ body {
     gap: 10px;
   }
 
-  .header {
-    font-size: 22px;
+  .modal-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .parrainage-container {
+    width: 90%;
+    margin: 40px auto;
+  }
+
+  .code-promo-container {
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  .styled-table {
+    font-size: 12px;
+  }
+
+  .formulaire {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .formulaire input,
+  .formulaire textarea,
+  .formulaire select {
+    width: 100%;
+  }
+
+  .magasin-bloc {
+    margin: 15px auto;
+    width: 90%;
+  }
+
+  .maps-link-button {
+    width: 100%;
+  }
+
+  .modal-content video {
+    max-height: 200px;
   }
 
   .logo-container {
-    top: 10px;
-    right: 10px;
+    position: static;
+    text-align: center;
+    margin-top: 10px;
   }
 
   .logo {
-    height: 60px;
+    height: 80px;
+  }
+
+  .styled-table th,
+  .styled-table td {
+    padding: 8px;
   }
 }
