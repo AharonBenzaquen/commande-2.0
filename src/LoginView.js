@@ -1,6 +1,6 @@
-// LoginView.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './index.css';
 
 export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter }) {
   const navigate = useNavigate();
@@ -17,15 +17,34 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
 
   return (
     <div className="app">
+      {/* Connexion */}
       <div className="login-container">
-        <input className="input-field" placeholder="Email" value={login} onChange={(e) => setLogin(e.target.value)} />
-        <input className="input-field" placeholder="Mot de passe" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} />
-        <button className="login-button" onClick={() => seConnecter(navigate)}>Connexion</button>
+        <input
+          className="input-field"
+          placeholder="Email"
+          value={login}
+          onChange={(e) => setLogin(e.target.value)}
+        />
+        <input
+          className="input-field"
+          type="password"
+          placeholder="Mot de passe"
+          value={mdp}
+          onChange={(e) => setMdp(e.target.value)}
+        />
+        <button className="login-button" onClick={() => seConnecter(navigate)}>
+          Connexion
+        </button>
       </div>
 
+      {/* Suivi de commande */}
       <div className="tracking-box">
         <h3>Suivi de commande</h3>
-        <input placeholder="Numéro de commande" value={tracking} onChange={(e) => setTracking(e.target.value)} />
+        <input
+          placeholder="Numéro de commande"
+          value={tracking}
+          onChange={(e) => setTracking(e.target.value)}
+        />
         <button onClick={rechercherTracking}>🔍 Rechercher</button>
         {commandeTrouvee ? (
           <div className="result">
@@ -36,22 +55,26 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         ) : tracking && <p>Aucune commande trouvée.</p>}
       </div>
 
+      {/* Promotions + parrainage */}
       <div className="promotions">
         <div className="promo-images">
           <img src="promo1.jpg" alt="Promotion 1" onClick={() => setShowModal1(true)} />
           <img src="promo2.jpg" alt="Promotion 2" onClick={() => setShowModal2(true)} />
         </div>
-        <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
+        <button className="referral-button" onClick={() => navigate('/parrainage')}>
+          👥 Parrainer un ami
+        </button>
       </div>
 
-       <div className="ou-nous-trouver-button">
-  <button onClick={() => navigate('/ou-nous-trouver')}>📍 Où nous trouver</button>
-</div>
+      {/* Bouton Où nous trouver */}
+      <div className="ou-nous-trouver-button">
+        <button onClick={() => navigate('/ou-nous-trouver')}>📍 Où nous trouver</button>
+      </div>
 
-   
+      {/* Modal Promo 1 */}
       {showModal1 && (
         <div className="modal-overlay" onClick={() => setShowModal1(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
             <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
             <video controls width="100%" style={{ borderRadius: '10px', marginTop: '10px' }}>
@@ -63,9 +86,10 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         </div>
       )}
 
+      {/* Modal Promo 2 */}
       {showModal2 && (
         <div className="modal-overlay" onClick={() => setShowModal2(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
             <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
             <video controls width="100%" style={{ borderRadius: '10px', marginTop: '10px' }}>
@@ -79,3 +103,4 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
     </div>
   );
 }
+
