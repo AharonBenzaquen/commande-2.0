@@ -1,28 +1,34 @@
+/* ------------------------------
+   FOND GLOBAL ET TYPOGRAPHIE
+--------------------------------*/
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-image: url('./background.png');
-  background-size: cover;
   background-attachment: fixed;
+  background-image: url(/static/media/background.cd4f41155a43afbd5397.png);
   background-repeat: no-repeat;
+  background-size: cover;
   color: #002f5f;
+  font-family: Segoe UI, sans-serif;
+  margin: 0;
 }
 
 .app {
-  position: relative;
-  min-height: 100vh;
-  width: 100%;
-  padding: 20px;
   box-sizing: border-box;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  width: 100%;
 }
 
 .header {
-  text-align: center;
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 700;
   margin-bottom: 20px;
+  text-align: center;
 }
 
+/* ------------------------------
+   CONNEXION
+--------------------------------*/
 .login-container {
   display: flex;
   gap: 10px;
@@ -30,20 +36,20 @@ body {
 }
 
 .input-field {
-  padding: 10px;
-  border-radius: 5px;
   border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
   width: 200px;
 }
 
 .login-button {
   background-color: #002f5f;
-  color: white;
   border: none;
   border-radius: 5px;
-  padding: 10px 15px;
+  color: #fff;
   cursor: pointer;
-  transition: background 0.3s ease;
+  padding: 10px 15px;
+  transition: background .3s ease;
 }
 
 .login-button:hover {
@@ -52,57 +58,61 @@ body {
 
 .logo-container {
   position: absolute;
-  top: 30px;
   right: 30px;
+  top: 30px;
 }
 
 .logo {
   height: 100px;
 }
 
+/* ------------------------------
+   SUIVI DE COMMANDE
+--------------------------------*/
 .tracking-box {
-  position: absolute;
-  bottom: 30px;
-  left: 30px;
-  background: rgba(255, 255, 255, 0.88);
-  padding: 20px;
+  background: #ffffffe0;
   border-radius: 10px;
+  bottom: 30px;
+  box-shadow: 0 4px 8px #0003;
+  left: 30px;
   max-width: 300px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  position: absolute;
 }
 
 .tracking-box h3 {
-  margin-top: 0;
-  font-size: 20px;
   color: #002f5f;
+  font-size: 20px;
+  margin-top: 0;
 }
 
 .tracking-box input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0 12px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+  margin: 8px 0 12px;
+  padding: 10px;
+  width: 100%;
 }
 
 .tracking-box button {
   background-color: #002f5f;
-  color: white;
-  padding: 8px 15px;
   border: none;
   border-radius: 5px;
+  color: #fff;
   cursor: pointer;
+  padding: 8px 15px;
 }
 
-/* Promotions */
-
+/* ------------------------------
+   PROMOTIONS
+--------------------------------*/
 .promotions {
-  position: absolute;
+  align-items: center;
   bottom: 30px;
-  right: 30px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  position: absolute;
+  right: 30px;
 }
 
 .promo-images {
@@ -112,135 +122,146 @@ body {
 }
 
 .promotions img {
-  width: 280px;
-  height: auto;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 10px #0000004d;
+  height: auto;
+  width: 280px;
+  cursor: pointer;
+  transition: transform .3s ease, box-shadow .3s ease;
 }
 
+.promotions img:hover {
+  box-shadow: 0 6px 15px #0006;
+  transform: scale(1.05);
+}
+
+/* ------------------------------
+   PARRAINAGE
+--------------------------------*/
 .referral-button {
   background-color: #f4c51c;
-  color: #002f5f;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  font-weight: bold;
+  color: #002f5f;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-weight: 700;
+  padding: 10px 20px;
+  transition: background .3s ease;
 }
 
 .referral-button:hover {
   background-color: #ffe05a;
 }
 
-/* Formulaire de parrainage */
-
 .parrainage-container {
-  max-width: 420px;
-  margin: 80px auto;
-  background: rgba(255, 255, 255, 0.92);
-  padding: 30px;
+  background: #ffffffeb;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 4px 15px #0003;
+  font-family: Segoe UI, sans-serif;
+  margin: 80px auto;
+  max-width: 420px;
+  padding: 30px;
 }
 
 .parrainage-container h2 {
-  text-align: center;
-  margin-bottom: 25px;
   color: #002f5f;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .parrainage-container label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
   color: #002f5f;
+  display: block;
+  font-weight: 700;
+  margin-bottom: 5px;
 }
 
 .parrainage-container input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 6px;
   border: 1px solid #ccc;
+  border-radius: 6px;
   font-size: 15px;
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
 }
 
 .parrainage-container button {
-  width: 100%;
   background-color: #002f5f;
-  color: white;
-  padding: 12px;
   border: none;
   border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
+  color: #fff;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px;
+  transition: background .3s ease;
+  width: 100%;
 }
 
 .parrainage-container button:hover {
   background-color: #004080;
 }
 
-/* Bloc d'affichage du code promo */
-
+/* ------------------------------
+   CODE PROMO
+--------------------------------*/
 .code-promo-container {
   margin-top: 30px;
   text-align: center;
 }
 
 .code-promo-image {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px #00000040;
+  height: auto;
   max-width: 360px;
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .imprimer-button {
-  margin-top: 15px;
-  padding: 12px 20px;
   background-color: #002f5f;
-  color: white;
   border: none;
   border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 15px;
+  padding: 12px 20px;
+  transition: background-color .3s ease;
 }
 
 .imprimer-button:hover {
   background-color: #001b3d;
 }
 
-/* Tableaux généraux */
-
+/* ------------------------------
+   TABLEAU COMMANDES
+--------------------------------*/
 .styled-table {
-  width: 100%;
+  background-color: #fff;
   border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  background-color: white;
   border-radius: 8px;
+  box-shadow: 0 2px 8px #00000026;
+  font-size: 14px;
+  margin-top: 20px;
   overflow: hidden;
+  width: 100%;
 }
 
 .styled-table thead {
   background-color: #002f5f;
-  color: white;
+  color: #fff;
 }
 
-.styled-table th, .styled-table td {
-  padding: 12px 15px;
+.styled-table td,
+.styled-table th {
   border: 1px solid #ddd;
+  padding: 12px 15px;
   text-align: left;
 }
 
-.styled-table tbody tr:nth-child(even) {
+.styled-table tbody tr:nth-child(2n) {
   background-color: #f9f9f9;
 }
 
@@ -248,85 +269,147 @@ body {
   background-color: #f1f1f1;
 }
 
-/* Mise à jour - Formulaire de commande */
-.formulaire {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-.formulaire input,
-.formulaire textarea,
-.formulaire select {
-  flex: 1;
-  min-width: 180px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #fff;
-  color: #002f5f;
-}
-
-.formulaire button {
-  background-color: #002f5f;
-  color: white;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.formulaire button:hover {
-  background-color: #001b3d;
-}
-
-/* Mise à jour - Boutons dans le tableau */
-
 .styled-table button {
   background-color: #f4c51c;
-  color: #002f5f;
   border: none;
   border-radius: 5px;
-  padding: 6px 10px;
-  margin-right: 5px;
+  color: #002f5f;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
+  font-weight: 700;
+  margin-right: 5px;
+  padding: 6px 10px;
+  transition: background-color .2s ease;
 }
 
 .styled-table button:hover {
   background-color: #ffe05a;
 }
 
-/* Section Où nous trouver */
-
-.maps-section {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  background: rgba(255, 255, 255, 0.92);
-  padding: 20px 30px;
+/* ------------------------------
+   FORMULAIRE COMMANDE
+--------------------------------*/
+.formulaire {
+  background: #fffffff2;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px #00000026;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+.formulaire input,
+.formulaire select,
+.formulaire textarea {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  color: #002f5f;
+  flex: 1 1;
+  font-size: 14px;
+  min-width: 180px;
+  padding: 10px;
+}
+
+.formulaire button {
+  background-color: #002f5f;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px 20px;
+  transition: background .3s ease;
+}
+
+.formulaire button:hover {
+  background-color: #001b3d;
+}
+
+/* ------------------------------
+   MODALES PROMOTIONS
+--------------------------------*/
+.modal-overlay {
+  align-items: center;
+  background: #00000080;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px #0000004d;
+  color: #002f5f;
+  max-width: 600px;
+  padding: 30px;
+  text-align: center;
+  width: 90%;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+}
+
+.close-button {
+  background-color: #002f5f;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+.promo-modal-content {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.promo-modal-img {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px #0003;
+  max-width: 100%;
+  width: 240px;
+}
+
+.promo-modal-video {
+  border-radius: 10px;
+  max-width: 100%;
+  width: 300px;
+}
+
+/* ------------------------------
+   SECTION MAGASIN / MAPS
+--------------------------------*/
+.maps-section {
+  background: #ffffffeb;
+  border-radius: 10px;
+  bottom: 30px;
+  box-shadow: 0 4px 12px #0003;
+  left: 50%;
+  padding: 20px 30px;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
 }
 
 .maps-section h3 {
-  margin-top: 0;
-  margin-bottom: 12px;
   color: #002f5f;
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 700;
+  margin: 0 0 12px;
 }
 
 .maps-buttons {
@@ -337,259 +420,149 @@ body {
 
 .maps-buttons button {
   background-color: #002f5f;
-  color: white;
-  padding: 10px 18px;
   border: none;
   border-radius: 6px;
-  font-weight: bold;
+  color: #fff;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: 700;
+  padding: 10px 18px;
+  transition: background-color .3s ease;
 }
 
 .maps-buttons button:hover {
   background-color: #001b3d;
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 30%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 90%;
-  height: 40vh;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  color: #002f5f;
-  text-align: center;
-}
-
-.modal-content h3 {
-  margin-top: 0;
-}
-
-.close-button {
-  margin-top: 20px;
-  background-color: #002f5f;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.promo-modal-content {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 15px;
-  flex-wrap: wrap;
-}
-
-.promo-modal-img {
-  width: 100%;
-  max-width: 300px;
-  height: 50%;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.promo-modal-video {
-  width: 650px;
-  height: 30vh;
-  max-width: 100%;
-  border-radius: 10px;
-}
-
-.modal-content img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-
-/* Effet au survol des images promotionnelles */
-.promotions img {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.promotions img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-}
-
 .magasin-bloc {
-  background: rgba(255,255,255,0.95);
-  padding: 20px;
-  margin: 20px auto;
+  background: #fffffff2;
   border-radius: 10px;
+  box-shadow: 0 2px 8px #0003;
+  margin: 20px auto;
   max-width: 600px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  padding: 20px;
   text-align: center;
 }
 
 .maps-link-button {
   background-color: #002f5f;
-  color: white;
-  padding: 10px 20px;
-  margin-top: 10px;
   border: none;
   border-radius: 6px;
+  color: #fff;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+  font-weight: 700;
+  margin-top: 10px;
+  padding: 10px 20px;
+  transition: background-color .3s ease;
 }
 
 .maps-link-button:hover {
   background-color: #001b3d;
 }
 
+/* ------------------------------
+   BOUTON "OÙ NOUS TROUVER"
+--------------------------------*/
 .ou-nous-trouver-button {
-  position: absolute;
   bottom: 30px;
   left: 50%;
+  position: absolute;
   transform: translateX(-50%);
 }
 
 .ou-nous-trouver-button button {
   background-color: #002f5f;
-  color: white;
-  padding: 12px 24px;
   border: none;
   border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
+  box-shadow: 0 4px 12px #0000004d;
+  color: #fff;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 24px;
+  transition: background-color .3s ease;
 }
 
 .ou-nous-trouver-button button:hover {
   background-color: #001b3d;
 }
 
+/* ------------------------------
+   MOBILE (≤768px)
+--------------------------------*/
 @media screen and (max-width: 768px) {
   .login-container {
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     padding: 10px;
   }
 
   .input-field {
-    width: 90%;
     max-width: 300px;
+    width: 90%;
   }
 
   .tracking-box {
+    margin: 20px auto;
     position: static;
     width: 90%;
-    margin: 20px auto;
   }
 
   .promotions {
-    position: static;
-    margin-top: 20px;
-    width: 100%;
     align-items: center;
+    margin-top: 20px;
+    position: static;
+    width: 100%;
   }
 
   .promo-images {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 10px;
+    justify-content: center;
   }
 
   .promotions img {
-    width: 140px;
     height: auto;
+    width: 140px;
   }
 
   .referral-button {
-    width: 90%;
-    max-width: 320px;
     margin-top: 15px;
+    max-width: 320px;
+    width: 90%;
   }
 
-  /* 👉 Ajout du bouton Où nous trouver sous le bouton parrainage */
-  .ou-nous-trouver-button {
-    position: static;
-    margin-top: 10px;
+  .ou-nous-trouver-wrapper-mobile {
     display: flex;
     justify-content: center;
+    margin: 10px 0 30px;
     width: 100%;
   }
 
-  .ou-nous-trouver-button button {
-    width: 90%;
+  .ou-nous-trouver-button-mobile {
+    background-color: #002f5f;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px #0000004d;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
     max-width: 320px;
-    margin-bottom: 30px;
+    padding: 12px 24px;
+    transition: background-color .3s ease;
+    width: 90%;
   }
 
-  /* 👉 Adaptation de la modale pour mobile */
+  .ou-nous-trouver-button-mobile:hover {
+    background-color: #001b3d;
+  }
+
   .modal-content {
+    padding: 20px;
     width: 95%;
-    padding: 15px;
-    height: auto;
   }
-
-  .promo-modal-content {
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-  }
-
-  .promo-modal-img,
-  .promo-modal-video {
-    width: 100%;
-    height: auto;
-  }
-
-  .fullscreen-modal {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  box-sizing: border-box;
 }
-
-.modal-flex {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.promo-modal-img {
-  width: 320px;
-  max-width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.promo-modal-video {
-  width: 320px;
-  max-width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
- } 
 
 
 
