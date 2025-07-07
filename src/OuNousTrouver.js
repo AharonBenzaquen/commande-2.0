@@ -17,8 +17,8 @@ export default function OuNousTrouver() {
 
       <div className="magasin-bloc">
         <h3>Opti-W Rosemère</h3>
-        <p>Adresse : 456 Rue Rosemère, QC</p>
-        <p>Téléphone : (514) 987-6543</p>
+        <p>Adresse :401 Boul. Labelle, Rosemère, QC J7A 3T2</p>
+        <p>Téléphone : (450)951-2115</p>
         <button className="maps-link-button" onClick={() => window.open('https://www.google.com/maps?q=opti-w+rosemère', '_blank')}>
           Voir sur Google Maps
         </button>
@@ -26,8 +26,8 @@ export default function OuNousTrouver() {
 
       <div className="magasin-bloc">
         <h3>Opti-W Blainville</h3>
-        <p>Adresse : 789 Rue Blainville, QC</p>
-        <p>Téléphone : (514) 555-7890</p>
+        <p>Adresse : 1333 Bd Michèle-Bohec, Blainville, QC J7C 5M7</p>
+        <p>Téléphone : (514)416 1909</p>
         <button className="maps-link-button" onClick={() => window.open('https://www.google.com/maps?q=opti-w+blainville', '_blank')}>
           Voir sur Google Maps
         </button>
