@@ -71,31 +71,31 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         <button onClick={() => navigate('/ou-nous-trouver')}>📍 Où nous trouver</button>
       </div>
 
-      {/* Modal Promo 1 */}
-    {showModal1 && (
+     {/* Modal Promo 1 */}
+{showModal1 && (
   <div className="modal-overlay" onClick={() => setShowModal1(false)}>
     <div className="modal-content" onClick={e => e.stopPropagation()}>
-    <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
-    <div className="promo-modal-content">
-     <img src="promo1-image.jpg" alt="Promo 1" className="modal-image" />
+      <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
+      <div className="modal-media-content">
+        <img src="promo1-image.jpg" alt="Promo 1" className="modal-image" />
         <video controls className="modal-video">
           <source src="promo1-video.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
       <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
-      </div>
     </div>
+  </div>
 )}
 
-      {/* Modal Promo 2 */}
-       {showModal2 && (
+{/* Modal Promo 2 */}
+{showModal2 && (
   <div className="modal-overlay" onClick={() => setShowModal2(false)}>
     <div className="modal-content" onClick={e => e.stopPropagation()}>
       <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
-      <div className="promo-modal-content">
-        <img src="promo2-image.jpg" alt="Illustration Promo 2" className="promo-modal-img" />
-        <video controls className="promo-modal-video">
+      <div className="modal-media-content">
+        <img src="promo2-image.jpg" alt="Promo 2" className="modal-image" />
+        <video controls className="modal-video">
           <source src="promo2-video.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
