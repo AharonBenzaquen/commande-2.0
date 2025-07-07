@@ -513,6 +513,28 @@ body {
     height: auto;
   }
 
+  @media (max-width: 768px) {
+  .modal-content {
+    padding: 15px;
+  }
+
+  .promo-modal-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .promo-image,
+  .promo-video {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+}
+
+
   .referral-button {
     width: 90%;
     max-width: 320px;
