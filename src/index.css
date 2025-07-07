@@ -448,3 +448,87 @@ body {
 .ou-nous-trouver-button button:hover {
   background-color: #001b3d;
 }
+
+/* Version Mobile */
+@media (max-width: 768px) {
+  .login-container,
+  .promo-images,
+  .maps-buttons,
+  .formulaire {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-container input,
+  .login-container button,
+  .input-field,
+  .tracking-box input,
+  .tracking-box button,
+  .referral-button,
+  .maps-link-button,
+  .styled-table,
+  .formulaire input,
+  .formulaire textarea,
+  .formulaire select,
+  .formulaire button {
+    width: 90% !important;
+    max-width: 400px;
+  }
+
+  .tracking-box,
+  .maps-section,
+  .modal-content,
+  .parrainage-container,
+  .code-promo-container,
+  .magasin-bloc {
+    width: 90%;
+    max-width: 95%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: auto;
+  }
+
+  .promo-images {
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  .promotions {
+    bottom: 140px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .ou-nous-trouver-button {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .styled-table th, .styled-table td {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .modal-content video {
+    width: 100%;
+  }
+
+  .maps-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header {
+    font-size: 22px;
+  }
+
+  .logo-container {
+    top: 10px;
+    right: 10px;
+  }
+
+  .logo {
+    height: 60px;
+  }
+}
