@@ -91,16 +91,15 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
 {/* Modal Promo 2 */}
 {showModal2 && (
   <div className="modal-overlay" onClick={() => setShowModal2(false)}>
-    <div className="modal-content large-modal" onClick={e => e.stopPropagation()}>
+    <div className="modal-content" onClick={e => e.stopPropagation()}>
       <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
-      <div className="promo2-flex">
-        <img src="promo2-image.jpg" alt="Promo 2" className="promo2-img" />
-        <video controls className="promo2-video">
+      <div className="modal-media-content">
+        <img src="promo2-image.jpg" alt="Promo 2" className="modal-image" />
+        <video controls className="modal-video">
           <source src="promo2-video.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
-      <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
       <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
     </div>
   </div>
