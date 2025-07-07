@@ -44,9 +44,10 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
       </div>
 
-       <button onClick={() => navigate('/nous-trouver')} style={{ marginTop: '20px' }}>
-  📍 Où nous trouver
-</button>
+       <div className="ou-nous-trouver-button">
+  <button onClick={() => navigate('/ou-nous-trouver')}>📍 Où nous trouver</button>
+</div>
+
    
       {showModal1 && (
         <div className="modal-overlay" onClick={() => setShowModal1(false)}>
