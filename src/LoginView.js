@@ -72,34 +72,41 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
       </div>
 
       {/* Modal Promo 1 */}
-      {showModal1 && (
-        <div className="modal-overlay" onClick={() => setShowModal1(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
-            <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
-            <video controls width="100%" style={{ borderRadius: '10px', marginTop: '10px' }}>
-              <source src="promo1-video.mp4" type="video/mp4" />
-              Votre navigateur ne supporte pas la vidéo.
-            </video>
-            <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
-          </div>
-        </div>
-      )}
+     {showModal1 && (
+  <div className="modal-overlay" onClick={() => setShowModal1(false)}>
+    <div className="modal-content" onClick={e => e.stopPropagation()}>
+      <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
+      <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
+      <div className="promo-modal-content">
+        <img src="promo1-image.jpg" alt="Illustration Promo 1" className="promo-modal-img" />
+        <video controls className="promo-modal-video">
+          <source src="promo1-video.mp4" type="video/mp4" />
+          Votre navigateur ne supporte pas la vidéo.
+        </video>
+      </div>
+      <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
+    </div>
+  </div>
+)}
+
 
       {/* Modal Promo 2 */}
-      {showModal2 && (
-        <div className="modal-overlay" onClick={() => setShowModal2(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
-            <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
-            <video controls width="100%" style={{ borderRadius: '10px', marginTop: '10px' }}>
-              <source src="promo2-video.mp4" type="video/mp4" />
-              Votre navigateur ne supporte pas la vidéo.
-            </video>
-            <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
-          </div>
-        </div>
-      )}
+     {showModal2 && (
+  <div className="modal-overlay" onClick={() => setShowModal2(false)}>
+    <div className="modal-content" onClick={e => e.stopPropagation()}>
+      <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
+      <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
+      <div className="promo-modal-content">
+        <img src="promo2-image.jpg" alt="Illustration Promo 2" className="promo-modal-img" />
+        <video controls className="promo-modal-video">
+          <source src="promo2-video.mp4" type="video/mp4" />
+          Votre navigateur ne supporte pas la vidéo.
+        </video>
+      </div>
+      <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
+    </div>
+  </div>
+)}
     </div>
   );
 }
