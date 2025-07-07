@@ -424,3 +424,27 @@ body {
 .maps-link-button:hover {
   background-color: #001b3d;
 }
+
+.ou-nous-trouver-button {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ou-nous-trouver-button button {
+  background-color: #002f5f;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: background-color 0.3s ease;
+}
+
+.ou-nous-trouver-button button:hover {
+  background-color: #001b3d;
+}
