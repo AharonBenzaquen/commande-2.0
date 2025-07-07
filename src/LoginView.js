@@ -77,8 +77,8 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
       <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
       <div className="promo-modal-wrapper">
-        <img src="ecriture noir.png" alt="Détails promo" className="promo-image" />
-        <video controls className="promo-video">
+               <img src="promo1-image.jpg" alt="Promo 1" className="modal-image" />
+        <video controls className="modal-video">
           <source src="promo1-video.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
