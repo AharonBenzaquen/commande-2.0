@@ -369,6 +369,7 @@ body {
   border-radius: 12px;
   max-width: 1500px;
   width: 90%;
+  height: 100vh;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   color: #002f5f;
   text-align: center;
