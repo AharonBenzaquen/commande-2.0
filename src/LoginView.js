@@ -72,13 +72,13 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
       </div>
 
       {/* Modal Promo 1 */}
-     {showModal1 && (
+    {showModal1 && (
   <div className="modal-overlay" onClick={() => setShowModal1(false)}>
-    <div className="modal-content" onClick={e => e.stopPropagation()}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
       <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
-      <div className="promo-modal-content">
-        <img src="promo1-image.jpg" alt="Illustration Promo 1" className="promo-modal-img" />
-        <video controls className="promo-modal-video">
+      <div className="promo-modal-wrapper">
+        <img src="ecriture noir.png" alt="Détails promo" className="promo-image" />
+        <video controls className="promo-video">
           <source src="promo1-video.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
@@ -87,6 +87,7 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
     </div>
   </div>
 )}
+
 
 
       {/* Modal Promo 2 */}
