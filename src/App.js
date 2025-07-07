@@ -67,7 +67,7 @@ export default function App() {
             />
           ) : <Navigate to="/" />
         } />
-        <Route path="/nous-trouver" element={<OuNousTrouver />} /> {/* ✅ Ajout route */}
+        <Route path="/Ounous-trouver" element={<OuNousTrouver />} /> {/* ✅ Ajout route */}
       </Routes>
     </Router>
   );
