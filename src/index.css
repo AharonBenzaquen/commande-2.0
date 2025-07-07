@@ -369,7 +369,7 @@ body {
   border-radius: 12px;
   max-width: 1500px;
   width: 90%;
-  height: 60vh;
+  height: 70vh;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   color: #002f5f;
   text-align: center;
@@ -400,7 +400,7 @@ body {
 
 .promo-modal-img {
   width: 650px;
-  height: 45vh;
+  height: 55vh;
   max-width: 100%;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -408,7 +408,7 @@ body {
 
 .promo-modal-video {
   width: 650px;
-  height: 45vh;
+  height: 55vh;
   max-width: 100%;
   border-radius: 10px;
 }
