@@ -4,6 +4,7 @@ import './index.css';
 
 export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter }) {
   const navigate = useNavigate();
+
   const [tracking, setTracking] = useState('');
   const [commandeTrouvee, setCommandeTrouvee] = useState(null);
   const [showModal1, setShowModal1] = useState(false);
@@ -17,7 +18,8 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
 
   return (
     <div className="app">
-      {/* Connexion */}
+
+      {/* 🟦 Connexion */}
       <div className="login-container">
         <input
           className="input-field"
@@ -37,7 +39,7 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         </button>
       </div>
 
-      {/* Suivi de commande */}
+      {/* 🔍 Suivi de commande */}
       <div className="tracking-box">
         <h3>Suivi de commande</h3>
         <input
@@ -46,6 +48,7 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
           onChange={(e) => setTracking(e.target.value)}
         />
         <button onClick={rechercherTracking}>🔍 Rechercher</button>
+
         {commandeTrouvee ? (
           <div className="result">
             <p><strong>Commande :</strong> {commandeTrouvee.numero}</p>
@@ -55,58 +58,64 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         ) : tracking && <p>Aucune commande trouvée.</p>}
       </div>
 
-      {/* Promotions + parrainage */}
+      {/* 🎁 Promotions + 👥 Parrainage */}
       <div className="promotions">
         <div className="promo-images">
           <img src="promo1.jpg" alt="Promotion 1" onClick={() => setShowModal1(true)} />
           <img src="promo2.jpg" alt="Promotion 2" onClick={() => setShowModal2(true)} />
         </div>
-        <button className="referral-button" onClick={() => navigate('/parrainage')}>
+
+        <button
+          className="referral-button"
+          onClick={() => navigate('/parrainage')}
+        >
           👥 Parrainer un ami
         </button>
       </div>
 
-      {/* Bouton Où nous trouver */}
+      {/* 📍 Bouton Où nous trouver */}
       <div className="ou-nous-trouver-button">
-        <button onClick={() => navigate('/ou-nous-trouver')}>📍 Où nous trouver</button>
+        <button onClick={() => navigate('/ou-nous-trouver')}>
+          📍 Où nous trouver
+        </button>
       </div>
 
-     {/* Modal Promo 1 */}
-{showModal1 && (
-  <div className="modal-overlay" onClick={() => setShowModal1(false)}>
-    <div className="modal-content fullscreen-modal" onClick={e => e.stopPropagation()}>
-      <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
-      <div className="modal-flex">
-        <img src="promo1-img.jpg" alt="Image Promo 1" className="promo-modal-img" />
-        <video controls className="promo-modal-video">
-          <source src="promo1-video.mp4" type="video/mp4" />
-          Votre navigateur ne supporte pas la vidéo.
-        </video>
-      </div>
-      <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
-      <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
-    </div>
-  </div>
-)}
+      {/* 🪟 Modal Promotion 1 */}
+      {showModal1 && (
+        <div className="modal-overlay" onClick={() => setShowModal1(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
+            <div className="promo-modal-content">
+              <img src="promo1-img.jpg" alt="Image Promo 1" className="promo-modal-img" />
+              <video controls className="promo-modal-video">
+                <source src="promo1-video.mp4" type="video/mp4" />
+                Votre navigateur ne supporte pas la vidéo.
+              </video>
+            </div>
+            <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
+            <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
+          </div>
+        </div>
+      )}
 
-{/* Modal Promo 2 */}
-{showModal2 && (
-  <div className="modal-overlay" onClick={() => setShowModal2(false)}>
-    <div className="modal-content fullscreen-modal" onClick={e => e.stopPropagation()}>
-      <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
-      <div className="modal-flex">
-        <img src="promo2-img.jpg" alt="Image Promo 2" className="promo-modal-img" />
-        <video controls className="promo-modal-video">
-          <source src="promo2-video.mp4" type="video/mp4" />
-          Votre navigateur ne supporte pas la vidéo.
-        </video>
-      </div>
-      <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
-      <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
-    </div>
-  </div>
-)}
-
+      {/* 🪟 Modal Promotion 2 */}
+      {showModal2 && (
+        <div className="modal-overlay" onClick={() => setShowModal2(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
+            <div className="promo-modal-content">
+              <img src="promo2-img.jpg" alt="Image Promo 2" className="promo-modal-img" />
+              <video controls className="promo-modal-video">
+                <source src="promo2-video.mp4" type="video/mp4" />
+                Votre navigateur ne supporte pas la vidéo.
+              </video>
+            </div>
+            <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
+            <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
+          </div>
+        </div>
+      )}
+      
     </div>
   );
 }
