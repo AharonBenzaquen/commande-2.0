@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'r
 import './index.css';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
-import Magasin from './Magasin';
 
 const utilisateurs = {
   'laval@optiw.com': { role: 'magasin', magasin: 'Laval', password: 'LavalOpti2025!' },
@@ -83,6 +82,7 @@ function MainApp({ setRole, setLogin, setMdp, role, magasin, setMagasin }) {
     localStorage.removeItem('magasin');
     navigate('/');
   };
+
   return (
     <div className="app">
       <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
@@ -170,6 +170,8 @@ function Login({ login, setLogin, mdp, setMdp, seConnecter }) {
   const navigate = useNavigate();
   const [tracking, setTracking] = useState('');
   const [commandeTrouvee, setCommandeTrouvee] = useState(null);
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
 
   const rechercherTracking = () => {
     const toutes = JSON.parse(localStorage.getItem('commandes')) || [];
@@ -200,12 +202,48 @@ function Login({ login, setLogin, mdp, setMdp, seConnecter }) {
 
       <div className="promotions">
         <div className="promo-images">
-          <img src="promo1.jpg" alt="Promotion 1" />
-          <img src="promo2.jpg" alt="Promotion 2" />
+          <img src="promo1.jpg" alt="Promotion 1" onClick={() => setShowModal1(true)} />
+          <img src="promo2.jpg" alt="Promotion 2" onClick={() => setShowModal2(true)} />
         </div>
         <button className="referral-button" onClick={() => navigate('/parrainage')}>👥 Parrainer un ami</button>
-        <button className="maps-button" onClick={() => navigate('/magasin')}>📍 Où nous trouver</button>
       </div>
+
+      <div className="maps-section">
+        <h3>📍 Où nous trouver</h3>
+        <div className="maps-buttons">
+          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+laval', '_blank')}>Laval</button>
+          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+rosemère', '_blank')}>Rosemère</button>
+          <button onClick={() => window.open('https://www.google.com/maps?q=opti-w+blainville', '_blank')}>Blainville</button>
+        </div>
+      </div>
+
+      {showModal1 && (
+        <div className="modal-overlay" onClick={() => setShowModal1(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3>🎁 Promo 1 - 2 paires Simple Vision pour 200$</h3>
+            <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
+            <video controls width="100%" style={{ borderRadius: '10px', marginTop: '10px' }}>
+              <source src="promo1-video.mp4" type="video/mp4" />
+              Votre navigateur ne supporte pas la vidéo.
+            </video>
+            <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
+          </div>
+        </div>
+      )}
+
+      {showModal2 && (
+        <div className="modal-overlay" onClick={() => setShowModal2(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3>🎁 Promo 2 - 2 paires Progressives pour 300$</h3>
+            <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
+            <video controls width="100%" style={{ borderRadius: '10px', marginTop: '10px' }}>
+              <source src="promo2-video.mp4" type="video/mp4" />
+              Votre navigateur ne supporte pas la vidéo.
+            </video>
+            <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -249,7 +287,6 @@ export default function App() {
             setMdp={setMdp}
           />
         } />
-        <Route path="/magasin" element={<Magasin />} />
         <Route path="/main" element={
           (role && role !== 'reference') ? (
             <MainApp
