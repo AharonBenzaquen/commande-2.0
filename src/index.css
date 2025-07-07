@@ -354,7 +354,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 50%;
   height: 30%;
   background: rgba(0,0,0,0.5);
   display: flex;
@@ -367,7 +367,7 @@ body {
   background: white;
   padding: 30px;
   border-radius: 12px;
-  max-width: 450px;
+  max-width: 600px;
   width: 90%;
   height: 70vh;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
