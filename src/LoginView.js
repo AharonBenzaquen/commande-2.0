@@ -81,7 +81,7 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
 
       {/* 📅 Prendre rendez-vous */}
       <div className="rdv-button">
-        <button onClick={() => window.open('https://897ce2-7c.myshopify.com', '_blank')}>
+        <button onClick={() => window.open('https://897ce2-7c.myshopify.com/pages/examen-de-la-vue', '_blank')}>
           📅 Prendre rendez-vous
         </button>
       </div>
