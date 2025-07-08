@@ -25,7 +25,8 @@ export default function OuNousTrouver() {
           <iframe
             title="Opti-W Laval"
             className="store-map"
-            src="https://www.google.com/maps/place/Opti-W+Laval+(optometriste+et+opticien+Walmart)/@45.5599752,-73.7552637,16z/data=!3m1!4b1!4m6!3m5!1s0x4cc923b8d2021d6b:0xe3322ddc754869f5!8m2!3d45.5599715!4d-73.7526888!16s%2Fg%2F11rylmwd5c?hl=fr&entry=ttu&g_ep=EgoyMDI1MDcwNi4wIKXMDSoASAFQAw%3D%3D"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5587.040541631336!2d-73.75526372379899!3d45.55997522704329!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc923b8d2021d6b%3A0xe3322ddc754869f5!2sOpti-W%20Laval%20(optometriste%20et%20opticien%20Walmart)!5e0!3m2!1sfr!2sca!4v1752014723813!5m2!1sfr!2sca
+"
             allowFullScreen
             loading="lazy"
           ></iframe>
