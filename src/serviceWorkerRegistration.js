@@ -1,13 +1,14 @@
+// Enregistre le Service Worker pour l'application (PWA support, cache, etc.)
 export function register() {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
         .register('/service-worker.js')
         .then((registration) => {
-          console.log('SW registered: ', registration);
+          console.log('✅ Service Worker enregistré :', registration);
         })
-        .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
+        .catch((error) => {
+          console.error('❌ Échec de l’enregistrement du Service Worker :', error);
         });
     });
   }
