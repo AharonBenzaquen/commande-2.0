@@ -8,7 +8,8 @@ import MainApp from './MainApp';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
 import OuNousTrouver from './OuNousTrouver';
-import Tracking from './Tracking'; // ✅ Nouveau composant
+import Tracking from './Tracking';
+import ConnexionParrainage from './ConnexionParrainage'; // ✅ Nouveau
 
 // 🔐 Comptes utilisateurs autorisés
 const utilisateurs = {
@@ -21,13 +22,11 @@ const utilisateurs = {
 };
 
 export default function App() {
-  // 🔐 États de connexion
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
   const [role, setRole] = useState(localStorage.getItem('role') || '');
   const [magasin, setMagasin] = useState(localStorage.getItem('magasin') || '');
 
-  // 🔄 Fonction de connexion
   const seConnecter = (navigate) => {
     const utilisateur = utilisateurs[login];
     if (utilisateur && utilisateur.password === mdp) {
@@ -46,7 +45,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        {/* 🟢 Page de connexion */}
+
         <Route path="/" element={
           <LoginView
             login={login}
@@ -57,10 +56,8 @@ export default function App() {
           />
         } />
 
-        {/* 🎁 Page de parrainage */}
         <Route path="/parrainage" element={<Parrainage />} />
 
-        {/* 🎯 Page référence */}
         <Route path="/reference" element={
           <ReferenceView
             setRole={setRole}
@@ -69,7 +66,6 @@ export default function App() {
           />
         } />
 
-        {/* 🧾 Application principale */}
         <Route path="/main" element={
           (role && role !== 'reference') ? (
             <MainApp
@@ -83,12 +79,14 @@ export default function App() {
           ) : <Navigate to="/" />
         } />
 
-        {/* 📍 Page "Où nous trouver" */}
         <Route path="/ou-nous-trouver" element={<OuNousTrouver />} />
+        <Route path="/tracking" element={<Tracking commandes={[]} />} />
 
-        {/* 🔍 Page de suivi client (Tracking) */}
-        <Route path="/tracking" element={<Tracking commandes={[]} />} /> {/* À remplacer par les vraies commandes */}
+        {/* ✅ Nouvelle page : Connexion ou inscription au parrainage */}
+        <Route path="/connexion-parrainage" element={<ConnexionParrainage />} />
+
       </Routes>
     </Router>
   );
 }
+
