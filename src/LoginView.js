@@ -116,5 +116,12 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
       
     </div>
   );
+<button
+  className="rdv-button"
+  onClick={() => window.open("https://votre-lien-de-rendez-vous.com", "_blank")}
+>
+  📅 Prendre rendez-vous
+</button>
+
 }
 
