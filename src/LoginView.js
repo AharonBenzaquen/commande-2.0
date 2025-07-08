@@ -74,18 +74,12 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
 
         <div className="ou-nous-trouver-button">
           <button onClick={() => navigate('/ou-nous-trouver')}>
-            📍 Où nous trouver
+            📍 Où nous trouver + Prendre rendez-vous
           </button>
         </div>
       </div>
 
-      {/* 📅 Prendre rendez-vous */}
-      <div className="rdv-button">
-        <button onClick={() => window.open('https://897ce2-7c.myshopify.com/pages/examen-de-la-vue', '_blank')}>
-          📅 Prendre rendez-vous
-        </button>
-      </div>
-
+    
       {/* 🪟 Modales Promo */}
       {showModal1 && (
         <div className="modal-overlay" onClick={() => setShowModal1(false)}>
