@@ -553,6 +553,27 @@ body {
   background-color: #001b3d;
 }
 
+/* ------------------------------
+   BOUTON PRISE DE RENDEZ-VOUS
+--------------------------------*/
+.appointment-button {
+  display: inline-block;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #f4c51c;
+  color: #002f5f;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.appointment-button:hover {
+  background-color: #e2b514;
+}
+
 /* ✅ ESPACEMENT SUPPLÉMENTAIRE SUR MOBILE */
 @media (max-width: 768px) {
   .ou-nous-trouver-button {
