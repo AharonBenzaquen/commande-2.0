@@ -4,7 +4,7 @@ import './index.css';
 export default function OuNousTrouver() {
   return (
     <div className="location-page">
-      <h2 className="location-title">📍 Où nous trouver</h2>
+      <h2 className="location-title">📍 Où nous trouver + prendre rendez-vous</h2>
 
       <div className="store-list">
         {/* ⬅️ LAVAL */}
