@@ -7,7 +7,8 @@ import LoginView from './LoginView';
 import MainApp from './MainApp';
 import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
-import OuNousTrouver from './OuNousTrouver'; // ✅ Page localisation
+import OuNousTrouver from './OuNousTrouver';
+import Tracking from './Tracking'; // ✅ Nouveau composant
 
 // 🔐 Comptes utilisateurs autorisés
 const utilisateurs = {
@@ -45,7 +46,6 @@ export default function App() {
   return (
     <Router>
       <Routes>
-
         {/* 🟢 Page de connexion */}
         <Route path="/" element={
           <LoginView
@@ -60,7 +60,7 @@ export default function App() {
         {/* 🎁 Page de parrainage */}
         <Route path="/parrainage" element={<Parrainage />} />
 
-        {/* 🎯 Page référence (affichée uniquement si rôle = reference) */}
+        {/* 🎯 Page référence */}
         <Route path="/reference" element={
           <ReferenceView
             setRole={setRole}
@@ -69,7 +69,7 @@ export default function App() {
           />
         } />
 
-        {/* 🧾 Application principale (accès restreint sauf pour "reference") */}
+        {/* 🧾 Application principale */}
         <Route path="/main" element={
           (role && role !== 'reference') ? (
             <MainApp
@@ -83,11 +83,12 @@ export default function App() {
           ) : <Navigate to="/" />
         } />
 
-        {/* 📍 Page Où nous trouver */}
+        {/* 📍 Page "Où nous trouver" */}
         <Route path="/ou-nous-trouver" element={<OuNousTrouver />} />
 
+        {/* 🔍 Page de suivi client (Tracking) */}
+        <Route path="/tracking" element={<Tracking commandes={[]} />} /> {/* À remplacer par les vraies commandes */}
       </Routes>
     </Router>
   );
 }
-
