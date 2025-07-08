@@ -583,11 +583,14 @@ body {
   }
 
   .ou-nous-trouver-button {
-    position: static;
-    margin-top: 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-top: 20px;
     width: 100%;
+    position: relative; /* empêche les conflits avec le position: absolute desktop */
+    left: 0;
+    transform: none;
   }
 
   .ou-nous-trouver-button button {
