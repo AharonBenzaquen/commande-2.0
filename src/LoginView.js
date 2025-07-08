@@ -72,18 +72,17 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
           👥 Parrainer un ami
         </button>
 
-       {/* 📅 Bouton Prendre rendez-vous (visible partout, positionné en bas à gauche) */}
-<div className="rdv-button">
-  <button onClick={() => window.open('https://votre-lien-de-rendez-vous.com', '_blank')}>
-    📅 Prendre rendez-vous
-  </button>
-</div>
-
-
       {/* 📍 Où nous trouver */}
       <div className="ou-nous-trouver-button">
         <button onClick={() => navigate('/ou-nous-trouver')}>
           📍 Où nous trouver
+        </button>
+      </div>
+
+     {/* 📅 Prendre rendez-vous */}
+      <div className="rdv-button">
+        <button onClick={() => window.open('https://votre-lien-de-rendez-vous.com', '_blank')}>
+          📅 Prendre rendez-vous
         </button>
       </div>
 
