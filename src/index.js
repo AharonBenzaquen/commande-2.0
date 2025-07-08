@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import './index.css';
+import "./index.css";
+
+// Enregistrement du Service Worker
+import { register } from "./serviceWorkerRegistration";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
-import { register } from './serviceWorkerRegistration';
+
+// Active le Service Worker (pour PWA, cache, etc.)
 register();
-            
