@@ -10,35 +10,38 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
   const [popupMessage, setPopupMessage] = useState('');
   const navigate = useNavigate();
 
+  // 📦 Charger les parrainages au démarrage
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('parrainages')) || [];
     setParrainages(data);
   }, []);
 
-  // Détection automatique du code promo dès qu'on tape
+  // 🔄 Validation automatique d'un code scanné ou saisi
   useEffect(() => {
     const code = codeEntree.trim();
+
     if (code.length > 5) {
       const index = parrainages.findIndex(p => p.code === code);
-      if (index !== -1 && !parrainages[index].utilise) {
-        const updated = [...parrainages];
+      const updated = [...parrainages];
+
+      if (index !== -1 && !updated[index].utilise) {
         updated[index].utilise = true;
         setParrainages(updated);
         localStorage.setItem('parrainages', JSON.stringify(updated));
         setPopupMessage('✅ Code promo validé !');
-        setPopupVisible(true);
-      } else if (index !== -1 && parrainages[index].utilise) {
+      } else if (index !== -1 && updated[index].utilise) {
         setPopupMessage('⚠️ Code déjà utilisé.');
-        setPopupVisible(true);
-      } else if (code !== '') {
+      } else {
         setPopupMessage('❌ Code promo invalide.');
-        setPopupVisible(true);
       }
+
+      setPopupVisible(true);
       setCodeEntree('');
       setTimeout(() => setPopupVisible(false), 1000);
     }
   }, [codeEntree, parrainages]);
 
+  // 🗑️ Supprimer un parrainage
   const supprimerParrainage = (index) => {
     if (window.confirm("Voulez-vous vraiment supprimer ce parrainage ?")) {
       const updated = [...parrainages];
@@ -48,10 +51,12 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
     }
   };
 
+  // 🔍 Filtrage des parrainages
   const resultatFiltre = parrainages.filter(p =>
     p.code.toLowerCase().includes(filtre.toLowerCase())
   );
 
+  // 🚪 Déconnexion
   const deconnexion = () => {
     setRole('');
     setLogin('');
@@ -63,6 +68,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
     <div className="parrainage-container" style={{ maxWidth: '800px', margin: '60px auto' }}>
       <h2 style={{ textAlign: 'center', color: '#002f5f' }}>👁️ Vue Référence – Parrainages</h2>
 
+      {/* 🔍 Barre de recherche */}
       <input
         type="text"
         placeholder="🔍 Rechercher un code promo"
@@ -78,6 +84,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
         }}
       />
 
+      {/* 📲 Zone de scan/saisie code promo */}
       <div style={{ display: 'flex', marginBottom: '20px', gap: '10px' }}>
         <input
           type="text"
@@ -94,6 +101,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
         />
       </div>
 
+      {/* ✅ Message popup de validation */}
       {popupVisible && (
         <div style={{
           background: popupMessage.includes('validé') ? '#4CAF50' : '#ffc107',
@@ -109,6 +117,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
         </div>
       )}
 
+      {/* 📋 Tableau des parrainages */}
       <table className="styled-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr style={{ backgroundColor: '#002f5f', color: 'white' }}>
@@ -128,17 +137,27 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.prenom}</td>
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.telephone}</td>
               <td style={{ padding: '10px', textAlign: 'center' }}>{p.email}</td>
-              <td style={{ padding: '10px', textAlign: 'center', fontWeight: 'bold', color: '#002f5f' }}>{p.code}</td>
+              <td style={{
+                padding: '10px',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                color: '#002f5f'
+              }}>
+                {p.code}
+              </td>
               <td style={{ padding: '10px', textAlign: 'center' }}>
                 {p.utilise ? '✔️' : '❌'}
               </td>
               <td style={{ padding: '10px', textAlign: 'center' }}>
-                <button onClick={() => supprimerParrainage(i)} style={{
-                  fontSize: '18px',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer'
-                }}>
+                <button
+                  onClick={() => supprimerParrainage(i)}
+                  style={{
+                    fontSize: '18px',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
                   🗑️
                 </button>
               </td>
@@ -147,6 +166,7 @@ export default function ReferenceView({ setRole, setLogin, setMdp }) {
         </tbody>
       </table>
 
+      {/* 🚪 Bouton de déconnexion */}
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
         <button
           onClick={deconnexion}
