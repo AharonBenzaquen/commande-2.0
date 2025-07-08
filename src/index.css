@@ -529,13 +529,11 @@ body {
 }
 
 /* ------------------------------
-   BOUTON "OÙ NOUS TROUVER"
+   📍 BOUTON "OÙ NOUS TROUVER"
 --------------------------------*/
 .ou-nous-trouver-button {
-  bottom: 30px;
-  left: 50%;
-  position: absolute;
-  transform: translateX(-50%);
+  text-align: center;
+  margin-top: 40px; /* ✅ espace avec le bouton du dessus */
 }
 
 .ou-nous-trouver-button button {
@@ -548,12 +546,20 @@ body {
   font-size: 16px;
   font-weight: 700;
   padding: 12px 24px;
-  transition: background-color .3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .ou-nous-trouver-button button:hover {
   background-color: #001b3d;
 }
+
+/* ✅ ESPACEMENT SUPPLÉMENTAIRE SUR MOBILE */
+@media (max-width: 768px) {
+  .ou-nous-trouver-button {
+    margin-top: 60px;
+  }
+}
+
 /* ------------------------------
    MOBILE (≤768px)
 --------------------------------*/
