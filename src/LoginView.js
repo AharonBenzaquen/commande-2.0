@@ -109,7 +109,6 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
                 Votre navigateur ne supporte pas la vidéo.
               </video>
             </div>
-            <p>Monture confort, anti-rayures, anti-reflet, option photochromique (+50$).</p>
             <button className="close-button" onClick={() => setShowModal2(false)}>Fermer</button>
           </div>
         </div>
