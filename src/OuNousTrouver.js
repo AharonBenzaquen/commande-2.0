@@ -49,7 +49,7 @@ export default function OuNousTrouver() {
           <iframe
             title="Opti-W Rosemère"
             className="store-map"
-            src="https://www.google.com/maps/place/Opti-W+Rosem%C3%A8re+(optometriste+et+opticien+Walmart)/@45.6195837,-73.9153733,12z/data=!4m6!3m5!1s0x4cc9264b342a7119:0x6b2a2e54879c041!8m2!3d45.6299725!4d-73.8217936!16s%2Fg%2F11hcjvpq73?hl=fr&entry=ttu&g_ep=EgoyMDI1MDcwNi4wIKXMDSoASAFQAw%3D%3D"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5580.076042435312!2d-73.82179359999999!3d45.62997250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9264b342a7119%3A0x6b2a2e54879c041!2sOpti-W%20Rosem%C3%A8re%20(optometriste%20et%20opticien%20Walmart)!5e0!3m2!1sfr!2sca!4v1752014940930!5m2!1sfr!2sca"
             allowFullScreen
             loading="lazy"
           ></iframe>
@@ -73,7 +73,7 @@ export default function OuNousTrouver() {
           <iframe
             title="Opti-W Blainville"
             className="store-map"
-            src="https://www.google.com/maps/place/Opti-W+Blanville+(optometriste+et+optician+Walmart)/@45.6791326,-73.9132629,17z/data=!3m1!4b1!4m6!3m5!1s0x4cc929e3ba92a189:0x2562f20629da38f2!8m2!3d45.6791326!4d-73.9132629!16s%2Fg%2F11h7s47y45?hl=fr&entry=ttu&g_ep=EgoyMDI1MDcwNi4wIKXMDSoASAFQAw%3D%3D"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2787.5898972619616!2d-73.91326289999998!3d45.6791326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc929e3ba92a189%3A0x2562f20629da38f2!2sOpti-W%20Blanville%20(optometriste%20et%20optician%20Walmart)!5e0!3m2!1sfr!2sca!4v1752014927930!5m2!1sfr!2sca"
             allowFullScreen
             loading="lazy"
           ></iframe>
