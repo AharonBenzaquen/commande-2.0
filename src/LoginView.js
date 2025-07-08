@@ -71,16 +71,24 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         >
           👥 Parrainer un ami
         </button>
+
+        {/* 📅 Prendre rendez-vous */}
+        <button
+          className="rdv-button"
+          onClick={() => window.open('https://votre-lien-de-rendez-vous.com', '_blank')}
+        >
+          📅 Prendre rendez-vous
+        </button>
       </div>
 
-      {/* 📍 Bouton Où nous trouver */}
+      {/* 📍 Où nous trouver */}
       <div className="ou-nous-trouver-button">
         <button onClick={() => navigate('/ou-nous-trouver')}>
           📍 Où nous trouver
         </button>
       </div>
 
-      {/* 🪟 Modal Promotion 1 */}
+      {/* 🪟 Modales Promo */}
       {showModal1 && (
         <div className="modal-overlay" onClick={() => setShowModal1(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -97,7 +105,6 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
         </div>
       )}
 
-      {/* 🪟 Modal Promotion 2 */}
       {showModal2 && (
         <div className="modal-overlay" onClick={() => setShowModal2(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -113,9 +120,6 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
           </div>
         </div>
       )}
-      
     </div>
   );
-
 }
-
