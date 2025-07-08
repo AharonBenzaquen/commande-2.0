@@ -19,16 +19,20 @@ export default function Parrainage() {
   const parrainActif = JSON.parse(localStorage.getItem('parrainActif'));
   const identifiantActif = parrainActif?.identifiant;
 
-  // 🔢 Compter les parrainages liés à ce parrain
-  const [nbParrainages, setNbParrainages] = useState(0);
+  const [nbTotal, setNbTotal] = useState(0);
+  const [nbValides, setNbValides] = useState(0);
   const [revenu, setRevenu] = useState(0);
 
+  // 📊 Mise à jour des stats
   useEffect(() => {
     const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
     const liés = tous.filter(p => p.parrain === identifiantActif);
-    setNbParrainages(liés.length);
-    setRevenu(liés.length * 10);
-  }, [envoye]);
+    const valides = liés.filter(p => p.utilise === true);
+
+    setNbTotal(liés.length);
+    setNbValides(valides.length);
+    setRevenu(valides.length * 10);
+  }, [envoye, identifiantActif]);
 
   // 🔐 Génère un code promo unique
   const genererCodePromo = (nom, prenom, telephone, email) => {
@@ -37,7 +41,7 @@ export default function Parrainage() {
     return `PAR-${hash.slice(0, 8).toUpperCase()}`;
   };
 
-  // 🖨️ Génère le code-barres si un code a été généré
+  // 🖨️ Génère le code-barres
   useEffect(() => {
     if (envoye && codePromo && canvasRef.current) {
       JsBarcode(canvasRef.current, codePromo, {
@@ -95,7 +99,8 @@ export default function Parrainage() {
         <div className="statistiques-parrain">
           <h2>Bienvenue {parrainActif.prenom} {parrainActif.nom} 👋</h2>
           <div className="statistiques-box">
-            <div><strong>Parrainages :</strong> {nbParrainages}</div>
+            <div><strong>Parrainages envoyés :</strong> {nbTotal}</div>
+            <div><strong>Parrainages validés :</strong> {nbValides}</div>
             <div><strong>Revenu généré :</strong> {revenu}$</div>
           </div>
         </div>
