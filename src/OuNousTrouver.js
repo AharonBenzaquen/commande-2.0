@@ -25,7 +25,7 @@ export default function OuNousTrouver() {
           <iframe
             title="Opti-W Laval"
             className="store-map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2794.969446040636!2d-73.76563712325258!3d45.584652227624364!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9237271aafe09%3A0x7aa5a478d13d8a59!2sWalmart%20Supercentre!5e0!3m2!1sfr!2sca!4v1720454400000!5m2!1sfr!2sca"
+            src="https://www.google.com/maps/place/Opti-W+Laval+(optometriste+et+opticien+Walmart)/@45.5599752,-73.7552637,16z/data=!3m1!4b1!4m6!3m5!1s0x4cc923b8d2021d6b:0xe3322ddc754869f5!8m2!3d45.5599715!4d-73.7526888!16s%2Fg%2F11rylmwd5c?hl=fr&entry=ttu&g_ep=EgoyMDI1MDcwNi4wIKXMDSoASAFQAw%3D%3D"
             allowFullScreen
             loading="lazy"
           ></iframe>
@@ -49,7 +49,7 @@ export default function OuNousTrouver() {
           <iframe
             title="Opti-W Rosemère"
             className="store-map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2793.119747252253!2d-73.7940700232513!3d45.62686087107981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc918cba5ee5273%3A0xa1fae1348788df7e!2sWalmart%20Supercentre!5e0!3m2!1sfr!2sca!4v1720454500000!5m2!1sfr!2sca"
+            src="https://www.google.com/maps/place/Opti-W+Rosem%C3%A8re+(optometriste+et+opticien+Walmart)/@45.6195837,-73.9153733,12z/data=!4m6!3m5!1s0x4cc9264b342a7119:0x6b2a2e54879c041!8m2!3d45.6299725!4d-73.8217936!16s%2Fg%2F11hcjvpq73?hl=fr&entry=ttu&g_ep=EgoyMDI1MDcwNi4wIKXMDSoASAFQAw%3D%3D"
             allowFullScreen
             loading="lazy"
           ></iframe>
@@ -73,7 +73,7 @@ export default function OuNousTrouver() {
           <iframe
             title="Opti-W Blainville"
             className="store-map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2791.964921960666!2d-73.87809332324967!3d45.65259567087324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc9369e9b77db1d%3A0xd26d8b6a3b44cb3a!2sWalmart%20Supercentre!5e0!3m2!1sfr!2sca!4v1720454600000!5m2!1sfr!2sca"
+            src="https://www.google.com/maps/place/Opti-W+Blanville+(optometriste+et+optician+Walmart)/@45.6791326,-73.9132629,17z/data=!3m1!4b1!4m6!3m5!1s0x4cc929e3ba92a189:0x2562f20629da38f2!8m2!3d45.6791326!4d-73.9132629!16s%2Fg%2F11h7s47y45?hl=fr&entry=ttu&g_ep=EgoyMDI1MDcwNi4wIKXMDSoASAFQAw%3D%3D"
             allowFullScreen
             loading="lazy"
           ></iframe>
