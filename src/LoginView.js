@@ -92,7 +92,6 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
                 Votre navigateur ne supporte pas la vidéo.
               </video>
             </div>
-            <p>Monture au choix, verres anti-rayures inclus, prêt en 7 jours ouvrables.</p>
             <button className="close-button" onClick={() => setShowModal1(false)}>Fermer</button>
           </div>
         </div>
