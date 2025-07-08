@@ -554,25 +554,71 @@ body {
 }
 
 /* ------------------------------
-   BOUTON PRISE DE RENDEZ-VOUS
+   PAGE "OÙ NOUS TROUVER"
 --------------------------------*/
-.appointment-button {
-  display: inline-block;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #f4c51c;
-  color: #002f5f;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+.location-page {
+  padding: 30px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.appointment-button:hover {
-  background-color: #e2b514;
+.location-title {
+  font-size: 28px;
+  color: #002f5f;
+  margin-bottom: 30px;
 }
+
+.store-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.store-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background: #ffffffee;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+}
+
+.store-info {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+.store-map {
+  flex: 1;
+  min-width: 300px;
+  height: 250px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* ------------------------------
+   BOUTON RDV
+--------------------------------*/
+.appointment-button-inline {
+  display: inline-block;
+  margin-top: 10px;
+  background-color: #f4c51c;
+  color: #002f5f;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.appointment-button-inline:hover {
+  background-color: #e4b214;
+}
+
 
 /* ✅ ESPACEMENT SUPPLÉMENTAIRE SUR MOBILE */
 @media (max-width: 768px) {
