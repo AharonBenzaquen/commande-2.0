@@ -16,6 +16,20 @@ export default function Parrainage() {
   const canvasRef = useRef(null);
   const navigate = useNavigate();
 
+  const parrainActif = JSON.parse(localStorage.getItem('parrainActif'));
+  const identifiantActif = parrainActif?.identifiant;
+
+  // 🔢 Compter les parrainages liés à ce parrain
+  const [nbParrainages, setNbParrainages] = useState(0);
+  const [revenu, setRevenu] = useState(0);
+
+  useEffect(() => {
+    const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
+    const liés = tous.filter(p => p.parrain === identifiantActif);
+    setNbParrainages(liés.length);
+    setRevenu(liés.length * 10);
+  }, [envoye]);
+
   // 🔐 Génère un code promo unique
   const genererCodePromo = (nom, prenom, telephone, email) => {
     const base = `${nom.trim().toLowerCase()}-${prenom.trim().toLowerCase()}-${telephone.trim()}-${email.trim().toLowerCase()}`;
@@ -37,12 +51,10 @@ export default function Parrainage() {
     }
   }, [codePromo, envoye]);
 
-  // 🧾 Gestion du formulaire
   const handleChange = (e) => {
     setFormulaire({ ...formulaire, [e.target.name]: e.target.value });
   };
 
-  // 📤 Soumission du formulaire
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -55,12 +67,11 @@ export default function Parrainage() {
     const existeDeja = anciens.some(p => p.code === nouveauCode);
 
     if (!existeDeja) {
-      anciens.push({ ...formulaire, code: nouveauCode, utilise: false });
+      anciens.push({ ...formulaire, code: nouveauCode, utilise: false, parrain: identifiantActif });
       localStorage.setItem('parrainages', JSON.stringify(anciens));
     }
   };
 
-  // 🖨️ Imprime le code promo avec visuel
   const imprimerCodePromo = () => {
     const dataUrl = canvasRef.current.toDataURL();
     const fenetre = window.open('', '_blank');
@@ -80,6 +91,16 @@ export default function Parrainage() {
 
   return (
     <div className="parrainage-container">
+      {parrainActif && (
+        <div className="statistiques-parrain">
+          <h2>Bienvenue {parrainActif.prenom} {parrainActif.nom} 👋</h2>
+          <div className="statistiques-box">
+            <div><strong>Parrainages :</strong> {nbParrainages}</div>
+            <div><strong>Revenu généré :</strong> {revenu}$</div>
+          </div>
+        </div>
+      )}
+
       {envoye ? (
         <>
           <h2>Merci pour votre parrainage 🎉</h2>
