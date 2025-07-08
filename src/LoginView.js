@@ -67,7 +67,7 @@ export default function LoginView({ login, setLogin, mdp, setMdp, seConnecter })
 
         <button
           className="referral-button"
-          onClick={() => navigate('/parrainage')}
+          onClick={() => navigate('/connexion-parrainage')}
         >
           👥 Parrainer un ami
         </button>
