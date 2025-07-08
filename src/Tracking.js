@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 
 export default function Tracking({ commandes }) {
   const [code, setCode] = useState('');
-
-  // 🔍 Recherche de la commande correspondant au code
   const commande = commandes.find(c => c.numero === code);
 
   return (
     <div className="tracking-container">
-      <h2>Suivi client</h2>
+      <h2 className="tracking-title">🔍 Suivi client</h2>
 
       <input
+        className="tracking-input"
         placeholder="Entrez votre code de suivi"
         value={code}
         onChange={(e) => setCode(e.target.value)}
@@ -24,7 +23,7 @@ export default function Tracking({ commandes }) {
           <p><strong>Commentaire :</strong> {commande.commentaire}</p>
         </div>
       ) : (
-        code && <p>Aucune commande trouvée.</p>
+        code && <p className="tracking-notfound">❌ Aucune commande trouvée.</p>
       )}
     </div>
   );
