@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// 🔧 Fonction utilitaire : différence entre deux dates en jours
+// 🧮 Fonction utilitaire : calcule la différence en jours
 function differenceEnJours(date1, date2) {
   const d1 = new Date(date1);
   const d2 = new Date(date2);
@@ -13,7 +13,6 @@ export default function MainApp({ setRole, setLogin, setMdp, role, magasin, setM
   const navigate = useNavigate();
   const aujourdHui = new Date();
 
-  // États
   const [commande, setCommande] = useState({
     numero: '',
     client: '',
@@ -26,62 +25,61 @@ export default function MainApp({ setRole, setLogin, setMdp, role, magasin, setM
   const [editionIndex, setEditionIndex] = useState(null);
   const [formActif, setFormActif] = useState(false);
 
-  // Enregistre les commandes localement
+  // 🧠 Sauvegarde dans localStorage à chaque mise à jour
   useEffect(() => {
     localStorage.setItem('commandes', JSON.stringify(commandes));
   }, [commandes]);
 
-  // Filtrage des commandes selon le rôle
-  const commandesFiltrees = commandes.filter(c =>
+  // 🔍 Filtrage selon le rôle
+  const filtrerCommandes = commandes.filter(c =>
     role === 'admin' || role === 'labo' || c.origine === magasin
   );
 
-  // Ajout ou modification de commande
+  // ➕ Ajouter ou modifier une commande
   const ajouterCommande = () => {
-    const copie = [...commandes];
-    const nouvelle = { ...commande, origine: magasin };
+    const updated = [...commandes];
 
     if (editionIndex !== null) {
-      copie[editionIndex] = nouvelle;
+      updated[editionIndex] = { ...commande, origine: magasin };
       setEditionIndex(null);
     } else {
-      copie.push(nouvelle);
+      updated.push({ ...commande, origine: magasin });
     }
 
-    setCommandes(copie);
+    setCommandes(updated);
     setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
     setFormActif(false);
   };
 
-  // Déclenche modification
+  // ✏️ Modifier une commande existante
   const modifierCommande = (index) => {
     setCommande(commandes[index]);
     setEditionIndex(index);
     setFormActif(true);
   };
 
-  // Supprime une commande
+  // 🗑️ Supprimer une commande
   const supprimerCommande = (index) => {
-    const copie = [...commandes];
-    copie.splice(index, 1);
-    setCommandes(copie);
+    const updated = [...commandes];
+    updated.splice(index, 1);
+    setCommandes(updated);
   };
 
-  // Changer statut
-  const changerStatut = (index, newStatut) => {
-    const copie = [...commandes];
-    copie[index].statut = newStatut;
-    setCommandes(copie);
+  // 🔄 Changer le statut d’une commande
+  const changerStatut = (index, nouveauStatut) => {
+    const updated = [...commandes];
+    updated[index].statut = nouveauStatut;
+    setCommandes(updated);
   };
 
-  // Changer commentaire
+  // ✍️ Modifier un commentaire
   const changerCommentaire = (index, texte) => {
-    const copie = [...commandes];
-    copie[index].commentaire = texte;
-    setCommandes(copie);
+    const updated = [...commandes];
+    updated[index].commentaire = texte;
+    setCommandes(updated);
   };
 
-  // Déconnexion
+  // 🚪 Déconnexion
   const handleLogout = () => {
     setRole('');
     setLogin('');
@@ -95,20 +93,10 @@ export default function MainApp({ setRole, setLogin, setMdp, role, magasin, setM
   return (
     <div className="app">
       <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
-      <div style={{ marginBottom: '20px' }}>
-        <button onClick={handleLogout} className="login-button">Déconnexion</button>
-        <a
-          href="https://ton-lien-de-rendez-vous.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="login-button"
-          style={{ marginLeft: '10px', backgroundColor: '#f4c51c', color: '#002f5f' }}
-        >
-          📅 Prendre rendez-vous
-        </a>
-      </div>
+      <button onClick={handleLogout}>Déconnexion</button>
+      <hr />
 
-      {/* ➕ Nouvelle commande */}
+      {/* ➕ Bouton nouvelle commande */}
       <button onClick={() => {
         setFormActif(true);
         setCommande({ numero: '', client: '', date: '', statut: 'En attente', commentaire: '' });
@@ -178,7 +166,7 @@ export default function MainApp({ setRole, setLogin, setMdp, role, magasin, setM
           </tr>
         </thead>
         <tbody>
-          {commandesFiltrees.map((c, i) => {
+          {filtrerCommandes.map((c, i) => {
             const jours = differenceEnJours(c.date, aujourdHui);
             const style = jours >= 14
               ? { backgroundColor: '#ffcccc' }
