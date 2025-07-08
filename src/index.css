@@ -586,7 +586,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 50px;
     width: 100%;
     position: relative; /* empêche les conflits avec le position: absolute desktop */
     left: 0;
