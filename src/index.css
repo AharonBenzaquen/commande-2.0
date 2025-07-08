@@ -502,38 +502,14 @@ body {
   background-color: #001b3d;
 }
 
-
-
-/* === 📅 BOUTON PRENDRE RENDEZ-VOUS (accueil) === */
-.rdv-button {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  z-index: 999;
-}
-
-.rdv-button button {
-  background-color: #002f5f;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 8px #0003;
-  transition: background-color 0.3s;
-}
-
-.rdv-button button:hover {
-  background-color: #00193b;
-}
-
 /* ------------------------------
    📍 BOUTON "OÙ NOUS TROUVER"
 --------------------------------*/
 .ou-nous-trouver-button {
-  text-align: center;
-  margin-top: 40px; /* ✅ espace avec le bouton du dessus */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 
 .ou-nous-trouver-button button {
@@ -552,7 +528,6 @@ body {
 .ou-nous-trouver-button button:hover {
   background-color: #001b3d;
 }
-
 /* ------------------------------
    PAGE "OÙ NOUS TROUVER"
 --------------------------------*/
@@ -691,9 +666,10 @@ body {
     transform: none;
   }
 
-  .ou-nous-trouver-button button {
-    max-width: 320px;
-    width: 90%;
+  .ou-nous-trouver-button {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 
   .promo-modal-content {
