@@ -302,13 +302,12 @@ body {
   font-family: 'Segoe UI', sans-serif;
   color: #002f5f;
   text-align: center;
-  height: 100vh;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-  overflow: hidden;
+  align-items: center;
 }
+
 
 .validation-popup {
   background-color: #fff6d1;
@@ -325,23 +324,24 @@ body {
   color: #002f5f;
 }
 
-/* 📸 Bloc compact 2x2 */
+/* 📸 Bloc compact 2x2 avec plus de hauteur */
 .promotions-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
-  gap: 8px;
-  max-height: 60vh;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
 .promo-item img,
 .promo-item video {
-  width: 80%;
-  height: 300px;
-  object-fit: contain;
+  width: 100%;
+  height: 250px; /* ✅ Hauteur augmentée */
+  object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 0 6px #ccc;
 }
+
 
 /* 🔘 Bouton */
 .parrainer-btn {
