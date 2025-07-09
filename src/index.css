@@ -293,10 +293,6 @@ body {
   text-decoration: underline;
 }
 
-/* ------------------------------
-   ✅ VALIDATION PARRAINAGE COMPACT
---------------------------------*/
-
 .valider-parrainage-container {
   padding: 20px;
   font-family: 'Segoe UI', sans-serif;
@@ -307,24 +303,28 @@ body {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
+  overflow: hidden; /* ✅ Empêche tout scroll */
 }
 
+/* ✅ Pop-up d'alerte */
 .validation-popup {
   background-color: #fff6d1;
   border-left: 5px solid #f4c51c;
-  padding: 10px;
+  padding: 10px 16px;
   margin-bottom: 10px;
   font-weight: bold;
   border-radius: 6px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 }
 
-/* 📸 Bloc compact 2x2 */
+/* 🖼️ Grille 2x2 pour images + vidéos */
 .promotions-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
   gap: 10px;
   max-height: 60vh;
+  margin-bottom: 20px;
 }
 
 .promo-item img,
@@ -336,7 +336,7 @@ body {
   box-shadow: 0 0 6px #ccc;
 }
 
-/* 🔘 Bouton */
+/* 🔘 Bouton central */
 .parrainer-btn {
   background-color: #002f5f;
   color: white;
@@ -348,6 +348,7 @@ body {
   font-weight: bold;
   transition: background-color 0.3s ease;
   align-self: center;
+  margin-bottom: 10px;
 }
 
 .parrainer-btn:hover {
