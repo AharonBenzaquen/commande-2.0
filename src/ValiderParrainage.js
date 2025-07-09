@@ -14,11 +14,10 @@ export default function ValiderParrainage() {
       const parrainages = JSON.parse(localStorage.getItem('parrainages')) || [];
       const index = parrainages.findIndex(p => p.code === code);
 
-      if (index !== -1) {
-        // Ne pas activer le code promo (utilise reste false)
-        parrainages[index].valide = true;
+      if (index !== -1 && !parrainages[index].utilise) {
+        parrainages[index].utilise = true; // ✅ clé correcte
 
-        // Ajout de date si elle n’existe pas (sécurité pour ancien système)
+        // Ajout de date si manquante (sécurité)
         if (!parrainages[index].date) {
           parrainages[index].date = new Date().toISOString();
         }
