@@ -795,8 +795,6 @@ body {
     width: 95%;
   }
 
-  /* 📱 Responsive */
-@media (max-width: 768px) {
   .promotions-grid {
     flex-direction: column;
   }
