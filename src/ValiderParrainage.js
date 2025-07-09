@@ -38,12 +38,12 @@ export default function ValiderParrainage() {
 
       <div className="promo-grid">
         <div className="promo-col">
-          <img src="/promo SV.png" alt="Promotion 1" className="promo-image" />
+          <img src="/promo 200.png" alt="Promotion 1" className="promo-image" />
           <video src="/promo1.mp4" className="promo-video" controls />
         </div>
 
         <div className="promo-col">
-          <img src="/promo prog.png" alt="Promotion 2" className="promo-image" />
+          <img src="/promo 300.png" alt="Promotion 2" className="promo-image" />
           <video src="/promo2.mp4" className="promo-video" controls />
         </div>
       </div>
