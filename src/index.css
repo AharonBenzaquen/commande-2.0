@@ -338,7 +338,7 @@ body {
 
 .promo-bloc img,
 .promo-bloc video {
-  width: 100%;
+  width: 20%;
   border-radius: 8px;
   margin-bottom: 12px;
 }
