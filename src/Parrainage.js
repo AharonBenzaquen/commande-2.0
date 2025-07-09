@@ -93,8 +93,8 @@ export default function Parrainage() {
     });
 
     const dataUrl = tempCanvas.toDataURL();
-    const dateGen = new Date(dateGeneration);
-    const expire = new Date(dateGen);
+    const now = new Date();
+    const expire = new Date(now);
     expire.setDate(expire.getDate() + 30);
 
     const formatDate = (date) => date.toLocaleDateString('fr-CA');
@@ -126,7 +126,7 @@ export default function Parrainage() {
           <div class="code">Code promo : ${code}</div>
           <img id="barcode" src="${dataUrl}" />
           <div class="dates">
-            <p>Généré le : ${formatDate(dateGen)}</p>
+            <p>Généré le : ${formatDate(now)}</p>
             <p>Valable jusqu’au : ${formatDate(expire)}</p>
           </div>
           <script>
@@ -226,8 +226,6 @@ export default function Parrainage() {
           <div className="code-promo-box">
             <p>Voici votre code promo de <strong>10$</strong> :</p>
             <h3>Code : <span className="code-value">{codePromo}</span></h3>
-            <p>Généré le : {new Date(dateGeneration).toLocaleDateString('fr-CA')}</p>
-            <p>Valable jusqu'au : {new Date(new Date(dateGeneration).getTime() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('fr-CA')}</p>
           </div>
 
           <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
