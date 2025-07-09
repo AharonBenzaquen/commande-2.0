@@ -18,6 +18,7 @@ export default function Parrainage() {
   const [envoye, setEnvoye] = useState(false);
   const [codePromo, setCodePromo] = useState('');
   const [showDetails, setShowDetails] = useState(false);
+  const [mesParrainages, setMesParrainages] = useState([]);
 
   const genererCodePromo = (nom, prenom, telephone, email) => {
     const base = `${nom.trim().toLowerCase()}-${prenom.trim().toLowerCase()}-${telephone.trim()}-${email.trim().toLowerCase()}`;
@@ -40,15 +41,19 @@ export default function Parrainage() {
     const existeDeja = anciens.some(p => p.code === nouveauCode);
 
     if (!existeDeja) {
-      anciens.push({
+      const nouveauParrainage = {
         ...formulaire,
         code: nouveauCode,
         utilise: false,
         desactive: false,
         dateCreation: new Date().toISOString(),
         parrain: parrain.email || parrain.telephone || 'inconnu'
-      });
-      localStorage.setItem('parrainages', JSON.stringify(anciens));
+      };
+      const misAJour = [...anciens, nouveauParrainage];
+      localStorage.setItem('parrainages', JSON.stringify(misAJour));
+
+      const reference = parrain.email || parrain.telephone || 'inconnu';
+      setMesParrainages(misAJour.filter(p => p.parrain === reference));
     }
   };
 
@@ -64,6 +69,13 @@ export default function Parrainage() {
       });
     }
   }, [codePromo, envoye]);
+
+  useEffect(() => {
+    const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
+    const reference = parrain.email || parrain.telephone || 'inconnu';
+    const data = tous.filter(p => p.parrain === reference);
+    setMesParrainages(data);
+  }, [parrain]);
 
   const imprimerCode = (code) => {
     const tempCanvas = document.createElement('canvas');
@@ -103,11 +115,6 @@ export default function Parrainage() {
     return diff > 30;
   };
 
-  const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
-  const mesParrainages = tous.filter(p => {
-  const reference = parrain.email || parrain.telephone;
-  return p.parrain === reference || (reference === 'inconnu' && p.parrain === 'inconnu');
-});
   const totalParrainages = mesParrainages.length;
   const totalValides = mesParrainages.filter(p => p.utilise && !p.desactive && !isExpired(p.dateCreation)).length;
 
