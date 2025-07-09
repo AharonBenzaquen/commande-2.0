@@ -58,6 +58,13 @@ export default function Parrainage() {
   };
 
   useEffect(() => {
+    const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
+    const reference = parrain.email || parrain.telephone || 'inconnu';
+    const mes = tous.filter(p => p.parrain === reference);
+    setMesParrainages(mes);
+  }, [envoye, parrain]);
+
+  useEffect(() => {
     if (envoye && codePromo && canvasRef.current) {
       JsBarcode(canvasRef.current, codePromo, {
         format: 'CODE128',
@@ -69,13 +76,6 @@ export default function Parrainage() {
       });
     }
   }, [codePromo, envoye]);
-
-  useEffect(() => {
-    const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
-    const reference = parrain.email || parrain.telephone || 'inconnu';
-    const data = tous.filter(p => p.parrain === reference);
-    setMesParrainages(data);
-  }, [parrain]);
 
   const imprimerCode = (code) => {
     const tempCanvas = document.createElement('canvas');
