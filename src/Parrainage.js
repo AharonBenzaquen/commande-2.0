@@ -17,6 +17,7 @@ export default function Parrainage() {
 
   const [envoye, setEnvoye] = useState(false);
   const [codePromo, setCodePromo] = useState('');
+  const [showDetails, setShowDetails] = useState(false);
 
   const genererCodePromo = (nom, prenom, telephone, email) => {
     const base = `${nom.trim().toLowerCase()}-${prenom.trim().toLowerCase()}-${telephone.trim()}-${email.trim().toLowerCase()}`;
@@ -63,24 +64,32 @@ export default function Parrainage() {
     }
   }, [codePromo, envoye]);
 
-  const imprimerCodePromo = () => {
-    const dataUrl = canvasRef.current.toDataURL();
-    const fenetre = window.open('', '_blank');
-    fenetre.document.write(`
+  const imprimerCode = (code) => {
+    const tempCanvas = document.createElement('canvas');
+    JsBarcode(tempCanvas, code, {
+      format: 'CODE128',
+      lineColor: '#000',
+      width: 2,
+      height: 50,
+      displayValue: false
+    });
+
+    const dataUrl = tempCanvas.toDataURL();
+    const win = window.open('', '_blank');
+    win.document.write(`
       <html>
         <head><title>Code Promo</title></head>
         <body style="text-align:center;font-family:'Segoe UI';color:#002f5f;">
           <img src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
-          <div style="font-size:28px;font-weight:bold;margin-top:20px;">Code promo : ${codePromo}</div>
+          <div style="font-size:24px;font-weight:bold;margin-top:20px;">Code promo : ${code}</div>
           <img src="${dataUrl}" />
         </body>
       </html>
     `);
-    fenetre.document.close();
-    fenetre.print();
+    win.document.close();
+    win.print();
   };
 
-  // 🔢 Compteurs de parrainages envoyés et validés
   const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
   const mesParrainages = tous.filter(p => p.parrain === (parrain.email || parrain.telephone));
   const totalParrainages = mesParrainages.length;
@@ -95,6 +104,43 @@ export default function Parrainage() {
         <p>✅ Validés : <strong>{totalValides}</strong> — soit <strong>{totalValides * 10}$</strong></p>
       </div>
 
+      <button onClick={() => setShowDetails(!showDetails)} style={{ marginBottom: '15px' }}>
+        {showDetails ? 'Masquer mes parrainages' : 'Voir mes parrainages'}
+      </button>
+
+      {showDetails && (
+        <div className="table-parrainages">
+          <table>
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Code</th>
+                <th>Statut</th>
+                <th>Imprimer</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mesParrainages.map((p, i) => (
+                <tr key={i}>
+                  <td>{p.nom}</td>
+                  <td>{p.prenom}</td>
+                  <td>{p.email}</td>
+                  <td>{p.telephone}</td>
+                  <td>{p.code}</td>
+                  <td>{p.utilise ? '✅ Validé' : '❌ En attente'}</td>
+                  <td>
+                    <button onClick={() => imprimerCode(p.code)}>🖨️</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       {envoye ? (
         <>
           <h3>Merci pour votre parrainage 🎉</h3>
@@ -105,12 +151,11 @@ export default function Parrainage() {
 
           <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
 
-          <button onClick={imprimerCodePromo} className="imprimer-button">
+          <button onClick={() => imprimerCode(codePromo)} className="imprimer-button">
             🖨️ Imprimer le code promo
           </button>
 
           <br /><br />
-
           <button className="referral-button" onClick={() => navigate('/')}>
             🏠 Retour à l'accueil
           </button>
@@ -120,40 +165,16 @@ export default function Parrainage() {
           <h3>Parrainer un ami</h3>
           <form onSubmit={handleSubmit}>
             <label>Nom</label>
-            <input
-              type="text"
-              name="nom"
-              value={formulaire.nom}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="nom" value={formulaire.nom} onChange={handleChange} required />
 
             <label>Prénom</label>
-            <input
-              type="text"
-              name="prenom"
-              value={formulaire.prenom}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" name="prenom" value={formulaire.prenom} onChange={handleChange} required />
 
             <label>Téléphone</label>
-            <input
-              type="tel"
-              name="telephone"
-              value={formulaire.telephone}
-              onChange={handleChange}
-              required
-            />
+            <input type="tel" name="telephone" value={formulaire.telephone} onChange={handleChange} required />
 
             <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formulaire.email}
-              onChange={handleChange}
-              required
-            />
+            <input type="email" name="email" value={formulaire.email} onChange={handleChange} required />
 
             <button type="submit">Envoyer le parrainage</button>
           </form>
@@ -162,4 +183,3 @@ export default function Parrainage() {
     </div>
   );
 }
-
