@@ -9,8 +9,8 @@ import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
 import OuNousTrouver from './OuNousTrouver';
 import Tracking from './Tracking';
-import ConnexionParrainage from './ConnexionParrainage'; // ✅ Connexion Parrain
-import ValiderParrainage from './ValiderParrainage';     // ✅ Validation Filleul
+import ConnexionParrainage from './ConnexionParrainage';
+import ValiderParrainage from './ValiderParrainage';
 
 // 🔐 Comptes utilisateurs autorisés
 const utilisateurs = {
