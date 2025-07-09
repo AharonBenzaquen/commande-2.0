@@ -318,6 +318,13 @@ body {
   border-radius: 6px;
 }
 
+.valider-titre-offres {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #002f5f;
+}
+
 /* 📸 Bloc compact 2x2 */
 .promotions-wrapper {
   display: grid;
