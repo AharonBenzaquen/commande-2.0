@@ -19,6 +19,7 @@ export default function Parrainage() {
   const [codePromo, setCodePromo] = useState('');
   const [showDetails, setShowDetails] = useState(false);
   const [mesParrainages, setMesParrainages] = useState([]);
+  const [dateGeneration, setDateGeneration] = useState(null);
 
   const genererCodePromo = (nom, prenom, telephone, email) => {
     const base = `${nom.trim().toLowerCase()}-${prenom.trim().toLowerCase()}-${telephone.trim()}-${email.trim().toLowerCase()}`;
@@ -37,6 +38,9 @@ export default function Parrainage() {
     setCodePromo(nouveauCode);
     setEnvoye(true);
 
+    const maintenant = new Date().toISOString();
+    setDateGeneration(maintenant);
+
     const anciens = JSON.parse(localStorage.getItem('parrainages')) || [];
     const existeDeja = anciens.some(p => p.code === nouveauCode);
 
@@ -45,9 +49,8 @@ export default function Parrainage() {
         ...formulaire,
         code: nouveauCode,
         utilise: false,
-        valide: false,
         desactive: false,
-        dateCreation: new Date().toISOString(),
+        dateCreation: maintenant,
         parrain: parrain.email || parrain.telephone || 'inconnu'
       };
       const misAJour = [...anciens, nouveauParrainage];
@@ -78,7 +81,18 @@ export default function Parrainage() {
     }
   }, [codePromo, envoye]);
 
+  const formatDate = (isoDate) => {
+    const d = new Date(isoDate);
+    return d.toLocaleDateString();
+  };
+
   const imprimerCode = (code) => {
+    const parrainages = JSON.parse(localStorage.getItem('parrainages')) || [];
+    const fiche = parrainages.find(p => p.code === code);
+    const date = fiche?.dateCreation || new Date().toISOString();
+    const expire = new Date(date);
+    expire.setDate(expire.getDate() + 30);
+
     const tempCanvas = document.createElement('canvas');
     JsBarcode(tempCanvas, code, {
       format: 'CODE128',
@@ -95,13 +109,12 @@ export default function Parrainage() {
         <head><title>Code Promo</title></head>
         <body style="text-align:center;font-family:'Segoe UI';color:#002f5f;">
           <img id="headerImage" src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
-          <script>
-            document.getElementById('headerImage').onload = () => window.print();
-          </script>
           <div style="font-size:24px;font-weight:bold;margin-top:20px;">Code promo : ${code}</div>
+          <div style="margin-top:10px;">Généré le : ${formatDate(date)}</div>
+          <div style="margin-bottom:20px;">Valable jusqu’au : ${formatDate(expire)}</div>
           <img id="barcode" src="${dataUrl}" />
           <script>
-            document.getElementById('barcode').onload = () => window.print();
+            window.onload = () => window.print();
           </script>
         </body>
       </html>
@@ -117,20 +130,12 @@ export default function Parrainage() {
   };
 
   const totalParrainages = mesParrainages.length;
-
-  const totalCliques = mesParrainages.filter(p =>
-    p.valide &&
-    !p.desactive &&
-    !isExpired(p.dateCreation)
-  ).length;
-
-  const totalRecompenses = totalCliques; // 1 clic = 1 récompense
+  const totalValides = mesParrainages.filter(p => p.utilise && !p.desactive && !isExpired(p.dateCreation)).length;
 
   const getStatut = (p) => {
     if (p.desactive) return '🛑 Désactivé';
     if (isExpired(p.dateCreation)) return '⏳ Expiré';
-    if (p.utilise) return '✅ Utilisé';
-    if (p.valide) return '📬 Validé';
+    if (p.utilise) return '✅ Validé';
     return '❌ En attente';
   };
 
@@ -140,8 +145,7 @@ export default function Parrainage() {
 
       <div className="compteur-parrainages">
         <p>👥 Parrainages envoyés : <strong>{totalParrainages}</strong></p>
-        <p>📬 Filleuls ayant cliqué : <strong>{totalCliques}</strong></p>
-        <p>💰 Récompenses débloquées : <strong>{totalRecompenses}</strong> — soit <strong>{totalRecompenses * 10}$</strong></p>
+        <p>✅ Valides : <strong>{totalValides}</strong> — soit <strong>{totalValides * 10}$</strong></p>
       </div>
 
       <button onClick={() => setShowDetails(!showDetails)} style={{ marginBottom: '15px' }}>
@@ -187,6 +191,8 @@ export default function Parrainage() {
           <div className="code-promo-box">
             <p>Voici votre code promo de <strong>10$</strong> :</p>
             <h3>Code : <span className="code-value">{codePromo}</span></h3>
+            <p>Généré le : {formatDate(dateGeneration)}</p>
+            <p>Valable jusqu’au : {formatDate(new Date(new Date(dateGeneration).getTime() + 30 * 24 * 60 * 60 * 1000))}</p>
           </div>
 
           <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
