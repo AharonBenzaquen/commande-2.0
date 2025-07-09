@@ -44,6 +44,8 @@ export default function Parrainage() {
         ...formulaire,
         code: nouveauCode,
         utilise: false,
+        desactive: false,
+        dateCreation: new Date().toISOString(),
         parrain: parrain.email || parrain.telephone || 'inconnu'
       });
       localStorage.setItem('parrainages', JSON.stringify(anciens));
@@ -79,11 +81,10 @@ export default function Parrainage() {
       <html>
         <head><title>Code Promo</title></head>
         <body style="text-align:center;font-family:'Segoe UI';color:#002f5f;">
-         <img id="headerImage" src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
-        <script>
-        document.getElementById('headerImage').onload = () => window.print();
-        </script>
-
+          <img id="headerImage" src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
+          <script>
+            document.getElementById('headerImage').onload = () => window.print();
+          </script>
           <div style="font-size:24px;font-weight:bold;margin-top:20px;">Code promo : ${code}</div>
           <img id="barcode" src="${dataUrl}" />
           <script>
@@ -95,10 +96,24 @@ export default function Parrainage() {
     win.document.close();
   };
 
+  const isExpired = (date) => {
+    const now = new Date();
+    const createdAt = new Date(date);
+    const diff = (now - createdAt) / (1000 * 60 * 60 * 24);
+    return diff > 30;
+  };
+
   const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
   const mesParrainages = tous.filter(p => p.parrain === (parrain.email || parrain.telephone));
   const totalParrainages = mesParrainages.length;
-  const totalValides = mesParrainages.filter(p => p.utilise).length;
+  const totalValides = mesParrainages.filter(p => p.utilise && !p.desactive && !isExpired(p.dateCreation)).length;
+
+  const getStatut = (p) => {
+    if (p.desactive) return '🛑 Désactivé';
+    if (isExpired(p.dateCreation)) return '⏳ Expiré';
+    if (p.utilise) return '✅ Validé';
+    return '❌ En attente';
+  };
 
   return (
     <div className="parrainage-container">
@@ -106,7 +121,7 @@ export default function Parrainage() {
 
       <div className="compteur-parrainages">
         <p>👥 Parrainages envoyés : <strong>{totalParrainages}</strong></p>
-        <p>✅ Validés : <strong>{totalValides}</strong> — soit <strong>{totalValides * 10}$</strong></p>
+        <p>✅ Valides : <strong>{totalValides}</strong> — soit <strong>{totalValides * 10}$</strong></p>
       </div>
 
       <button onClick={() => setShowDetails(!showDetails)} style={{ marginBottom: '15px' }}>
@@ -135,7 +150,7 @@ export default function Parrainage() {
                   <td>{p.email}</td>
                   <td>{p.telephone}</td>
                   <td>{p.code}</td>
-                  <td>{p.utilise ? '✅ Validé' : '❌ En attente'}</td>
+                  <td>{getStatut(p)}</td>
                   <td>
                     <button onClick={() => imprimerCode(p.code)}>🖨️</button>
                   </td>
@@ -161,9 +176,7 @@ export default function Parrainage() {
           </button>
 
           <br /><br />
-          <button className="referral-button" onClick={() => navigate('/')}>
-            🏠 Retour à l'accueil
-          </button>
+          <button className="referral-button" onClick={() => navigate('/')}>🏠 Retour à l'accueil</button>
         </>
       ) : (
         <>
