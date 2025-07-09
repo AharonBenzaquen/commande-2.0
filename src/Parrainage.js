@@ -102,18 +102,45 @@ export default function Parrainage() {
     const win = window.open('', '_blank');
     win.document.write(`
       <html>
-        <head><title>Code Promo</title></head>
-        <body style="text-align:center;font-family:'Segoe UI';color:#002f5f;">
+        <head>
+          <title>Code Promo</title>
+          <style>
+            body {
+              text-align: center;
+              font-family: 'Segoe UI', sans-serif;
+              color: #002f5f;
+            }
+            .code {
+              font-size: 24px;
+              font-weight: bold;
+              margin-top: 20px;
+            }
+            .dates {
+              margin-top: 10px;
+              font-size: 18px;
+            }
+          </style>
+        </head>
+        <body>
           <img id="headerImage" src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
-          <script>
-            document.getElementById('headerImage').onload = () => window.print();
-          </script>
-          <div style="font-size:24px;font-weight:bold;margin-top:20px;">Code promo : ${code}</div>
+          <div class="code">Code promo : ${code}</div>
           <img id="barcode" src="${dataUrl}" />
-          <div style="margin-top:15px;font-size:18px;">Généré le : ${formatDate(dateGen)}</div>
-          <div style="font-size:18px;">Valable jusqu'au : ${formatDate(expire)}</div>
+          <div class="dates">
+            <p>Généré le : ${formatDate(dateGen)}</p>
+            <p>Valable jusqu’au : ${formatDate(expire)}</p>
+          </div>
           <script>
-            document.getElementById('barcode').onload = () => window.print();
+            const header = document.getElementById('headerImage');
+            const barcode = document.getElementById('barcode');
+            let imagesLoaded = 0;
+
+            function tryPrint() {
+              imagesLoaded++;
+              if (imagesLoaded === 2) window.print();
+            }
+
+            header.onload = tryPrint;
+            barcode.onload = tryPrint;
           </script>
         </body>
       </html>
