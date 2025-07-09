@@ -79,7 +79,11 @@ export default function Parrainage() {
       <html>
         <head><title>Code Promo</title></head>
         <body style="text-align:center;font-family:'Segoe UI';color:#002f5f;">
-          <img src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
+         <img id="headerImage" src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
+        <script>
+        document.getElementById('headerImage').onload = () => window.print();
+        </script>
+
           <div style="font-size:24px;font-weight:bold;margin-top:20px;">Code promo : ${code}</div>
           <img id="barcode" src="${dataUrl}" />
           <script>
