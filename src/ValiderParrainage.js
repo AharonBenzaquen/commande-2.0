@@ -28,14 +28,14 @@ export default function ValiderParrainage() {
 
           <div className="promo-section">
             <div className="promo-item">
-              <img src="promo1-img.jpg" alt="Promo 1" className="promo-image" />
+              <img src="promo SV.png" alt="Promo 1" className="promo-image" />
               <video controls className="promo-video">
                 <source src="promo1-video.mp4" type="video/mp4" />
                 Votre navigateur ne supporte pas la lecture vidéo.
               </video>
             </div>
             <div className="promo-item">
-              <img src="promo2-img.jpg" alt="Promo 2" className="promo-image" />
+              <img src="promo prog.png" alt="Promo 2" className="promo-image" />
               <video controls className="promo-video">
                 <source src="promo2-video.mp4" type="video/mp4" />
                 Votre navigateur ne supporte pas la lecture vidéo.
