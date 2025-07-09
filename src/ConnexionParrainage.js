@@ -1,9 +1,9 @@
-// 📁 ConnexionParrain.js
+// 📁 ConnexionParrainage.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.css';
 
-export default function ConnexionParrain() {
+export default function ConnexionParrainage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState('connexion');
 
@@ -12,7 +12,7 @@ export default function ConnexionParrain() {
   const [prenom, setPrenom] = useState('');
   const [nom, setNom] = useState('');
   const [email, setEmail] = useState('');
-  const [tel, setTel] = useState('');
+  const [telephone, setTelephone] = useState('');
 
   const handleValidation = () => {
     if (mode === 'connexion') {
@@ -37,13 +37,13 @@ export default function ConnexionParrain() {
       navigate('/parrainage');
 
     } else {
-      if (!email || !tel || !motdepasse || !prenom || !nom) {
+      if (!email || !telephone || !motdepasse || !prenom || !nom) {
         alert('Veuillez remplir tous les champs obligatoires.');
         return;
       }
 
       const userKey = `parrain_${email}`;
-      const userKeyTel = `parrain_${tel}`;
+      const userKeyTel = `parrain_${telephone}`;
       const alreadyEmail = localStorage.getItem(userKey);
       const alreadyTel = localStorage.getItem(userKeyTel);
 
@@ -54,7 +54,7 @@ export default function ConnexionParrain() {
 
       const newUser = {
         email,
-        tel,
+        telephone,
         motdepasse,
         prenom,
         nom,
@@ -62,9 +62,8 @@ export default function ConnexionParrain() {
         montantTotal: 0,
       };
 
-      // On enregistre par email et téléphone pour permettre les deux à la connexion
       localStorage.setItem(`parrain_${email}`, JSON.stringify(newUser));
-      localStorage.setItem(`parrain_${tel}`, JSON.stringify(newUser));
+      localStorage.setItem(`parrain_${telephone}`, JSON.stringify(newUser));
       localStorage.setItem('parrainActif', JSON.stringify(newUser));
 
       navigate('/parrainage');
@@ -98,8 +97,8 @@ export default function ConnexionParrain() {
           />
           <input
             placeholder="Numéro de téléphone"
-            value={tel}
-            onChange={(e) => setTel(e.target.value)}
+            value={telephone}
+            onChange={(e) => setTelephone(e.target.value)}
           />
           <input
             type="password"
