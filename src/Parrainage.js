@@ -45,6 +45,7 @@ export default function Parrainage() {
         ...formulaire,
         code: nouveauCode,
         utilise: false,
+        valide: false,
         desactive: false,
         dateCreation: new Date().toISOString(),
         parrain: parrain.email || parrain.telephone || 'inconnu'
@@ -117,11 +118,13 @@ export default function Parrainage() {
 
   const totalParrainages = mesParrainages.length;
   const totalValides = mesParrainages.filter(p => p.utilise && !p.desactive && !isExpired(p.dateCreation)).length;
+  const totalCliques = mesParrainages.filter(p => p.valide && !p.desactive && !isExpired(p.dateCreation)).length;
 
   const getStatut = (p) => {
     if (p.desactive) return '🛑 Désactivé';
     if (isExpired(p.dateCreation)) return '⏳ Expiré';
-    if (p.utilise) return '✅ Validé';
+    if (p.utilise) return '✅ Utilisé';
+    if (p.valide) return '📬 Validé';
     return '❌ En attente';
   };
 
@@ -131,7 +134,8 @@ export default function Parrainage() {
 
       <div className="compteur-parrainages">
         <p>👥 Parrainages envoyés : <strong>{totalParrainages}</strong></p>
-        <p>✅ Valides : <strong>{totalValides}</strong> — soit <strong>{totalValides * 10}$</strong></p>
+        <p>📬 Validés : <strong>{totalCliques}</strong></p>
+        <p>✅ Utilisés : <strong>{totalValides}</strong> — soit <strong>{totalValides * 10}$</strong></p>
       </div>
 
       <button onClick={() => setShowDetails(!showDetails)} style={{ marginBottom: '15px' }}>
