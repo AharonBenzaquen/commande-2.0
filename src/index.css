@@ -294,6 +294,73 @@ body {
 }
 
 /* ------------------------------
+   🎉 VALIDATION PARRAINAGE
+--------------------------------*/
+
+.validation-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+  color: #002f5f;
+  text-align: center;
+}
+
+.validation-popup {
+  background-color: #f4c51c;
+  color: #002f5f;
+  font-weight: bold;
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.promotions-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 30px 0;
+  gap: 20px;
+}
+
+.promo-bloc {
+  flex: 1 1 45%;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.promo-bloc img,
+.promo-bloc video {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.validation-button {
+  background-color: #002f5f;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.validation-button:hover {
+  background-color: #001b3d;
+}
+
+/* ------------------------------
    CODE PROMO
 --------------------------------*/
 .code-promo-container {
