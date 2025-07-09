@@ -9,7 +9,8 @@ import Parrainage from './Parrainage';
 import ReferenceView from './ReferenceView';
 import OuNousTrouver from './OuNousTrouver';
 import Tracking from './Tracking';
-import ConnexionParrainage from './ConnexionParrainage'; // ✅ Nouveau
+import ConnexionParrainage from './ConnexionParrainage'; // ✅ Connexion Parrain
+import ValiderParrainage from './ValiderParrainage';     // ✅ Validation Filleul
 
 // 🔐 Comptes utilisateurs autorisés
 const utilisateurs = {
@@ -45,7 +46,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-
+        {/* 🟢 Page de connexion standard */}
         <Route path="/" element={
           <LoginView
             login={login}
@@ -56,8 +57,16 @@ export default function App() {
           />
         } />
 
+        {/* 🎁 Parrainage */}
         <Route path="/parrainage" element={<Parrainage />} />
 
+        {/* 🔐 Connexion ou inscription Parrain */}
+        <Route path="/connexion-parrainage" element={<ConnexionParrainage />} />
+
+        {/* ✅ Validation par le filleul */}
+        <Route path="/valider-parrainage" element={<ValiderParrainage />} />
+
+        {/* 🎯 Interface Référence */}
         <Route path="/reference" element={
           <ReferenceView
             setRole={setRole}
@@ -66,6 +75,7 @@ export default function App() {
           />
         } />
 
+        {/* 🧾 Application principale */}
         <Route path="/main" element={
           (role && role !== 'reference') ? (
             <MainApp
@@ -79,14 +89,12 @@ export default function App() {
           ) : <Navigate to="/" />
         } />
 
+        {/* 📍 Où nous trouver */}
         <Route path="/ou-nous-trouver" element={<OuNousTrouver />} />
+
+        {/* 🔍 Suivi client */}
         <Route path="/tracking" element={<Tracking commandes={[]} />} />
-
-        {/* ✅ Nouvelle page : Connexion ou inscription au parrainage */}
-        <Route path="/connexion-parrainage" element={<ConnexionParrainage />} />
-
       </Routes>
     </Router>
   );
 }
-
