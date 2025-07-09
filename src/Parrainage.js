@@ -124,11 +124,7 @@ export default function Parrainage() {
     !isExpired(p.dateCreation)
   ).length;
 
-  const totalValides = mesParrainages.filter(p =>
-    p.utilise &&
-    !p.desactive &&
-    !isExpired(p.dateCreation)
-  ).length;
+  const totalRecompenses = totalCliques; // 1 clic = 1 récompense
 
   const getStatut = (p) => {
     if (p.desactive) return '🛑 Désactivé';
@@ -145,7 +141,7 @@ export default function Parrainage() {
       <div className="compteur-parrainages">
         <p>👥 Parrainages envoyés : <strong>{totalParrainages}</strong></p>
         <p>📬 Filleuls ayant cliqué : <strong>{totalCliques}</strong></p>
-        <p>✅ Récompenses débloquées : <strong>{totalValides}</strong> — soit <strong>{totalValides * 10}$</strong></p>
+        <p>💰 Récompenses débloquées : <strong>{totalRecompenses}</strong> — soit <strong>{totalRecompenses * 10}$</strong></p>
       </div>
 
       <button onClick={() => setShowDetails(!showDetails)} style={{ marginBottom: '15px' }}>
