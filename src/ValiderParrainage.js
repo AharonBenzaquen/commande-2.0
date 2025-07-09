@@ -14,8 +14,8 @@ export default function ValiderParrainage() {
       const parrainages = JSON.parse(localStorage.getItem('parrainages')) || [];
       const index = parrainages.findIndex(p => p.code === code);
 
-      if (index !== -1 && !parrainages[index].utilise) {
-        parrainages[index].utilise = true; // ✅ clé correcte
+      if (index !== -1 && !parrainages[index].valide) {
+        parrainages[index].valide = true; // ✅ nouvelle clé de validation
 
         // Ajout de date si manquante (sécurité)
         if (!parrainages[index].date) {
