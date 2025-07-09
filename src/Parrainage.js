@@ -104,7 +104,10 @@ export default function Parrainage() {
   };
 
   const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
-  const mesParrainages = tous.filter(p => p.parrain === (parrain.email || parrain.telephone));
+  const mesParrainages = tous.filter(p => {
+  const reference = parrain.email || parrain.telephone;
+  return p.parrain === reference || (reference === 'inconnu' && p.parrain === 'inconnu');
+});
   const totalParrainages = mesParrainages.length;
   const totalValides = mesParrainages.filter(p => p.utilise && !p.desactive && !isExpired(p.dateCreation)).length;
 
