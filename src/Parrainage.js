@@ -31,7 +31,6 @@ export default function Parrainage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const { nom, prenom, telephone, email } = formulaire;
     const nouveauCode = genererCodePromo(nom, prenom, telephone, email);
     setCodePromo(nouveauCode);
@@ -82,12 +81,14 @@ export default function Parrainage() {
         <body style="text-align:center;font-family:'Segoe UI';color:#002f5f;">
           <img src="${window.location.origin}/coupon-promo.png" style="max-width:90%;margin-top:20px;" />
           <div style="font-size:24px;font-weight:bold;margin-top:20px;">Code promo : ${code}</div>
-          <img src="${dataUrl}" />
+          <img id="barcode" src="${dataUrl}" />
+          <script>
+            document.getElementById('barcode').onload = () => window.print();
+          </script>
         </body>
       </html>
     `);
     win.document.close();
-    win.print();
   };
 
   const tous = JSON.parse(localStorage.getItem('parrainages')) || [];
