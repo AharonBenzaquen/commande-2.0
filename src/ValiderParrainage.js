@@ -42,6 +42,8 @@ export default function ValiderParrainage() {
         </div>
       )}
 
+      <h2 className="valider-titre-offres">Nos offres</h2>
+
       <div className="promotions-wrapper">
         <div className="promo-item">
           <img src="/promo 200.png" alt="Promo simple vision" />
