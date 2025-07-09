@@ -1,57 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
 
 export default function ValiderParrainage() {
-  const navigate = useNavigate();
   const location = useLocation();
-  const [codeValide, setCodeValide] = useState(null);
-  const [confirmation, setConfirmation] = useState(false);
+  const navigate = useNavigate();
+  const [popupVisible, setPopupVisible] = useState(true);
+  const [codeValide, setCodeValide] = useState(false);
 
   useEffect(() => {
-    const query = new URLSearchParams(location.search);
-    const code = query.get('code');
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+
     if (code) {
-      setCodeValide(code);
-      alert(`✅ Vous avez validé le parrainage avec le code : ${code}`);
-      localStorage.setItem('promoParrain', code);
-      setConfirmation(true);
+      const parrainages = JSON.parse(localStorage.getItem('parrainages')) || [];
+      const index = parrainages.findIndex(p => p.code === code);
+
+      if (index !== -1 && !parrainages[index].utilise) {
+        parrainages[index].utilise = true;
+        localStorage.setItem('parrainages', JSON.stringify(parrainages));
+        setCodeValide(true);
+      }
     }
+
+    setTimeout(() => setPopupVisible(false), 3000);
   }, [location.search]);
 
   return (
     <div className="valider-parrainage-container">
-      {confirmation && (
-        <>
-          <h2>🎉 Parrainage confirmé !</h2>
-          <p>Merci d'avoir validé votre code de parrainage.</p>
-
-          <div className="promo-section">
-            <div className="promo-item">
-              <img src="promo SV.png" alt="Promo 1" className="promo-image" />
-              <video controls className="promo-video">
-                <source src="promo1-video.mp4" type="video/mp4" />
-                Votre navigateur ne supporte pas la lecture vidéo.
-              </video>
-            </div>
-            <div className="promo-item">
-              <img src="promo prog.png" alt="Promo 2" className="promo-image" />
-              <video controls className="promo-video">
-                <source src="promo2-video.mp4" type="video/mp4" />
-                Votre navigateur ne supporte pas la lecture vidéo.
-              </video>
-            </div>
-          </div>
-
-          <button
-            className="referral-button"
-            onClick={() => navigate('/connexion-parrain')}
-            style={{ marginTop: '30px' }}
-          >
-            👥 Parrainer à mon tour
-          </button>
-        </>
+      {popupVisible && (
+        <div className="popup-confirmation">
+          ✅ Vous avez validé votre parrainage !
+        </div>
       )}
+
+      <h2 className="promo-title">Nos Promotions Actuelles</h2>
+
+      <div className="promo-grid">
+        <div className="promo-col">
+          <img src="/promo SV.png" alt="Promotion 1" className="promo-image" />
+          <video src="/promo1.mp4" className="promo-video" controls />
+        </div>
+
+        <div className="promo-col">
+          <img src="/promo prog.png" alt="Promotion 2" className="promo-image" />
+          <video src="/promo2.mp4" className="promo-video" controls />
+        </div>
+      </div>
+
+      <button className="parrainer-retour-button" onClick={() => navigate('/connexion-parrainage')}>
+        👥 Parrainer à mon tour
+      </button>
     </div>
   );
 }
