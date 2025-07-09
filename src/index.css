@@ -252,19 +252,47 @@ body {
 .table-parrainages table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #002f5f;
+  color: white;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.table-parrainages th, .table-parrainages td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  font-size: 14px;
+.table-parrainages th,
+.table-parrainages td {
+  padding: 10px;
   text-align: center;
+  border-bottom: 1px solid #f4c51c;
 }
 
 .table-parrainages th {
-  background-color: #f0f0f0;
+  background-color: #001c3d;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+
+.table-parrainages tr:last-child td {
+  border-bottom: none;
+}
+
+.table-parrainages button {
+  background-color: #f4c51c;
+  color: #002f5f;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.table-parrainages button:hover {
+  background-color: #e0b715;
+}
+
 
 /* ------------------------------
    👤 CONNEXION / INSCRIPTION PARRAINAGE
