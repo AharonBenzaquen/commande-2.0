@@ -294,72 +294,66 @@ body {
 }
 
 /* ------------------------------
-   ✅ VALIDATION PARRAINAGE
+   ✅ VALIDATION PARRAINAGE COMPACT
 --------------------------------*/
 
 .valider-parrainage-container {
-  padding: 40px 20px;
+  padding: 20px;
   font-family: 'Segoe UI', sans-serif;
   color: #002f5f;
   text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .validation-popup {
   background-color: #fff6d1;
   border-left: 5px solid #f4c51c;
-  padding: 16px;
-  margin-bottom: 30px;
+  padding: 10px;
+  margin-bottom: 10px;
   font-weight: bold;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 6px;
 }
 
-/* 🖼️ Conteneur des promotions */
+/* 📸 Bloc compact 2x2 */
 .promotions-wrapper {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 30px;
-  max-width: 1000px;
-  margin: auto;
-}
-
-/* 📸 Bloc de chaque promo */
-.promo-item {
-  flex: 1 1 45%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 10px;
+  max-height: 60vh;
 }
 
 .promo-item img,
 .promo-item video {
   width: 100%;
-  max-width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 0 12px #ccc;
-  margin-bottom: 10px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 6px #ccc;
 }
 
-/* 🔘 Bouton en bas */
+/* 🔘 Bouton */
 .parrainer-btn {
-  margin-top: 40px;
   background-color: #002f5f;
   color: white;
   border: none;
-  padding: 16px 32px;
-  font-size: 18px;
+  padding: 14px 24px;
+  font-size: 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s ease;
+  align-self: center;
 }
 
 .parrainer-btn:hover {
   background-color: #001c3d;
 }
+
 /* ------------------------------
    CODE PROMO
 --------------------------------*/
