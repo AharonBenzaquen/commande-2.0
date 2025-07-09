@@ -335,9 +335,9 @@ body {
 
 .promo-item img,
 .promo-item video {
-  width: 100%;
-  height: 330px; /* ✅ Hauteur augmentée */
-  object-fit: cover;
+  width: 80%;
+  height: 270px; /* ✅ Hauteur augmentée */
+  object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 0 6px #ccc;
 }
