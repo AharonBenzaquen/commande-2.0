@@ -39,10 +39,18 @@ export default function RapportJournalier() {
     setHistorique(stock);
     setFormData({ magasin: formData.magasin, livraisons: '', chiffre: '', rendezVous: '', employe: '' });
 
-    const rapportData = {
-      date: today,
-      ...formData
-    };
+    const utilisateur = JSON.parse(localStorage.getItem('utilisateurConnecte')) || {};
+const magasin = utilisateur.role || formData.magasin || 'Non défini';
+
+const rapportData = {
+  date: today,
+  magasin,
+  livraisons: formData.livraisons,
+  chiffre: formData.chiffre,
+  rendezVous: formData.rendezVous,
+  employe: formData.employe
+};
+
 
     try {
       const response = await fetch('https://optiw-backend.onrender.com/send-mail', {
