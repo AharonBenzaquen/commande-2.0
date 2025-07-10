@@ -14,9 +14,25 @@ export default function RapportJournalier() {
   const [selectedDate, setSelectedDate] = useState('');
   const [rapportAffiche, setRapportAffiche] = useState(null);
 
+  // Détecter le magasin automatiquement
   useEffect(() => {
     const utilisateur = JSON.parse(localStorage.getItem('utilisateurConnecte')) || {};
-    const magasin = utilisateur.role || '';
+    let magasin = '';
+
+    switch (utilisateur.email) {
+      case 'laval@optiw.com':
+        magasin = 'Laval';
+        break;
+      case 'rosemere@optiw.com':
+        magasin = 'Rosemère';
+        break;
+      case 'blainville@optiw.com':
+        magasin = 'Blainville';
+        break;
+      default:
+        magasin = utilisateur.role || 'Non défini';
+    }
+
     setFormData(prev => ({ ...prev, magasin }));
   }, []);
 
@@ -33,24 +49,24 @@ export default function RapportJournalier() {
     e.preventDefault();
     const today = new Date().toISOString().split('T')[0];
 
+    const updatedForm = { ...formData };
     const stock = JSON.parse(localStorage.getItem('rapportsJournaliers')) || {};
-    stock[today] = formData;
+    stock[today] = updatedForm;
     localStorage.setItem('rapportsJournaliers', JSON.stringify(stock));
     setHistorique(stock);
-    setFormData({ magasin: formData.magasin, livraisons: '', chiffre: '', rendezVous: '', employe: '' });
 
-    const utilisateur = JSON.parse(localStorage.getItem('utilisateurConnecte')) || {};
-const magasin = utilisateur.role || formData.magasin || 'Non défini';
+    setFormData(prev => ({
+      ...prev,
+      livraisons: '',
+      chiffre: '',
+      rendezVous: '',
+      employe: ''
+    }));
 
-const rapportData = {
-  date: today,
-  magasin,
-  livraisons: formData.livraisons,
-  chiffre: formData.chiffre,
-  rendezVous: formData.rendezVous,
-  employe: formData.employe
-};
-
+    const rapportData = {
+      date: today,
+      ...updatedForm
+    };
 
     try {
       const response = await fetch('https://optiw-backend.onrender.com/send-mail', {
