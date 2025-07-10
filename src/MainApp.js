@@ -92,11 +92,15 @@ export default function MainApp({ setRole, setLogin, setMdp, role, magasin, setM
 
   return (
     <div className="app">
-      <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
-      <button onClick={handleLogout}>Déconnexion</button>
-      <button className="bouton-rapport-journalier" onClick={() => navigate('/rapport-journalier')}>
-  📋 Rapport Journalier
-</button>
+      <div className="entete-app">
+  <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
+  <div className="boutons-entete">
+    <button onClick={handleLogout}>Déconnexion</button>
+    <button className="bouton-rapport-journalier" onClick={() => navigate('/rapport-journalier')}>
+      📋 Rapport Journalier
+    </button>
+  </div>
+</div>
       <hr />
 
       {/* ➕ Bouton nouvelle commande */}
