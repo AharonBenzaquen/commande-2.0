@@ -17,8 +17,6 @@ export default function Parrainage() {
 
   const [envoye, setEnvoye] = useState(false);
   const [codePromo, setCodePromo] = useState('');
-  const [dateGeneration, setDateGeneration] = useState(null);
-  const [showDetails, setShowDetails] = useState(false);
   const [mesParrainages, setMesParrainages] = useState([]);
 
   const genererCodePromo = (nom, prenom, telephone, email) => {
@@ -31,34 +29,49 @@ export default function Parrainage() {
     setFormulaire({ ...formulaire, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { nom, prenom, telephone, email } = formulaire;
-    const nouveauCode = genererCodePromo(nom, prenom, telephone, email);
-    setCodePromo(nouveauCode);
+    const code = genererCodePromo(nom, prenom, telephone, email);
+    setCodePromo(code);
     setEnvoye(true);
 
     const dateNow = new Date().toISOString();
-    setDateGeneration(dateNow);
+    const nouveauParrainage = {
+      ...formulaire,
+      code,
+      valide: false,
+      utilise: false,
+      desactive: false,
+      dateCreation: dateNow,
+      parrain: parrain.email || parrain.telephone || 'inconnu'
+    };
 
     const anciens = JSON.parse(localStorage.getItem('parrainages')) || [];
-    const existeDeja = anciens.some(p => p.code === nouveauCode);
+    const deja = anciens.some(p => p.code === code);
 
-    if (!existeDeja) {
-      const nouveauParrainage = {
-        ...formulaire,
-        code: nouveauCode,
-        utilise: false,
-        valide: false,
-        desactive: false,
-        dateCreation: dateNow,
-        parrain: parrain.email || parrain.telephone || 'inconnu'
-      };
+    if (!deja) {
       const misAJour = [...anciens, nouveauParrainage];
       localStorage.setItem('parrainages', JSON.stringify(misAJour));
-
       const reference = parrain.email || parrain.telephone || 'inconnu';
       setMesParrainages(misAJour.filter(p => p.parrain === reference));
+
+      // Envoi email au filleul
+      try {
+        await fetch('https://optiw-backend.onrender.com/send-parrainage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            prenom,
+            parrainNom: parrain.nom || 'Votre ami',
+            codePromo: code,
+            email,
+            lienValidation: `${window.location.origin}/valider-parrainage?code=${code}`
+          })
+        });
+      } catch (err) {
+        console.error("Erreur d'envoi d'email :", err);
+      }
     }
   };
 
@@ -67,7 +80,7 @@ export default function Parrainage() {
     const reference = parrain.email || parrain.telephone || 'inconnu';
     const mes = tous.filter(p => p.parrain === reference);
     setMesParrainages(mes);
-  }, [envoye, parrain]);
+  }, [envoye]);
 
   useEffect(() => {
     if (envoye && codePromo && canvasRef.current) {
@@ -133,12 +146,10 @@ export default function Parrainage() {
             const header = document.getElementById('headerImage');
             const barcode = document.getElementById('barcode');
             let imagesLoaded = 0;
-
             function tryPrint() {
               imagesLoaded++;
               if (imagesLoaded === 2) window.print();
             }
-
             header.onload = tryPrint;
             barcode.onload = tryPrint;
           </script>
@@ -155,16 +166,6 @@ export default function Parrainage() {
     return diff > 30;
   };
 
-  const totalParrainages = mesParrainages.length;
-
-  const totalCliques = mesParrainages.filter(p =>
-    p.valide &&
-    !p.desactive &&
-    !isExpired(p.dateCreation)
-  ).length;
-
-  const totalRecompenses = totalCliques;
-
   const getStatut = (p) => {
     if (p.desactive) return '🛑 Désactivé';
     if (isExpired(p.dateCreation)) return '⏳ Expiré';
@@ -175,88 +176,61 @@ export default function Parrainage() {
 
   return (
     <div className="parrainage-container">
-      <h2>Bienvenue {parrain.prenom} {parrain.nom}</h2>
+      <h2>Parrainer un ami</h2>
 
-      <div className="compteur-parrainages">
-        <p>👥 Parrainages envoyés : <strong>{totalParrainages}</strong></p>
-        <p>📬 Filleuls ayant cliqué : <strong>{totalCliques}</strong></p>
-        <p>💰 Récompenses débloquées : <strong>{totalRecompenses}</strong> — soit <strong>{totalRecompenses * 10}$</strong></p>
-      </div>
+      {!envoye ? (
+        <form onSubmit={handleSubmit}>
+          <label>Nom</label>
+          <input type="text" name="nom" value={formulaire.nom} onChange={handleChange} required />
 
-      <button onClick={() => setShowDetails(!showDetails)} style={{ marginBottom: '15px' }}>
-        {showDetails ? 'Masquer mes parrainages' : 'Voir mes parrainages'}
-      </button>
+          <label>Prénom</label>
+          <input type="text" name="prenom" value={formulaire.prenom} onChange={handleChange} required />
 
-      {showDetails && (
-        <div className="table-parrainages">
-          <table>
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Code</th>
-                <th>Statut</th>
-                <th>Imprimer</th>
-              </tr>
-            </thead>
-            <tbody>
-              {mesParrainages.map((p, i) => (
-                <tr key={i}>
-                  <td>{p.nom}</td>
-                  <td>{p.prenom}</td>
-                  <td>{p.email}</td>
-                  <td>{p.telephone}</td>
-                  <td>{p.code}</td>
-                  <td>{getStatut(p)}</td>
-                  <td>
-                    <button onClick={() => imprimerCode(p.code)}>🖨️</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+          <label>Téléphone</label>
+          <input type="tel" name="telephone" value={formulaire.telephone} onChange={handleChange} required />
 
-      {envoye ? (
-        <>
-          <h3>Merci pour votre parrainage 🎉</h3>
-          <div className="code-promo-box">
-            <p>Voici votre code promo de <strong>10$</strong> :</p>
-            <h3>Code : <span className="code-value">{codePromo}</span></h3>
-          </div>
+          <label>Email</label>
+          <input type="email" name="email" value={formulaire.email} onChange={handleChange} required />
 
-          <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
-
-          <button onClick={() => imprimerCode(codePromo)} className="imprimer-button">
-            🖨️ Imprimer le code promo
-          </button>
-
-          <br /><br />
-          <button className="referral-button" onClick={() => navigate('/')}>🏠 Retour à l'accueil</button>
-        </>
+          <button type="submit">Envoyer le parrainage</button>
+        </form>
       ) : (
         <>
-          <h3>Parrainer un ami</h3>
-          <form onSubmit={handleSubmit}>
-            <label>Nom</label>
-            <input type="text" name="nom" value={formulaire.nom} onChange={handleChange} required />
-
-            <label>Prénom</label>
-            <input type="text" name="prenom" value={formulaire.prenom} onChange={handleChange} required />
-
-            <label>Téléphone</label>
-            <input type="tel" name="telephone" value={formulaire.telephone} onChange={handleChange} required />
-
-            <label>Email</label>
-            <input type="email" name="email" value={formulaire.email} onChange={handleChange} required />
-
-            <button type="submit">Envoyer le parrainage</button>
-          </form>
+          <h3>Merci pour votre parrainage 🎉</h3>
+          <p>Code promo généré : <strong>{codePromo}</strong></p>
+          <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
+          <button onClick={() => imprimerCode(codePromo)}>🖨️ Imprimer</button>
+          <br /><br />
+          <button onClick={() => navigate('/')}>🏠 Retour à l’accueil</button>
         </>
       )}
+
+      <hr />
+      <h3>Mes Parrainages</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Code</th>
+            <th>Statut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {mesParrainages.map((p, i) => (
+            <tr key={i}>
+              <td>{p.nom}</td>
+              <td>{p.prenom}</td>
+              <td>{p.email}</td>
+              <td>{p.code}</td>
+              <td>{getStatut(p)}</td>
+              <td><button onClick={() => imprimerCode(p.code)}>🖨️</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
