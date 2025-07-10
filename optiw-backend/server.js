@@ -16,19 +16,20 @@ const transporter = nodemailer.createTransport({
 });
 
 app.post('/send-mail', async (req, res) => {
-  const { employe, livraisons, chiffre, rendezVous, date } = req.body;
+  const { magasin, employe, livraisons, chiffre, rendezVous, date } = req.body;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_DEST, // ← plusieurs emails dans .env, séparés par des virgules
-    subject: `Rapport journalier - ${date}`,
+    to: process.env.EMAIL_DEST,
+    subject: `Rapport journalier - ${date} - ${magasin}`,
     text: `
-Rapport du ${date}
+📍 Magasin : ${magasin}
+📅 Date : ${date}
 
-Employé : ${employe}
-Livraisons : ${livraisons}
-Chiffre du jour : ${chiffre}$
-Rendez-vous pris : ${rendezVous}
+👤 Employé : ${employe}
+📦 Livraisons : ${livraisons}
+💰 Chiffre du jour : ${chiffre} $
+📅 Rendez-vous pris : ${rendezVous}
     `
   };
 
