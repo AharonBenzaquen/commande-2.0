@@ -14,6 +14,13 @@ export default function RapportJournalier() {
   const [selectedDate, setSelectedDate] = useState('');
   const [rapportAffiche, setRapportAffiche] = useState(null);
 
+  // Auto-remplir le magasin depuis le rôle utilisateur
+  useEffect(() => {
+    const utilisateur = JSON.parse(localStorage.getItem('utilisateurConnecte')) || {};
+    const magasin = utilisateur.role || '';
+    setFormData(prev => ({ ...prev, magasin }));
+  }, []);
+
   useEffect(() => {
     const stock = JSON.parse(localStorage.getItem('rapportsJournaliers')) || {};
     setHistorique(stock);
@@ -31,7 +38,7 @@ export default function RapportJournalier() {
     stock[today] = formData;
     localStorage.setItem('rapportsJournaliers', JSON.stringify(stock));
     setHistorique(stock);
-    setFormData({ magasin: '', livraisons: '', chiffre: '', rendezVous: '', employe: '' });
+    setFormData({ magasin: formData.magasin, livraisons: '', chiffre: '', rendezVous: '', employe: '' });
 
     const rapportData = {
       date: today,
@@ -70,45 +77,51 @@ export default function RapportJournalier() {
 
   return (
     <div className="rapport-container">
-      <h2>📋 Rapport Journalier</h2>
-      <form className="rapport-form" onSubmit={handleSubmit}>
-        <label>Nom du magasin</label>
-        <input type="text" name="magasin" value={formData.magasin} onChange={handleChange} required />
+      <div className="rapport-box">
+        <h2>📋 Rapport Journalier</h2>
+        <form className="rapport-form" onSubmit={handleSubmit}>
+          <input type="hidden" name="magasin" value={formData.magasin} />
 
-        <label>Nombre de livraisons</label>
-        <input type="number" name="livraisons" value={formData.livraisons} onChange={handleChange} required />
+          <label>Nombre de livraisons</label>
+          <input type="number" name="livraisons" value={formData.livraisons} onChange={handleChange} required />
 
-        <label>Chiffre du jour ($)</label>
-        <input type="number" name="chiffre" value={formData.chiffre} onChange={handleChange} required />
+          <label>Chiffre du jour ($)</label>
+          <input type="number" name="chiffre" value={formData.chiffre} onChange={handleChange} required />
 
-        <label>Nombre de rendez-vous pris</label>
-        <input type="number" name="rendezVous" value={formData.rendezVous} onChange={handleChange} required />
+          <label>Nombre de rendez-vous pris</label>
+          <input type="number" name="rendezVous" value={formData.rendezVous} onChange={handleChange} required />
 
-        <label>Nom de l'employé</label>
-        <input type="text" name="employe" value={formData.employe} onChange={handleChange} required />
+          <label>Nom de l'employé</label>
+          <input type="text" name="employe" value={formData.employe} onChange={handleChange} required />
 
-        <button type="submit">📨 Envoyer le rapport</button>
-      </form>
+          <button type="submit" className="btn-submit">📨 Envoyer le rapport</button>
+        </form>
+      </div>
 
-      <hr />
+      <div className="rapport-box">
+        <h3>📅 Consulter un rapport précédent</h3>
+        <select onChange={handleDateSelect} value={selectedDate}>
+          <option value="">-- Sélectionner une date --</option>
+          {datesDisponibles.map(date => (
+            <option key={date} value={date}>{date}</option>
+          ))}
+        </select>
 
-      <h3>📅 Consulter un rapport précédent</h3>
-      <select onChange={handleDateSelect} value={selectedDate}>
-        <option value="">-- Sélectionner une date --</option>
-        {datesDisponibles.map(date => (
-          <option key={date} value={date}>{date}</option>
-        ))}
-      </select>
-
-      {rapportAffiche && (
-        <div className="rapport-resultat">
-          <p><strong>Magasin :</strong> {rapportAffiche.magasin}</p>
-          <p><strong>Employé :</strong> {rapportAffiche.employe}</p>
-          <p><strong>Livraisons :</strong> {rapportAffiche.livraisons}</p>
-          <p><strong>Chiffre du jour :</strong> {rapportAffiche.chiffre} $</p>
-          <p><strong>Rendez-vous pris :</strong> {rapportAffiche.rendezVous}</p>
-        </div>
-      )}
+        {rapportAffiche && (
+          <div className="rapport-resultat">
+            <h4>🧾 Rapport du {selectedDate}</h4>
+            <table>
+              <tbody>
+                <tr><td><strong>Magasin :</strong></td><td>{rapportAffiche.magasin}</td></tr>
+                <tr><td><strong>Employé :</strong></td><td>{rapportAffiche.employe}</td></tr>
+                <tr><td><strong>Livraisons :</strong></td><td>{rapportAffiche.livraisons}</td></tr>
+                <tr><td><strong>Chiffre du jour :</strong></td><td>{rapportAffiche.chiffre} $</td></tr>
+                <tr><td><strong>Rendez-vous pris :</strong></td><td>{rapportAffiche.rendezVous}</td></tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
