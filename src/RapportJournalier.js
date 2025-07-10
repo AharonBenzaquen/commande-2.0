@@ -14,7 +14,6 @@ export default function RapportJournalier() {
   const [selectedDate, setSelectedDate] = useState('');
   const [rapportAffiche, setRapportAffiche] = useState(null);
 
-  // Auto-remplir le magasin depuis le rôle utilisateur
   useEffect(() => {
     const utilisateur = JSON.parse(localStorage.getItem('utilisateurConnecte')) || {};
     const magasin = utilisateur.role || '';
@@ -48,9 +47,7 @@ export default function RapportJournalier() {
     try {
       const response = await fetch('https://optiw-backend.onrender.com/send-mail', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(rapportData)
       });
 
@@ -76,29 +73,35 @@ export default function RapportJournalier() {
   const datesDisponibles = Object.keys(historique).sort().reverse();
 
   return (
-    <div className="rapport-container">
-      <div className="rapport-box">
-        <h2>📋 Rapport Journalier</h2>
-        <form className="rapport-form" onSubmit={handleSubmit}>
-          <input type="hidden" name="magasin" value={formData.magasin} />
+    <div className="rapport-journalier-container">
+      <h2>📋 Rapport Journalier</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="hidden" name="magasin" value={formData.magasin} />
 
+        <div className="champ-bloc">
           <label>Nombre de livraisons</label>
           <input type="number" name="livraisons" value={formData.livraisons} onChange={handleChange} required />
+        </div>
 
+        <div className="champ-bloc">
           <label>Chiffre du jour ($)</label>
           <input type="number" name="chiffre" value={formData.chiffre} onChange={handleChange} required />
+        </div>
 
+        <div className="champ-bloc">
           <label>Nombre de rendez-vous pris</label>
           <input type="number" name="rendezVous" value={formData.rendezVous} onChange={handleChange} required />
+        </div>
 
+        <div className="champ-bloc">
           <label>Nom de l'employé</label>
           <input type="text" name="employe" value={formData.employe} onChange={handleChange} required />
+        </div>
 
-          <button type="submit" className="btn-submit">📨 Envoyer le rapport</button>
-        </form>
-      </div>
+        <button type="submit">📨 Envoyer le rapport</button>
+      </form>
 
-      <div className="rapport-box">
+      <div className="rapport-liste">
         <h3>📅 Consulter un rapport précédent</h3>
         <select onChange={handleDateSelect} value={selectedDate}>
           <option value="">-- Sélectionner une date --</option>
@@ -108,18 +111,15 @@ export default function RapportJournalier() {
         </select>
 
         {rapportAffiche && (
-          <div className="rapport-resultat">
-            <h4>🧾 Rapport du {selectedDate}</h4>
-            <table>
-              <tbody>
-                <tr><td><strong>Magasin :</strong></td><td>{rapportAffiche.magasin}</td></tr>
-                <tr><td><strong>Employé :</strong></td><td>{rapportAffiche.employe}</td></tr>
-                <tr><td><strong>Livraisons :</strong></td><td>{rapportAffiche.livraisons}</td></tr>
-                <tr><td><strong>Chiffre du jour :</strong></td><td>{rapportAffiche.chiffre} $</td></tr>
-                <tr><td><strong>Rendez-vous pris :</strong></td><td>{rapportAffiche.rendezVous}</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <ul>
+            <li>
+              <p><strong>Magasin :</strong> {rapportAffiche.magasin}</p>
+              <p><strong>Employé :</strong> {rapportAffiche.employe}</p>
+              <p><strong>Livraisons :</strong> {rapportAffiche.livraisons}</p>
+              <p><strong>Chiffre :</strong> {rapportAffiche.chiffre} $</p>
+              <p><strong>Rendez-vous :</strong> {rapportAffiche.rendezVous}</p>
+            </li>
+          </ul>
         )}
       </div>
     </div>
