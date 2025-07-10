@@ -42,42 +42,52 @@ export default function RapportJournalier() {
   const datesDisponibles = Object.keys(historique).sort().reverse();
 
   return (
-    <div className="rapport-container">
+    <div className="rapport-journalier-container">
       <h2>📋 Rapport Journalier</h2>
-      <form className="rapport-form" onSubmit={handleSubmit}>
-        <label>Nombre de livraisons</label>
-        <input type="number" name="livraisons" value={formData.livraisons} onChange={handleChange} required />
+      <form onSubmit={handleSubmit}>
+        <div className="champ-bloc">
+          <label>Nombre de livraisons</label>
+          <input type="number" name="livraisons" value={formData.livraisons} onChange={handleChange} required />
+        </div>
 
-        <label>Chiffre du jour ($)</label>
-        <input type="number" name="chiffre" value={formData.chiffre} onChange={handleChange} required />
+        <div className="champ-bloc">
+          <label>Chiffre du jour ($)</label>
+          <input type="number" name="chiffre" value={formData.chiffre} onChange={handleChange} required />
+        </div>
 
-        <label>Nombre de rendez-vous pris</label>
-        <input type="number" name="rendezVous" value={formData.rendezVous} onChange={handleChange} required />
+        <div className="champ-bloc">
+          <label>Nombre de rendez-vous pris</label>
+          <input type="number" name="rendezVous" value={formData.rendezVous} onChange={handleChange} required />
+        </div>
 
-        <label>Nom de l'employé</label>
-        <input type="text" name="employe" value={formData.employe} onChange={handleChange} required />
+        <div className="champ-bloc">
+          <label>Nom de l'employé</label>
+          <input type="text" name="employe" value={formData.employe} onChange={handleChange} required />
+        </div>
 
         <button type="submit">📨 Envoyer le rapport</button>
       </form>
 
-      <hr />
+      <div className="rapport-liste">
+        <h3>📅 Consulter un rapport précédent</h3>
+        <select onChange={handleDateSelect} value={selectedDate}>
+          <option value="">-- Sélectionner une date --</option>
+          {datesDisponibles.map(date => (
+            <option key={date} value={date}>{date}</option>
+          ))}
+        </select>
 
-      <h3>📅 Consulter un rapport précédent</h3>
-      <select onChange={handleDateSelect} value={selectedDate}>
-        <option value="">-- Sélectionner une date --</option>
-        {datesDisponibles.map(date => (
-          <option key={date} value={date}>{date}</option>
-        ))}
-      </select>
-
-      {rapportAffiche && (
-        <div className="rapport-resultat">
-          <p><strong>Employé :</strong> {rapportAffiche.employe}</p>
-          <p><strong>Livraisons :</strong> {rapportAffiche.livraisons}</p>
-          <p><strong>Chiffre du jour :</strong> {rapportAffiche.chiffre} $</p>
-          <p><strong>Rendez-vous pris :</strong> {rapportAffiche.rendezVous}</p>
-        </div>
-      )}
+        {rapportAffiche && (
+          <ul>
+            <li>
+              <p><strong>🧑 Employé :</strong> {rapportAffiche.employe}</p>
+              <p><strong>📦 Livraisons :</strong> {rapportAffiche.livraisons}</p>
+              <p><strong>💰 Chiffre :</strong> {rapportAffiche.chiffre} $</p>
+              <p><strong>📅 Rendez-vous :</strong> {rapportAffiche.rendezVous}</p>
+            </li>
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
