@@ -40,6 +40,7 @@ export default function RapportJournalier() {
   livraisons: formData.livraisons,
   chiffre: formData.chiffre,
   rendezvous: formData.rendezVous
+  to_email: 'aharon.b@opti-w.com'   
 };
 
     try {
