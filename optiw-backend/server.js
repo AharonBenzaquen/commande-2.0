@@ -20,7 +20,7 @@ app.post('/send-mail', async (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_DEST, 
+    to: process.env.EMAIL_DEST, // ← plusieurs emails dans .env, séparés par des virgules
     subject: `Rapport journalier - ${date}`,
     text: `
 Rapport du ${date}
