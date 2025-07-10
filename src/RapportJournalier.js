@@ -43,7 +43,7 @@ export default function RapportJournalier() {
     try {
       await emailjs.send(
         'service_k77x31b',
-        'template_xztnjwk',
+        'template_6bhj6ah',
         templateParams,
         'KpP9SWLy5OcgKnYqn'
       );
