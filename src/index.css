@@ -260,6 +260,18 @@ body {
   background-color: #e3b813;
 }
 
+.entete-app {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.boutons-entete {
+  display: flex;
+  gap: 10px;
+}
 
 /* ------------------------------
    PROMOTIONS
