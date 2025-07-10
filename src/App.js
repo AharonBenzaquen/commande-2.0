@@ -11,6 +11,7 @@ import OuNousTrouver from './OuNousTrouver';
 import Tracking from './Tracking';
 import ConnexionParrainage from './ConnexionParrainage';
 import ValiderParrainage from './ValiderParrainage';
+import RapportJournalier from './RapportJournalier';
 
 // 🔐 Comptes utilisateurs autorisés
 const utilisateurs = {
@@ -94,6 +95,9 @@ export default function App() {
 
         {/* 🔍 Suivi client */}
         <Route path="/tracking" element={<Tracking commandes={[]} />} />
+
+        {/* 📅 Rapport journalier */}
+        <Route path="/rapport-journalier" element={<RapportJournalier />} />
       </Routes>
     </Router>
   );
