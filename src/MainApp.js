@@ -94,7 +94,9 @@ export default function MainApp({ setRole, setLogin, setMdp, role, magasin, setM
     <div className="app">
       <h2 className="header">Bienvenue {role === 'magasin' ? magasin : role}</h2>
       <button onClick={handleLogout}>Déconnexion</button>
-      <button onClick={() => navigate('/rapport-journalier')} style={{ marginLeft: '10px' }}>📝 Rapport journalier</button>
+      <button className="bouton-rapport-journalier" onClick={() => navigate('/rapport-journalier')}>
+  📋 Rapport Journalier
+</button>
       <hr />
 
       {/* ➕ Bouton nouvelle commande */}
