@@ -14,28 +14,14 @@ export default function RapportJournalier() {
   const [selectedDate, setSelectedDate] = useState('');
   const [rapportAffiche, setRapportAffiche] = useState(null);
 
-  // Détecter le magasin automatiquement
+  // ✅ Détecter le magasin automatiquement depuis le localStorage
   useEffect(() => {
     const utilisateur = JSON.parse(localStorage.getItem('utilisateurConnecte')) || {};
-    let magasin = '';
-
-    switch (utilisateur.email) {
-      case 'laval@optiw.com':
-        magasin = 'Laval';
-        break;
-      case 'rosemere@optiw.com':
-        magasin = 'Rosemère';
-        break;
-      case 'blainville@optiw.com':
-        magasin = 'Blainville';
-        break;
-      default:
-        magasin = utilisateur.role || 'Non défini';
-    }
-
+    const magasin = utilisateur.magasin || 'Non défini';
     setFormData(prev => ({ ...prev, magasin }));
   }, []);
 
+  // Charger les anciens rapports si disponibles
   useEffect(() => {
     const stock = JSON.parse(localStorage.getItem('rapportsJournaliers')) || {};
     setHistorique(stock);
