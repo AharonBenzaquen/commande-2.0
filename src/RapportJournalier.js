@@ -35,10 +35,12 @@ export default function RapportJournalier() {
 
     // Envoi EmailJS
     const templateParams = {
-      name: formData.employe,
-      title: `Rapport du ${today}`,
-      message: `Livraisons : ${formData.livraisons}\nChiffre : ${formData.chiffre}$\nRendez-vous : ${formData.rendezVous}`
-    };
+  date: today,
+  employe: formData.employe,
+  livraisons: formData.livraisons,
+  chiffre: formData.chiffre,
+  rendezvous: formData.rendezVous
+};
 
     try {
       await emailjs.send(
