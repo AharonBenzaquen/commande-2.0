@@ -26,16 +26,25 @@ const utilisateurs = {
 export default function App() {
   const [login, setLogin] = useState('');
   const [mdp, setMdp] = useState('');
-  const [role, setRole] = useState(localStorage.getItem('role') || '');
-  const [magasin, setMagasin] = useState(localStorage.getItem('magasin') || '');
+  const [role, setRole] = useState(
+    JSON.parse(localStorage.getItem('utilisateurConnecte'))?.role || ''
+  );
+  const [magasin, setMagasin] = useState(
+    JSON.parse(localStorage.getItem('utilisateurConnecte'))?.magasin || ''
+  );
 
   const seConnecter = (navigate) => {
     const utilisateur = utilisateurs[login];
     if (utilisateur && utilisateur.password === mdp) {
       setRole(utilisateur.role);
       setMagasin(utilisateur.magasin);
-      localStorage.setItem('role', utilisateur.role);
-      localStorage.setItem('magasin', utilisateur.magasin);
+
+      // ✅ Enregistrer toutes les infos nécessaires
+      localStorage.setItem('utilisateurConnecte', JSON.stringify({
+        email: login,
+        role: utilisateur.role,
+        magasin: utilisateur.magasin
+      }));
 
       const redirection = utilisateur.role === 'reference' ? '/reference' : '/main';
       navigate(redirection);
