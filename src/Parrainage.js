@@ -60,7 +60,7 @@ export default function Parrainage() {
       const reference = parrain.email || parrain.telephone || 'inconnu';
       setMesParrainages(misAJour.filter(p => p.parrain === reference));
 
-      // Envoi de l'email au filleul via le backend
+      // ✅ Envoi de l'e-mail au filleul via le backend avec logs
       try {
         const response = await fetch('https://optiw-backend.onrender.com/send-parrainage', {
           method: 'POST',
@@ -76,12 +76,18 @@ export default function Parrainage() {
           })
         });
 
-        if (!response.ok) {
-          console.error("Erreur lors de l'envoi du mail au filleul");
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log('✅ Email envoyé avec succès :', data);
+        } else {
+          console.error('❌ Erreur serveur :', data);
         }
       } catch (error) {
-        console.error("Erreur réseau ou serveur lors de l'envoi du mail :", error);
+        console.error("❌ Erreur réseau ou fetch :", error);
       }
+    } else {
+      console.log("⚠️ Ce code promo existe déjà, aucun nouvel email envoyé.");
     }
   };
 
@@ -283,4 +289,3 @@ export default function Parrainage() {
     </div>
   );
 }
-
