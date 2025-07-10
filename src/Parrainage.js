@@ -31,7 +31,7 @@ export default function Parrainage() {
     setFormulaire({ ...formulaire, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { nom, prenom, telephone, email } = formulaire;
     const nouveauCode = genererCodePromo(nom, prenom, telephone, email);
@@ -59,6 +59,29 @@ export default function Parrainage() {
 
       const reference = parrain.email || parrain.telephone || 'inconnu';
       setMesParrainages(misAJour.filter(p => p.parrain === reference));
+
+      // Envoi de l'email au filleul via le backend
+      try {
+        const response = await fetch('https://optiw-backend.onrender.com/send-parrainage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            prenom,
+            codePromo: nouveauCode,
+            parrainNom: `${parrain.prenom || ''} ${parrain.nom || ''}`.trim(),
+            validationLink: `${window.location.origin}/valider-parrainage?code=${nouveauCode}`
+          })
+        });
+
+        if (!response.ok) {
+          console.error("Erreur lors de l'envoi du mail au filleul");
+        }
+      } catch (error) {
+        console.error("Erreur réseau ou serveur lors de l'envoi du mail :", error);
+      }
     }
   };
 
@@ -260,3 +283,4 @@ export default function Parrainage() {
     </div>
   );
 }
+
