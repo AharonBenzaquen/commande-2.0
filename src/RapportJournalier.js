@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import emailjs from '@emailjs/browser';
 import './index.css';
 
 export default function RapportJournalier() {
@@ -33,26 +32,30 @@ export default function RapportJournalier() {
     setHistorique(stock);
     setFormData({ livraisons: '', chiffre: '', rendezVous: '', employe: '' });
 
-    // Envoi EmailJS
-    const templateParams = {
-  date: today,
-  employe: formData.employe,
-  livraisons: formData.livraisons,
-  chiffre: formData.chiffre,
-  rendezvous: formData.rendezVous   
-};
+    const rapportData = {
+      date: today,
+      ...formData
+    };
 
     try {
-      await emailjs.send(
-        'service_k77x31b',
-        'template_6bhj6ah',
-        templateParams,
-        'KpP9SWLy5OcgKnYqn'
-      );
-      alert('✅ Rapport enregistré et envoyé par email.');
+      const response = await fetch('https://optiw-backend.onrender.com/send-mail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(rapportData)
+      });
+
+      if (response.ok) {
+        alert('✅ Rapport enregistré et envoyé par email.');
+      } else {
+        const data = await response.json();
+        console.error('Erreur serveur :', data);
+        alert('❌ Rapport sauvegardé mais erreur d’envoi du mail.');
+      }
     } catch (error) {
-      alert('❌ Rapport sauvegardé mais erreur d’envoi du mail.');
-      console.error(error);
+      console.error('Erreur réseau :', error);
+      alert('❌ Rapport sauvegardé mais erreur de connexion au serveur.');
     }
   };
 
