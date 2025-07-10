@@ -3,6 +3,7 @@ import './index.css';
 
 export default function RapportJournalier() {
   const [formData, setFormData] = useState({
+    magasin: '',
     livraisons: '',
     chiffre: '',
     rendezVous: '',
@@ -30,7 +31,7 @@ export default function RapportJournalier() {
     stock[today] = formData;
     localStorage.setItem('rapportsJournaliers', JSON.stringify(stock));
     setHistorique(stock);
-    setFormData({ livraisons: '', chiffre: '', rendezVous: '', employe: '' });
+    setFormData({ magasin: '', livraisons: '', chiffre: '', rendezVous: '', employe: '' });
 
     const rapportData = {
       date: today,
@@ -71,6 +72,9 @@ export default function RapportJournalier() {
     <div className="rapport-container">
       <h2>📋 Rapport Journalier</h2>
       <form className="rapport-form" onSubmit={handleSubmit}>
+        <label>Nom du magasin</label>
+        <input type="text" name="magasin" value={formData.magasin} onChange={handleChange} required />
+
         <label>Nombre de livraisons</label>
         <input type="number" name="livraisons" value={formData.livraisons} onChange={handleChange} required />
 
@@ -98,6 +102,7 @@ export default function RapportJournalier() {
 
       {rapportAffiche && (
         <div className="rapport-resultat">
+          <p><strong>Magasin :</strong> {rapportAffiche.magasin}</p>
           <p><strong>Employé :</strong> {rapportAffiche.employe}</p>
           <p><strong>Livraisons :</strong> {rapportAffiche.livraisons}</p>
           <p><strong>Chiffre du jour :</strong> {rapportAffiche.chiffre} $</p>
