@@ -20,6 +20,7 @@ export default function Parrainage() {
   const [dateGeneration, setDateGeneration] = useState(null);
   const [showDetails, setShowDetails] = useState(false);
   const [mesParrainages, setMesParrainages] = useState([]);
+  const [popupPalier, setPopupPalier] = useState(null);
 
   const genererCodePromo = (nom, prenom, telephone, email) => {
     const base = `${nom.trim().toLowerCase()}-${prenom.trim().toLowerCase()}-${telephone.trim()}-${email.trim().toLowerCase()}`;
@@ -95,6 +96,20 @@ export default function Parrainage() {
     const reference = parrain.email || parrain.telephone || 'inconnu';
     const mes = tous.filter(p => p.parrain === reference);
     setMesParrainages(mes);
+
+    const total = mes.filter(p => p.valide && !p.desactive).length;
+    const paliers = {
+      5: "Le savais-tu ? Tu peux jumeler tes assurances à tes parrainages pour avoir aucun reste à charge !",
+      10: "Vous y êtes presque ! Plus que 10 parrainages pour 2 paires de lunettes simple vision 💪🏻",
+      15: "Plus que 5 parrainages pour les simples visions. Besoin de progressif ? Plus que 15 💪🏻",
+      20: "Bravo, vous avez mérité vos 2 lunettes simple vision gratuites ✅ Besoin de progressif ? Plus que 10 💪🏻",
+      25: "La ligne d’arrivée des progressifs vous attend ! Plus que 5 parrainages 💪🏻",
+      30: "Bravo, vous avez mérité vos 2 lunettes progressives gratuites ! ✅"
+    };
+
+    if (paliers[total]) {
+      setPopupPalier(paliers[total]);
+    }
   }, [envoye, parrain]);
 
   useEffect(() => {
@@ -197,6 +212,14 @@ export default function Parrainage() {
 
   return (
     <div className="parrainage-container">
+      {popupPalier && (
+        <div className="niveau-popup">
+          {popupPalier}
+          <br />
+          <button onClick={() => setPopupPalier(null)}>Fermer</button>
+        </div>
+      )}
+
       <h2>Bienvenue {parrain.prenom} {parrain.nom}</h2>
 
       <div className="compteur-parrainages">
