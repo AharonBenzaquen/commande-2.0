@@ -1172,6 +1172,49 @@ progress::-moz-progress-bar {
     padding-left: 0;
     padding-top: 20px;
   }
+
+   .parrainage-container {
+    flex-direction: column;
+    padding: 20px;
+    margin: 40px auto;
+  }
+
+  .parrainage-main,
+  .parrainage-progress {
+    width: 100%;
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .table-parrainages table {
+    font-size: 12px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .progression-table {
+    margin-top: 20px;
+  }
+
+  .progress-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .progress-bar label {
+    margin-bottom: 5px;
+  }
+
+  .niveau-popup {
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  .referral-button {
+    width: 100%;
+    font-size: 14px;
+  }
 }
 
 
