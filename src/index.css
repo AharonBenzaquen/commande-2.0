@@ -331,7 +331,7 @@ body {
 /* ------------------------------
    PARRAINAGE
 --------------------------------*/
-/* ✅ Bouton retour accueil */
+/* === BOUTON DE RETOUR ACCUEIL === */
 .referral-button {
   background-color: #f4c51c;
   border: none;
@@ -347,33 +347,35 @@ body {
   background-color: #ffe05a;
 }
 
-/* ✅ Conteneur principal */
+/* === CONTENEUR PRINCIPAL === */
 .parrainage-container {
   background: #ffffffeb;
   border-radius: 12px;
   box-shadow: 0 4px 15px #0003;
   font-family: Segoe UI, sans-serif;
   margin: 80px auto;
-  max-width: 960px;
+  max-width: 1100px;
   padding: 30px;
   display: flex;
   flex-direction: row;
   gap: 30px;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-/* ✅ Bloc gauche et droit */
 .parrainage-main {
   flex: 2;
+  min-width: 320px;
 }
 
 .parrainage-progress {
   flex: 1;
+  min-width: 280px;
   border-left: 2px solid #ccc;
   padding-left: 20px;
 }
 
-/* ✅ Titres */
+/* === TITRES === */
 .parrainage-container h2 {
   color: #002f5f;
   margin-bottom: 25px;
@@ -382,9 +384,16 @@ body {
 
 .parrainage-container h3 {
   color: #002f5f;
+  margin-top: 20px;
 }
 
-/* ✅ Labels + champs */
+.parrainage-progress h3 {
+  color: #002f5f;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* === FORMULAIRE PARRAINAGE === */
 .parrainage-container label {
   color: #002f5f;
   display: block;
@@ -401,7 +410,7 @@ body {
   width: 100%;
 }
 
-/* ✅ Boutons */
+/* === BOUTONS === */
 .parrainage-container button {
   background-color: #002f5f;
   border: none;
@@ -419,7 +428,7 @@ body {
   background-color: #004080;
 }
 
-/* ✅ Tableau des parrainages */
+/* === TABLEAU DES PARRAINAGES === */
 .table-parrainages table {
   width: 100%;
   border-collapse: collapse;
@@ -464,7 +473,7 @@ body {
   background-color: #e0b715;
 }
 
-/* ✅ Popups */
+/* === POPUPS DE VALIDATION ET PALIER === */
 .validation-popup {
   background-color: #d4edda;
   border-left: 6px solid #28a745;
@@ -515,30 +524,23 @@ body {
   cursor: pointer;
 }
 
-/* ✅ Bloc progression avec curseurs */
+/* === BLOC DE PROGRESSION === */
 .progression-recompenses {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.progression-recompenses h4 {
-  color: #002f5f;
-  text-align: center;
-  margin-bottom: 15px;
+  gap: 25px;
 }
 
 .progression-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  color: #002f5f;
-  font-weight: bold;
   gap: 10px;
 }
 
 .progression-bar span {
   flex: 1;
+  font-weight: bold;
+  color: #002f5f;
 }
 
 progress {
@@ -1158,6 +1160,19 @@ progress::-moz-progress-bar {
   .promo-bloc video {
     max-height: 200px;
   }
+
+.parrainage-container {
+    flex-direction: column;
+  }
+
+  .parrainage-progress {
+    border-left: none;
+    border-top: 2px solid #ccc;
+    margin-top: 30px;
+    padding-left: 0;
+    padding-top: 20px;
+  }
 }
+
 
 
