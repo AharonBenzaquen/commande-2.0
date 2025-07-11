@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
-// ✅ CSS découpé
-import './styles/base.css';
-import './styles/layout.css';
-import './styles/login.css';
-import './styles/tracking.css';
-import './styles/rapport.css';
-import './styles/parrainage.css';
-import './styles/promo.css';
-import './styles/maps.css';
-import './styles/commandes.css';
-import './styles/responsive.css';
+import './index.css';
 
 // Composants
 import LoginView from './LoginView';
@@ -50,6 +39,7 @@ export default function App() {
       setRole(utilisateur.role);
       setMagasin(utilisateur.magasin);
 
+      // ✅ Enregistrer toutes les infos nécessaires
       localStorage.setItem('utilisateurConnecte', JSON.stringify({
         email: login,
         role: utilisateur.role,
@@ -76,12 +66,16 @@ export default function App() {
             seConnecter={seConnecter}
           />
         } />
+
         {/* 🎁 Parrainage */}
         <Route path="/parrainage" element={<Parrainage />} />
+
         {/* 🔐 Connexion ou inscription Parrain */}
         <Route path="/connexion-parrainage" element={<ConnexionParrainage />} />
+
         {/* ✅ Validation par le filleul */}
         <Route path="/valider-parrainage" element={<ValiderParrainage />} />
+
         {/* 🎯 Interface Référence */}
         <Route path="/reference" element={
           <ReferenceView
@@ -90,6 +84,7 @@ export default function App() {
             setMdp={setMdp}
           />
         } />
+
         {/* 🧾 Application principale */}
         <Route path="/main" element={
           (role && role !== 'reference') ? (
@@ -103,14 +98,16 @@ export default function App() {
             />
           ) : <Navigate to="/" />
         } />
+
         {/* 📍 Où nous trouver */}
         <Route path="/ou-nous-trouver" element={<OuNousTrouver />} />
+
         {/* 🔍 Suivi client */}
         <Route path="/tracking" element={<Tracking commandes={[]} />} />
+
         {/* 📅 Rapport journalier */}
         <Route path="/rapport-journalier" element={<RapportJournalier />} />
       </Routes>
     </Router>
   );
 }
-
