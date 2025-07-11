@@ -221,6 +221,25 @@ export default function Parrainage() {
         </div>
       )}
 
+      <div className="parrainage-form-container">
+        <h3>Parrainer un ami</h3>
+        <form onSubmit={handleSubmit}>
+          <label>Nom</label>
+          <input type="text" name="nom" value={formulaire.nom} onChange={handleChange} required />
+
+          <label>Prénom</label>
+          <input type="text" name="prenom" value={formulaire.prenom} onChange={handleChange} required />
+
+          <label>Téléphone</label>
+          <input type="tel" name="telephone" value={formulaire.telephone} onChange={handleChange} required />
+
+          <label>Email</label>
+          <input type="email" name="email" value={formulaire.email} onChange={handleChange} required />
+
+          <button type="submit">Envoyer le parrainage</button>
+        </form>
+      </div>
+
       <div className="compteur-parrainages">
         <p>👥 Parrainages envoyés : <strong>{totalParrainages}</strong></p>
         <p>📬 Filleuls ayant cliqué : <strong>{totalCliques}</strong></p>
@@ -282,7 +301,7 @@ export default function Parrainage() {
         </div>
       )}
 
-      {envoye ? (
+      {envoye && (
         <>
           <h3>Merci pour votre parrainage 🎉</h3>
           <div className="code-promo-box">
@@ -298,25 +317,6 @@ export default function Parrainage() {
 
           <br /><br />
           <button className="referral-button" onClick={() => navigate('/')}>🏠 Retour à l'accueil</button>
-        </>
-      ) : (
-        <>
-          <h3>Parrainer un ami</h3>
-          <form onSubmit={handleSubmit}>
-            <label>Nom</label>
-            <input type="text" name="nom" value={formulaire.nom} onChange={handleChange} required />
-
-            <label>Prénom</label>
-            <input type="text" name="prenom" value={formulaire.prenom} onChange={handleChange} required />
-
-            <label>Téléphone</label>
-            <input type="tel" name="telephone" value={formulaire.telephone} onChange={handleChange} required />
-
-            <label>Email</label>
-            <input type="email" name="email" value={formulaire.email} onChange={handleChange} required />
-
-            <button type="submit">Envoyer le parrainage</button>
-          </form>
         </>
       )}
     </div>
