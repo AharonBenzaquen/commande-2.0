@@ -96,20 +96,6 @@ export default function Parrainage() {
     const reference = parrain.email || parrain.telephone || 'inconnu';
     const mes = tous.filter(p => p.parrain === reference);
     setMesParrainages(mes);
-
-    const total = mes.filter(p => p.valide && !p.desactive).length;
-    const paliers = {
-      5: "Le savais-tu ? Tu peux jumeler tes assurances à tes parrainages pour avoir aucun reste à charge !",
-      10: "Vous y êtes presque ! Plus que 10 parrainages pour 2 paires de lunettes simple vision 💪🏻",
-      15: "Plus que 5 parrainages pour les simples visions. Besoin de progressif ? Plus que 15 💪🏻",
-      20: "Bravo, vous avez mérité vos 2 lunettes simple vision gratuites ✅ Besoin de progressif ? Plus que 10 💪🏻",
-      25: "La ligne d’arrivée des progressifs vous attend ! Plus que 5 parrainages 💪🏻",
-      30: "Bravo, vous avez mérité vos 2 lunettes progressives gratuites ! ✅"
-    };
-
-    if (paliers[total]) {
-      setPopupPalier(paliers[total]);
-    }
   }, [envoye, parrain]);
 
   useEffect(() => {
@@ -202,6 +188,20 @@ export default function Parrainage() {
   const totalCliques = mesParrainages.filter(p => p.valide && !p.desactive && !isExpired(p.dateCreation)).length;
   const totalRecompenses = totalCliques;
 
+  useEffect(() => {
+    const messages = {
+      5: "Le savais-tu ? Tu peux jumeler tes assurances à tes parrainages pour avoir aucun reste à charge !",
+      10: "Vous y êtes presque : plus que 10 parrainages pour 2 paires de lunettes simple vision 💪🏻",
+      15: "Plus que 5 parrainages pour les simple vision. Besoin de progressif ? Plus que 15 parrainages 💪🏻",
+      20: "Bravo vous avez mérité vos 2 lunettes simple vision gratuite ! ✅ Besoin de progressif ? Vous y êtes presque plus que 10 parrainages 💪🏻",
+      25: "La ligne d’arrivée de vos progressifs vous attend : plus que 5 parrainages ! 💪🏻",
+      30: "Bravo vous avez mérité vos 2 lunettes progressives gratuites ! ✅"
+    };
+    if (messages[totalCliques]) {
+      setPopupPalier(messages[totalCliques]);
+    }
+  }, [totalCliques]);
+
   const getStatut = (p) => {
     if (p.desactive) return '🛑 Désactivé';
     if (isExpired(p.dateCreation)) return '⏳ Expiré';
@@ -212,15 +212,14 @@ export default function Parrainage() {
 
   return (
     <div className="parrainage-container">
+      <h2>Bienvenue {parrain.prenom} {parrain.nom}</h2>
+
       {popupPalier && (
         <div className="niveau-popup">
-          {popupPalier}
-          <br />
+          <p>{popupPalier}</p>
           <button onClick={() => setPopupPalier(null)}>Fermer</button>
         </div>
       )}
-
-      <h2>Bienvenue {parrain.prenom} {parrain.nom}</h2>
 
       <div className="compteur-parrainages">
         <p>👥 Parrainages envoyés : <strong>{totalParrainages}</strong></p>
@@ -228,18 +227,21 @@ export default function Parrainage() {
         <p>💰 Récompenses débloquées : <strong>{totalRecompenses}</strong> — soit <strong>{totalRecompenses * 10}$</strong></p>
       </div>
 
-      <div className="progression-recompenses">
-        <div className="palier">
-          <span>🌞 Solaires sans prescription — 10 parrainages</span>
-          {totalCliques >= 10 ? ' ✅' : ''}
+      <div className="progression-table">
+        <div className="progress-bar">
+          <label>🌞 Solaires (10)</label>
+          <progress max="10" value={totalCliques > 10 ? 10 : totalCliques}></progress>
+          {totalCliques >= 10 && <span>✅</span>}
         </div>
-        <div className="palier">
-          <span>👓 Lunettes simple vision — 20 parrainages</span>
-          {totalCliques >= 20 ? ' ✅' : ''}
+        <div className="progress-bar">
+          <label>👓 Simple Vision (20)</label>
+          <progress max="20" value={totalCliques > 20 ? 20 : totalCliques}></progress>
+          {totalCliques >= 20 && <span>✅</span>}
         </div>
-        <div className="palier">
-          <span>👀 Lunettes progressives — 30 parrainages</span>
-          {totalCliques >= 30 ? ' ✅' : ''}
+        <div className="progress-bar">
+          <label>👀 Progressif (30)</label>
+          <progress max="30" value={totalCliques > 30 ? 30 : totalCliques}></progress>
+          {totalCliques >= 30 && <span>✅</span>}
         </div>
       </div>
 
