@@ -331,6 +331,7 @@ body {
 /* ------------------------------
    PARRAINAGE
 --------------------------------*/
+/* ✅ Bouton retour accueil */
 .referral-button {
   background-color: #f4c51c;
   border: none;
@@ -339,29 +340,51 @@ body {
   cursor: pointer;
   font-weight: 700;
   padding: 10px 20px;
-  transition: background .3s ease;
+  transition: background 0.3s ease;
 }
 
 .referral-button:hover {
   background-color: #ffe05a;
 }
 
+/* ✅ Conteneur principal */
 .parrainage-container {
   background: #ffffffeb;
   border-radius: 12px;
   box-shadow: 0 4px 15px #0003;
   font-family: Segoe UI, sans-serif;
   margin: 80px auto;
-  max-width: 420px;
+  max-width: 960px;
   padding: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: space-between;
 }
 
+/* ✅ Bloc gauche et droit */
+.parrainage-main {
+  flex: 2;
+}
+
+.parrainage-progress {
+  flex: 1;
+  border-left: 2px solid #ccc;
+  padding-left: 20px;
+}
+
+/* ✅ Titres */
 .parrainage-container h2 {
   color: #002f5f;
   margin-bottom: 25px;
   text-align: center;
 }
 
+.parrainage-container h3 {
+  color: #002f5f;
+}
+
+/* ✅ Labels + champs */
 .parrainage-container label {
   color: #002f5f;
   display: block;
@@ -378,6 +401,7 @@ body {
   width: 100%;
 }
 
+/* ✅ Boutons */
 .parrainage-container button {
   background-color: #002f5f;
   border: none;
@@ -387,7 +411,7 @@ body {
   font-size: 16px;
   font-weight: 700;
   padding: 12px;
-  transition: background .3s ease;
+  transition: background 0.3s ease;
   width: 100%;
 }
 
@@ -395,6 +419,7 @@ body {
   background-color: #004080;
 }
 
+/* ✅ Tableau des parrainages */
 .table-parrainages table {
   width: 100%;
   border-collapse: collapse;
@@ -439,6 +464,7 @@ body {
   background-color: #e0b715;
 }
 
+/* ✅ Popups */
 .validation-popup {
   background-color: #d4edda;
   border-left: 6px solid #28a745;
@@ -460,6 +486,84 @@ body {
   margin-bottom: 20px;
   text-align: center;
 }
+
+.niveau-popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background: #fff8dc;
+  color: #002f5f;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  max-width: 90%;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.niveau-popup button {
+  margin-top: 15px;
+  background-color: #002f5f;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ✅ Bloc progression avec curseurs */
+.progression-recompenses {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.progression-recompenses h4 {
+  color: #002f5f;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.progression-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #002f5f;
+  font-weight: bold;
+  gap: 10px;
+}
+
+.progression-bar span {
+  flex: 1;
+}
+
+progress {
+  flex: 2;
+  height: 18px;
+  border-radius: 10px;
+  overflow: hidden;
+  appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #f4c51c;
+  border-radius: 10px;
+}
+
+progress::-moz-progress-bar {
+  background-color: #f4c51c;
+  border-radius: 10px;
+}
+
 
 /* ------------------------------
    👤 CONNEXION / INSCRIPTION PARRAINAGE
