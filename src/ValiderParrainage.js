@@ -5,6 +5,7 @@ import './index.css';
 export default function ValiderParrainage() {
   const [searchParams] = useSearchParams();
   const [popupVisible, setPopupVisible] = useState(true);
+  const [promoVisible, setPromoVisible] = useState(false);
   const navigate = useNavigate();
 
   const code = searchParams.get('code');
@@ -15,22 +16,20 @@ export default function ValiderParrainage() {
       const index = parrainages.findIndex(p => p.code === code);
 
       if (index !== -1 && !parrainages[index].valide) {
-        parrainages[index].valide = true; // ✅ nouvelle clé de validation
-
-        // Ajout de date si manquante (sécurité)
+        parrainages[index].valide = true;
         if (!parrainages[index].date) {
           parrainages[index].date = new Date().toISOString();
         }
-
         localStorage.setItem('parrainages', JSON.stringify(parrainages));
       }
     }
 
-    const timer = setTimeout(() => {
+    const timer1 = setTimeout(() => {
       setPopupVisible(false);
-    }, 3000);
+      setPromoVisible(true);
+    }, 3000); // ferme le premier popup, ouvre le second
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer1);
   }, [code]);
 
   const parrainer = () => {
@@ -45,6 +44,16 @@ export default function ValiderParrainage() {
       {popupVisible && (
         <div className="validation-popup">
           🎉 Votre parrainage a bien été validé ! Merci de votre confiance.
+        </div>
+      )}
+
+      {promoVisible && (
+        <div className="promo-popup">
+          <h3>Tu veux des Solaires gratuites ?</h3>
+          <h3>Tu veux des Simple Vision gratuites ?</h3>
+          <h3>Tu veux des Progressifs gratuites ?</h3>
+          <p><strong>✨ Opti-W rend cela possible ! ✨</strong></p>
+          <button className="fermer-btn" onClick={() => setPromoVisible(false)}>Fermer</button>
         </div>
       )}
 
